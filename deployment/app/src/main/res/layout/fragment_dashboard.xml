@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.dashboard.DashboardFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <androidx.core.widget.NestedScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/scrollLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/sitesContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rvSites"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:scrollbars="vertical"
+                            android:nestedScrollingEnabled="true"
+                             />
+                </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/idNoSites"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:padding="4dp"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:text="No sites added yet. Click on the + button to add a new site."/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/idFABadd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            app:layout_anchorGravity="bottom|right"
+            app:layout_anchor="@id/scrollLayout"
+            android:src="@drawable/ic_baseline_add_24"
+            app:fabCustomSize="60dp"
+            app:tint="@color/white"
+            app:backgroundTint="#539987"/>
+
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

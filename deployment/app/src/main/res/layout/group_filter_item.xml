@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:background="@drawable/filter_item_border">
+
+    <!--<TextView
+        android:id="@+id/groupFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="14dp" />-->
+
+    <CheckBox
+        android:id="@+id/groupItemName"
+        android:layout_width="0dp"
+        android:layout_weight="0.9"
+        android:layout_height="match_parent"
+        android:text="Filter Name"/>
+
+    <ImageView
+        android:id="@+id/groupItemInfo"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_weight="0.0"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/ic_baseline_info_24"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFilterImages"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="65dp"
+            android:scrollbars="horizontal"
+            android:nestedScrollingEnabled="true"
+            android:gravity="center_vertical"
+            />
+
+</LinearLayout>
+
