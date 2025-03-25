@@ -529,8 +529,8 @@ public class CreateNewSampleActivity extends AppCompatActivity {
 //              symbol:   method activity(Uri)
 
 
-            CropImage.activity(Uri.fromFile(new File(photoLocation)))
-                    .start(CreateNewSampleActivity.this);
+//            CropImage.activity(Uri.fromFile(new File(photoLocation)))
+//                    .start(CreateNewSampleActivity.this);
 
 
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
@@ -539,10 +539,10 @@ public class CreateNewSampleActivity extends AppCompatActivity {
 //                                                       ^
 //            symbol:   method getActivityResult(Intent)
 
-                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
+//                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
-                try {
-                    assert result != null;
+//                try {
+//                    assert result != null;
 
 //                    /home/zamuzakki/PyCharmProjects/Kartoza/miniSASS-mobile-app/deployment/app/src/main/java/com/rk/amii/activities/CreateNewSampleActivity.java:533: error: cannot find symbol
 //                    Uri resultUri = result.getUri();
@@ -550,29 +550,29 @@ public class CreateNewSampleActivity extends AppCompatActivity {
 //                    symbol:   method getUri()
 //                    location: variable result of type ActivityResult
 
-                    Uri resultUri = result.getUri();
+//                    Uri resultUri = result.getUri();
 
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
-                    Matrix matrix = new Matrix();
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+//                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
+//                    Matrix matrix = new Matrix();
+//                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+//
+//                    FileOutputStream fos;
+//
+//                    fos = new FileOutputStream(photoLocation, false);
+//                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+//                    fos.close();
+//
+//                    galleryAddPic();
+//                    imageView.setImageBitmap(bitmap);
+//                    sampleItemsContainer.setVisibility(View.INVISIBLE);
+//                    chooseInvertView.setVisibility(View.VISIBLE);
+//                    takePhotoButton.setVisibility(View.INVISIBLE);
+//                    addAssessment.setVisibility(View.INVISIBLE);
+//                    showAssessmentDetails.setVisibility(View.GONE);
 
-                    FileOutputStream fos;
-
-                    fos = new FileOutputStream(photoLocation, false);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-                    fos.close();
-
-                    galleryAddPic();
-                    imageView.setImageBitmap(bitmap);
-                    sampleItemsContainer.setVisibility(View.INVISIBLE);
-                    chooseInvertView.setVisibility(View.VISIBLE);
-                    takePhotoButton.setVisibility(View.INVISIBLE);
-                    addAssessment.setVisibility(View.INVISIBLE);
-                    showAssessmentDetails.setVisibility(View.GONE);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
             }
         } else if (requestCode == 150) {
 
