@@ -47,7 +47,8 @@ import com.rk.amii.models.SitesModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
 import com.rk.amii.ui.dashboard.DashboardFragment;
-import com.theartofdev.edmodo.cropper.CropImage;
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -520,15 +521,35 @@ public class CreateNewSampleActivity extends AppCompatActivity {
             photoLocation = data.getExtras().get("data").toString();
             bitmap = BitmapFactory.decodeFile(photoLocation);
 
+
+
+//            /home/zamuzakki/PyCharmProjects/Kartoza/miniSASS-mobile-app/deployment/app/src/main/java/com/rk/amii/activities/CreateNewSampleActivity.java:524: error: cannot find symbol
+//                        CropImage.activity(Uri.fromFile(new File(photoLocation)))
+//                                 ^
+//              symbol:   method activity(Uri)
+
+
             CropImage.activity(Uri.fromFile(new File(photoLocation)))
                     .start(CreateNewSampleActivity.this);
 
 
         } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+//            /home/zamuzakki/PyCharmProjects/Kartoza/miniSASS-mobile-app/deployment/app/src/main/java/com/rk/amii/activities/CreateNewSampleActivity.java:529: error: cannot find symbol
+//            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+//                                                       ^
+//            symbol:   method getActivityResult(Intent)
+
+                    CropImage.ActivityResult result = CropImage.getActivityResult(data);
             if (resultCode == RESULT_OK) {
                 try {
                     assert result != null;
+
+//                    /home/zamuzakki/PyCharmProjects/Kartoza/miniSASS-mobile-app/deployment/app/src/main/java/com/rk/amii/activities/CreateNewSampleActivity.java:533: error: cannot find symbol
+//                    Uri resultUri = result.getUri();
+//                                          ^
+//                    symbol:   method getUri()
+//                    location: variable result of type ActivityResult
+
                     Uri resultUri = result.getUri();
 
                     bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);

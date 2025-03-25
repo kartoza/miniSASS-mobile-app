@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.rk.amii"
         minSdk 26
-        targetSdk 32
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -56,7 +56,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
+    implementation 'com.vanniktech:android-image-cropper:4.3.3'
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.73.0'
     implementation 'com.amazonaws:aws-android-sdk-auth-userpools:2.73.0'
