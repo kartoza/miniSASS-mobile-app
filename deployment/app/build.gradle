@@ -4,13 +4,14 @@ plugins {
 }
 
 android {
+    namespace "com.rk.amii"
     compileSdk 34
 
     defaultConfig {
         applicationId "com.rk.amii"
         minSdk 26
         targetSdk 34
-        versionCode 1
+        versionCode 3
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,9 +32,13 @@ android {
     buildFeatures {
         viewBinding true
         mlModelBinding true
+        buildConfig true
     }
     packagingOptions {
         resources.excludes.add("META-INF/*")
+    }
+    lintOptions {
+        disable 'NotificationPermission'
     }
 }
 
@@ -53,6 +58,7 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+    implementation 'androidx.exifinterface:exifinterface:1.3.6'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'

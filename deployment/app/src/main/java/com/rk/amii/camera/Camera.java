@@ -183,9 +183,10 @@ public class Camera extends AppCompatActivity {
         try {
             File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES + "/miniSASS/");
             System.out.println(storageDir.toString());
-            if (!storageDir.exists())
+            if (!storageDir.exists()) {
                 System.out.println("creating dir");
                 storageDir.mkdirs();
+            }
             File image = File.createTempFile(
                     imageFileName,
                     ".jpg",
@@ -310,7 +311,7 @@ public class Camera extends AppCompatActivity {
         data.putExtra("data", photoLocation);
 
         // Activity finished ok, return the data
-        setResult(100, data);
+        setResult(RESULT_OK, data);
         super.finish();
     }
 
