@@ -1,29 +1,27 @@
 package com.rk.amii.activities;
 
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.Color;
-import android.view.Window;
-import android.view.WindowManager;
-
-import android.view.Gravity;
-import android.view.ViewGroup;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.view.Window;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -34,15 +32,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.exifinterface.media.ExifInterface;
 
 import com.rk.amii.R;
 import com.rk.amii.adapters.SampleItemAdapter;
@@ -58,16 +58,12 @@ import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
 import com.rk.amii.ui.dashboard.DashboardFragment;
 import com.canhub.cropper.CropImage;
-import com.canhub.cropper.CropImageView;
 import com.canhub.cropper.CropImageActivity;
+import com.canhub.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.tensorflow.lite.DataType;
-import org.tensorflow.lite.Interpreter;
-import org.tensorflow.lite.support.image.TensorImage;
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -80,14 +76,6 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import android.widget.Toast;
 
 
 public class CreateNewSampleActivity extends AppCompatActivity {

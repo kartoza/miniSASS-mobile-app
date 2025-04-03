@@ -106,35 +106,4 @@ public class MainActivity extends AppCompatActivity {
                     .show();
         }
     }
-
-
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item){
-//        switch(item.getItemId()){
-//            case R.id.logoutBtn:
-//                if (isOnline) {
-//                    ApiService service = new ApiService(this);
-//                    service.logout();
-//                    Intent intent = new Intent(MainActivity.this, AuthenticationActivity.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-//                            Intent.FLAG_ACTIVITY_CLEAR_TASK |
-//                            Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    startActivity(intent);
-//                } else {
-//                    new AlertDialog.Builder(MainActivity.this)
-//                            .setTitle("Could not logout")
-//                            .setMessage("Could not logout. Connect your device to the internet to logout.")
-//                            .setNeutralButton("Ok", (dialog, which) -> {
-//
-//                            })
-//                            .setIcon(R.drawable.ic_baseline_wifi_off_24)
-//                            .show();
-//                }
-//                return false;
-//            default:
-//                return false;
-//        }
-//    }
-
-
 }
