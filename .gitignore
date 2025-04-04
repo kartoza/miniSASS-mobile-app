@@ -1,3 +1,4 @@
 .idea/
 deployment/local.properties
 deployment/app/build
+/deployment/.gradle/*

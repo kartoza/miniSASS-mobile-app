@@ -2,19 +2,26 @@ package com.rk.amii.activities;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -25,12 +32,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.widget.NestedScrollView;
+import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -47,15 +57,13 @@ import com.rk.amii.models.SitesModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
 import com.rk.amii.ui.dashboard.DashboardFragment;
-import com.theartofdev.edmodo.cropper.CropImage;
+import com.canhub.cropper.CropImage;
+import com.canhub.cropper.CropImageActivity;
+import com.canhub.cropper.CropImageView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.tensorflow.lite.DataType;
-import org.tensorflow.lite.Interpreter;
-import org.tensorflow.lite.support.image.TensorImage;
-import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -109,6 +117,12 @@ public class CreateNewSampleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_sample);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
+        }
 
         isOnline = Utils.isNetworkAvailable(this);
 
@@ -509,66 +523,111 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         }
     }
 
+    private Bitmap rotateImageIfRequired(String imagePath) {
+        try {
+            ExifInterface exif = new ExifInterface(imagePath);
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    return rotateBitmap(bitmap, 90);
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    return rotateBitmap(bitmap, 180);
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    return rotateBitmap(bitmap, 270);
+                default:
+                    return bitmap;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return BitmapFactory.decodeFile(imagePath);
+        }
+    }
+
+    private Bitmap rotateBitmap(Bitmap bitmap, int degree) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(degree);
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         System.out.println("REQUEST CODE: " + requestCode);
-        if(requestCode == 100) {
 
-            assert data != null;
+        if (requestCode == 100 && resultCode == RESULT_OK && data != null) {
+            // Extract photo location
             photoLocation = data.getExtras().get("data").toString();
-            bitmap = BitmapFactory.decodeFile(photoLocation);
+            bitmap = rotateImageIfRequired(photoLocation);
 
-            CropImage.activity(Uri.fromFile(new File(photoLocation)))
-                    .start(CreateNewSampleActivity.this);
+            // Show cropper in a dialog
+            showCropDialog(bitmap);
 
-
-        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
-            CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            if (resultCode == RESULT_OK) {
-                try {
-                    assert result != null;
-                    Uri resultUri = result.getUri();
-
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), resultUri);
-                    Matrix matrix = new Matrix();
-                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-
-                    FileOutputStream fos;
-
-                    fos = new FileOutputStream(photoLocation, false);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
-                    fos.close();
-
-                    galleryAddPic();
-                    imageView.setImageBitmap(bitmap);
-                    sampleItemsContainer.setVisibility(View.INVISIBLE);
-                    chooseInvertView.setVisibility(View.VISIBLE);
-                    takePhotoButton.setVisibility(View.INVISIBLE);
-                    addAssessment.setVisibility(View.INVISIBLE);
-                    showAssessmentDetails.setVisibility(View.GONE);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else if (requestCode == 150) {
-
+        } else if (requestCode == 150 && resultCode == RESULT_OK) {
             String selected = data.getStringExtra("selected");
             System.out.println("SELECTED: " + selected);
 
             String[] selections = getResources().getStringArray(R.array.macroinvertebrates);
-
-            for(int i = 0; i < selections.length; i++) {
+            for (int i = 0; i < selections.length; i++) {
                 if (selections[i].toLowerCase().contains(selected)) {
                     macroinvertebrates.setSelection(i);
                     addSampleItem.setEnabled(true);
                 }
             }
-
         }
     }
+
+    /**
+     * Displays the CropImageView inside a dialog.
+     */
+    private void showCropDialog(Bitmap bitmap) {
+        Dialog cropDialog = new Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+        cropDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        cropDialog.setContentView(R.layout.dialog_crop); // Ensure correct layout file
+
+        CropImageView cropImageView = cropDialog.findViewById(R.id.cropImageView);
+        cropImageView.setImageBitmap(bitmap);
+        cropImageView.setGuidelines(CropImageView.Guidelines.ON);
+        cropImageView.setFixedAspectRatio(false);  // Free-hand cropping
+        cropImageView.setCropShape(CropImageView.CropShape.RECTANGLE);
+
+        Button btnCrop = cropDialog.findViewById(R.id.btnCrop);
+        btnCrop.setOnClickListener(v -> {
+            Bitmap croppedBitmap = cropImageView.getCroppedImage();
+            if (croppedBitmap != null) {
+                processCroppedImage(croppedBitmap);
+                cropDialog.dismiss();
+            } else {
+                System.out.println("Cropping failed: croppedBitmap is null");
+            }
+        });
+
+        cropDialog.show();
+    }
+
+    /**
+     * Processes the cropped image and updates UI elements.
+     */
+    private void processCroppedImage(Bitmap bitmap) {
+        try {
+            FileOutputStream fos = new FileOutputStream(photoLocation, false);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, fos);
+            fos.close();
+
+            galleryAddPic();
+            imageView.setImageBitmap(bitmap);
+            sampleItemsContainer.setVisibility(View.INVISIBLE);
+            chooseInvertView.setVisibility(View.VISIBLE);
+            takePhotoButton.setVisibility(View.INVISIBLE);
+            addAssessment.setVisibility(View.INVISIBLE);
+            showAssessmentDetails.setVisibility(View.GONE);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     protected Double calculateScore() {
         Double totalScore = 0.00;
