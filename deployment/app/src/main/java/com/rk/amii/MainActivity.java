@@ -47,6 +47,20 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        boolean justLoggedIn = getIntent().getBooleanExtra("just_logged_in", false);
+        if (justLoggedIn) {
+            showWelcomeDialog();
+        }
+    }
+
+    private void showWelcomeDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Welcome to miniSASS!")
+                .setMessage("You can access, update, or delete your profile at any time via the miniSASS website.")
+                .setPositiveButton("I understand", (dialog, which) -> dialog.dismiss())
+                .setCancelable(false)
+                .show();
     }
 
     @Override
@@ -85,6 +99,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.profileBtn) {
+            showWelcomeDialog();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void handleLogout() {
