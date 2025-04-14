@@ -1,17 +1,17 @@
 package com.rk.amii;
 
-import android.app.ActionBar;
-import android.content.ClipData;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toolbar;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,13 +20,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.rk.amii.activities.AuthenticationActivity;
-import com.rk.amii.activities.CreateNewSampleActivity;
 import com.rk.amii.databinding.ActivityMainBinding;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
-
-import java.util.zip.Inflater;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        Boolean isAgreedToPrivacyPolicy = (Boolean) getIntent().getExtras().get("is_agreed_to_privacy_policy");
+        if (isAgreedToPrivacyPolicy == null) {
+            showConsentDialog();
+        }
     }
 
     @Override
@@ -70,22 +73,57 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.top_nav_menu, menu);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
-        // Find the logout button inside the custom action layout
-        MenuItem logoutItem = menu.findItem(R.id.logoutBtn);
-        View actionView = logoutItem.getActionView();
-
-        if (actionView != null) {
-            Button logoutButton = actionView.findViewById(R.id.logoutBtn);
-            if (logoutButton != null) {
-                logoutButton.setOnClickListener(v -> handleLogout());
-            }
+        if (id == R.id.logoutBtn) {
+            handleLogout();
+            return true;
         }
 
-        return true;
+        return super.onOptionsItemSelected(item);
     }
+
+    private void showConsentDialog() {
+        TextView message = new TextView(this);
+        message.setText(
+                "We use cookies and analytics to improve your experience. By clicking Accept, you agree to our Privacy Policy."
+        );
+        message.setPadding(50, 40, 50, 0);
+        message.setTextSize(16f);
+        message.setMovementMethod(LinkMovementMethod.getInstance());
+
+        SpannableString spannable = new SpannableString(message.getText());
+        int start = message.getText().toString().indexOf("Privacy Policy");
+        if (start >= 0) {
+            spannable.setSpan(new ClickableSpan() {
+                @Override
+                public void onClick(View widget) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://minisass.sta.do.kartoza.com/#/privacy-policy#privacy-policy-title"));
+                    startActivity(browserIntent);
+                }
+            }, start, start + "Privacy Policy".length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            message.setText(spannable);
+        }
+
+        new AlertDialog.Builder(MainActivity.this)
+                .setTitle("Privacy Notice")
+                .setView(message)
+                .setCancelable(false)
+                .setPositiveButton("Accept", (dialog, which) -> {
+                    ApiService service = new ApiService(MainActivity.this);
+                    service.sendPrivacyConsent(true);
+                    dialog.dismiss();
+                })
+                .setNegativeButton("Decline", (dialog, which) -> {
+                    ApiService service = new ApiService(MainActivity.this);
+                    service.sendPrivacyConsent(false);
+                    dialog.dismiss();
+                })
+                .show();
+    }
+
 
     private void handleLogout() {
         if (isOnline) {
