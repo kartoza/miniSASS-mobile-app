@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -73,11 +74,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.top_nav_menu, menu);
+        // Find the logout button inside the custom action layout
+        MenuItem logoutItem = menu.findItem(R.id.logoutBtn);
+        View actionView = logoutItem.getActionView();
+        if (actionView != null) {
+            Button logoutButton = actionView.findViewById(R.id.logoutBtn);
+            if (logoutButton != null) {
+                logoutButton.setOnClickListener(v -> handleLogout());
+            }
+        }
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
         if (id == R.id.logoutBtn) {
             handleLogout();
+            return true;
+        } else if (id == R.id.privacyPolicy) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("https://minisass.sta.do.kartoza.com/#/privacy-policy#privacy-policy-title"));
+            startActivity(browserIntent);
             return true;
         }
 
@@ -114,11 +135,13 @@ public class MainActivity extends AppCompatActivity {
                 .setPositiveButton("Accept", (dialog, which) -> {
                     ApiService service = new ApiService(MainActivity.this);
                     service.sendPrivacyConsent(true);
+                    Toast.makeText(MainActivity.this, "You accepted the privacy policy.", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 })
                 .setNegativeButton("Decline", (dialog, which) -> {
                     ApiService service = new ApiService(MainActivity.this);
                     service.sendPrivacyConsent(false);
+                    Toast.makeText(MainActivity.this, "You declined the privacy policy.", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
                 })
                 .show();
