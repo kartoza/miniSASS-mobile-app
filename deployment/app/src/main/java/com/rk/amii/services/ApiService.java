@@ -1,8 +1,6 @@
 package com.rk.amii.services;
 
-import android.app.Service;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -13,29 +11,25 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
+import java.io.InputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ApiService {
 
     private final Context context;
-    private final String domain = "https://minisass.sta.do.kartoza.com/";
+//    private final String domain = "https://minisass.sta.do.kartoza.com/";
+    private final String domain = "http://192.168.1.7:5000/";
 
     public ApiService(Context context) {
         this.context = context;
@@ -280,7 +274,7 @@ public class ApiService {
     }
 
     public boolean createAssessment(JSONObject details) {
-        JSONObject response = sendRequestWithHeaders(this.domain+"/monitor/observations-create/", details, "POST");
+        JSONObject response = sendRequestWithHeaders(this.domain+"monitor/observations-create/", details, "POST");
         try {
             if (response.get("status").toString().trim().equals("201")) {
                 JSONObject data = new JSONObject(response.get("data").toString());
@@ -348,57 +342,49 @@ public class ApiService {
         return response;
     }
 
-
     public JSONObject sendRequestWithHeaders(String url, JSONObject jsonParam, String type) {
         final JSONObject response = new JSONObject();
-        System.out.println(jsonParam);
-        System.out.println(type);
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL endpointUrl = new URL(url);
-                    HttpURLConnection conn = (HttpURLConnection) endpointUrl.openConnection();
-                    conn.setRequestMethod(type);
-                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                    conn.setRequestProperty("Accept","application/json");
-                    conn.setRequestProperty("Authorization", "Bearer " + readFromStorage("access_token.txt"));
-                    conn.setConnectTimeout(5000);
-                    conn.setDoOutput(true);
-                    conn.setDoInput(true);
 
-                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+        Thread thread = new Thread(() -> {
+            try {
+                URL endpointUrl = new URL(url);
+                HttpURLConnection conn = (HttpURLConnection) endpointUrl.openConnection();
+                conn.setRequestMethod(type);
+                conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                conn.setRequestProperty("Accept", "application/json");
 
-                    os.writeBytes(jsonParam.toString());
-                    os.flush();
-                    os.close();
+                String token = readFromStorage("access_token.txt");
+                System.out.println("Access Token: " + token);
+                conn.setRequestProperty("Authorization", "Bearer " + token);
+                System.out.println("Authorization: Bearer " + readFromStorage("access_token.txt"));
 
-                    System.out.println("STATUS " + conn.getResponseCode());
-                    System.out.println("MSG " + conn.getResponseMessage());
+                conn.setConnectTimeout(5000);
+                conn.setDoOutput(true);
+                conn.setDoInput(true);
 
-                    conn.disconnect();
+                DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                os.writeBytes(jsonParam.toString());
+                os.flush();
+                os.close();
 
-                    response.put("status", conn.getResponseCode());
-                    response.put("message", conn.getResponseMessage());
+                int statusCode = conn.getResponseCode();
+                InputStream stream = (statusCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
 
-                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String current;
-                    String content = "";
-                    while ((current = br.readLine()) != null) {
-                        content += current;
-                    }
-                    System.out.println("CONTENT " + content);
-                    response.put("data", content);
-
-                } catch (Exception e) {
-                    try {
-                        throw e;
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    } catch (JSONException ex) {
-                        ex.printStackTrace();
-                    }
+                BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+                StringBuilder content = new StringBuilder();
+                String current;
+                while ((current = br.readLine()) != null) {
+                    content.append(current);
                 }
+
+                response.put("status", statusCode);
+                response.put("message", conn.getResponseMessage());
+                response.put("data", content.toString());
+
+                conn.disconnect();
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
 
@@ -443,4 +429,16 @@ public class ApiService {
         }
         return "";
     }
+
+//    public boolean isInternetAvailable(Context context) {
+//        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//        if (cm != null) {
+//            NetworkCapabilities capabilities = cm.getNetworkCapabilities(cm.getActiveNetwork());
+//            return capabilities != null &&
+//                    (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+//                            || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+//                            || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
+//        }
+//        return false;
+//    }
 }

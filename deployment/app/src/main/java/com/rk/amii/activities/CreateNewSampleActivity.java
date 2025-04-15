@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -64,6 +65,10 @@ import com.canhub.cropper.CropImageView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.tensorflow.lite.DataType;
+import org.tensorflow.lite.Interpreter;
+import org.tensorflow.lite.support.image.TensorImage;
+import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -350,17 +355,18 @@ public class CreateNewSampleActivity extends AppCompatActivity {
 
         addAssessment.setOnClickListener(view -> {
 
-            int totalFileSize = 0;
+            double totalFileSize = 0;
             for(int i = 0; i < sampleItems.size(); i++) {
                 SampleItemModel currentSample = sampleItems.get(i);
                 File image = new File(currentSample.getLocation());
-                totalFileSize += Integer.parseInt(String.valueOf(image.length()/1024));
+                totalFileSize += (double) image.length() / (1024 * 1024);
             }
+            String formattedSize = String.format("%.2f", totalFileSize);
 
             if(isOnline) {
                 new AlertDialog.Builder(CreateNewSampleActivity.this)
                         .setTitle(getResources().getString(R.string.upload_images))
-                        .setMessage(getResources().getString(R.string.do_you_want_to_upload_images_start) + " " + totalFileSize + getResources().getString(R.string.do_you_want_to_upload_images_end))
+                        .setMessage(getResources().getString(R.string.do_you_want_to_upload_images_start) + " " + formattedSize + " " + getResources().getString(R.string.do_you_want_to_upload_images_end))
                         .setNegativeButton(getResources().getString(R.string.no), (dialog, which) -> {
                             saveAssessment((int)siteId, false);
                         })
