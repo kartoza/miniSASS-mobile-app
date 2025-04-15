@@ -4,8 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/privacyPolicy"
+        android:title="Privacy Policy"
+        android:orderInCategory="0"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/logoutBtn"
         android:title="Logout"
-        android:orderInCategory="0"
+        android:orderInCategory="1"
         app:showAsAction="never" />  <!-- Set to always show or never -->
 </menu>
