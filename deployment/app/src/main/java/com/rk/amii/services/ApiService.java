@@ -122,7 +122,7 @@ public class ApiService {
     }
 
     public boolean updateSiteById(String siteId, JSONObject data) {
-        JSONObject response = sendRequestWithHeaders(this.domain+"monitor/sites/"+siteId+"/", data, "PUT");
+        JSONObject response = sendRequestWithHeaders(this.domain+"monitor/sites/"+siteId+"/", data, "PATCH");
         try {
             if (response.get("status").toString().trim().equals("200")) {
                 System.out.println("Site updated");
