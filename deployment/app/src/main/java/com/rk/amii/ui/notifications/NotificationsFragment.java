@@ -45,7 +45,6 @@ public class NotificationsFragment extends Fragment {
 
         viewPagerAdapter.addFragment(faqFragment, "FAQ");
         viewPagerAdapter.addFragment(howToFragment, "Training and Education Videos");
-        viewPagerAdapter.addFragment(howToFragment, "Privacy Policy");
         viewPager.setAdapter(viewPagerAdapter);
     }
 

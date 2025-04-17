@@ -1,6 +1,8 @@
 package com.rk.amii.services;
 
+import android.app.Service;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -11,6 +13,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -21,9 +25,15 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ApiService {
 
@@ -177,26 +187,39 @@ public class ApiService {
         void onSuccess(String result);
     }
 
-    public boolean login(JSONObject details) {
-        JSONObject response = sendPostRequest(this.domain+"authentication/api/login/", details);
+    public Map<String, Object> login(JSONObject details) {
+        Map<String, Object> result = new HashMap<>();
+        JSONObject response = sendPostRequest(this.domain + "authentication/api/login/", details);
+
         try {
             if (response.get("status").toString().trim().equals("200")) {
                 if (!TextUtils.isEmpty(response.get("data").toString())) {
                     JSONObject tokens = new JSONObject(response.get("data").toString());
-                    String accessToken = tokens.get("access_token").toString().trim();
-                    String refreshToken = tokens.get("refresh_token").toString().trim();
-                    System.out.println("ACCESS_TOKEN: " + accessToken);
+                    String accessToken = tokens.optString("access_token", "").trim();
+                    String refreshToken = tokens.optString("refresh_token", "").trim();
+                    Boolean gaveConsent = null;
+//                  TODO: Confirm to Nic about consent behavior.
+//                    if (tokens.has("is_agreed_to_privacy_policy")) {
+//                        gaveConsent = tokens.optBoolean("is_agreed_to_privacy_policy", false); // or handle with 'null' explicitly if needed
+//                    }
                     if (!TextUtils.isEmpty(accessToken) || !TextUtils.isEmpty(refreshToken)) {
                         writeToStorage("refresh_token.txt", refreshToken);
                         writeToStorage("access_token.txt", accessToken);
-                        return true;
+
+                        result.put("authenticated", true);
+                        result.put("is_agreed_to_privacy_policy", gaveConsent);
+                        return result;
                     }
                 }
             }
-            return false;
+
+            result.put("authenticated", false);
+            return result;
+
         } catch (Exception e) {
             System.out.println("Login exception: " + e);
-            return false;
+            result.put("authenticated", false);
+            return result;
         }
     }
 
@@ -287,6 +310,25 @@ public class ApiService {
             return false;
         }
     }
+
+    public boolean sendPrivacyConsent(boolean agree) {
+        try {
+            JSONObject payload = new JSONObject();
+            payload.put("agree", agree);
+
+            JSONObject response = sendRequestWithHeaders(
+                    this.domain + "privacy-policy/consent/",
+                    payload,
+                    "POST"
+            );
+
+            return response.get("status").toString().trim().equals("200");
+        } catch (Exception e) {
+            System.out.println("Consent exception: " + e);
+            return false;
+        }
+    }
+
 
     public JSONObject sendPostRequest(String url, JSONObject jsonParam) {
         final JSONObject response = new JSONObject();

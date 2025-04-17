@@ -3,6 +3,7 @@
     <string name="title_landing">Home</string>
     <string name="title_home">Map</string>
     <string name="title_dashboard">Sites</string>
+    <string name="title_profile">Profile</string>
     <string name="title_notifications">About</string>
     <string name="what_is_minisass">
         miniSASS is a simple tool which can be used by anyone to monitor the health of a river.
