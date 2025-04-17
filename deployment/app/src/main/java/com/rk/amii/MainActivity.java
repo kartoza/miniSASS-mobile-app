@@ -27,6 +27,7 @@ import com.rk.amii.databinding.ActivityMainBinding;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         isOnline = Utils.isNetworkAvailable(this);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_landing, R.id.navigation_home, R.id.navigation_sites, R.id.navigation_about)
+                R.id.navigation_landing, R.id.navigation_home, R.id.navigation_sites, R.id.navigation_profile, R.id.navigation_about)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
@@ -76,15 +77,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.top_nav_menu, menu);
+
         // Find the logout button inside the custom action layout
         MenuItem logoutItem = menu.findItem(R.id.logoutBtn);
         View actionView = logoutItem.getActionView();
+
         if (actionView != null) {
             Button logoutButton = actionView.findViewById(R.id.logoutBtn);
             if (logoutButton != null) {
                 logoutButton.setOnClickListener(v -> handleLogout());
             }
         }
+
         return true;
     }
 
