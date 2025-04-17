@@ -18,6 +18,8 @@ import com.rk.amii.shared.ResetPasswordDialog;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Map;
+
 public class AuthenticationActivity extends AppCompatActivity {
 
     @Override
@@ -49,10 +51,14 @@ public class AuthenticationActivity extends AppCompatActivity {
             try {
                 loginDetails.put("email", username.getText().toString());
                 loginDetails.put("password", password.getText().toString());
-                Boolean authenticated = service.login(loginDetails);
+                Map<String, Object> loginResult = service.login(loginDetails);
 
-                if (authenticated) {
+                if ((boolean) loginResult.get("authenticated")) {
                     Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
+                    intent.putExtra(
+                            "is_agreed_to_privacy_policy",
+                            (Boolean) loginResult.getOrDefault("is_agreed_to_privacy_policy", null)
+                    );
                     startActivityForResult(intent, 100);
                 } else {
                     TextView error =  findViewById(R.id.idLoginError);
