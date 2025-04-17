@@ -53,7 +53,6 @@ public class AuthenticationActivity extends AppCompatActivity {
 
                 if (authenticated) {
                     Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
-                    intent.putExtra("just_logged_in", true);
                     startActivityForResult(intent, 100);
                 } else {
                     TextView error =  findViewById(R.id.idLoginError);

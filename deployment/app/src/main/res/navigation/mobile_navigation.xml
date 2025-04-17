@@ -24,6 +24,12 @@
         tools:layout="@layout/fragment_dashboard" />
 
     <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.rk.amii.ui.profile.ProfileFragment"
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile" />
+
+    <fragment
         android:id="@+id/navigation_about"
         android:name="com.rk.amii.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
