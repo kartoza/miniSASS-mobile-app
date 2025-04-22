@@ -1,8 +1,6 @@
 package com.rk.amii.services;
 
-import android.app.Service;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -13,27 +11,30 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
-import java.io.InputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+
 
 public class ApiService {
 
@@ -296,19 +297,35 @@ public class ApiService {
         }
     }
 
-    public boolean createAssessment(JSONObject details) {
-        JSONObject response = sendRequestWithHeaders(this.domain+"monitor/observations-create/", details, "POST");
-        try {
-            if (response.get("status").toString().trim().equals("201")) {
-                JSONObject data = new JSONObject(response.get("data").toString());
-                System.out.println(data);
-                return true;
+    public boolean createAssessment(Map<String, File> imageFiles, JSONObject details) throws IOException, JSONException {
+        AtomicBoolean result = new AtomicBoolean(false);
+        Thread thread = new Thread(() -> {
+            try {
+                JSONObject response = uploadMultipleImages(this.domain+"monitor/observations/", imageFiles, details);
+                try {
+                    if (response.get("status").toString().trim().equals("201")) {
+                        System.out.println(response);
+                        result.set(true);
+                    } else {
+                        result.set(false);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Create assessment exception: " + e);
+                    result.set(false);
+                }
+            } catch (Exception e) {
+
+                e.printStackTrace();
             }
-            return false;
-        } catch (Exception e) {
-            System.out.println("Create assessment exception: " + e);
-            return false;
+        });
+
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        return result.get();
     }
 
     public boolean sendPrivacyConsent(boolean agree) {
@@ -382,6 +399,96 @@ public class ApiService {
             e.printStackTrace();
         }
         return response;
+    }
+
+    public JSONObject uploadMultipleImages(String urlStr, Map<String, File> imageFiles, JSONObject jsonPart) throws IOException, JSONException {
+        String boundary = "===" + System.currentTimeMillis() + "===";
+        String LINE_FEED = "\r\n";
+
+        URL url = new URL(urlStr);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setUseCaches(false);
+        conn.setDoOutput(true);
+        conn.setDoInput(true);
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+        conn.setConnectTimeout(15000); // 15 sec to connect
+        conn.setReadTimeout(30000);    // 30 sec to read
+
+        String token = readFromStorage("access_token.txt");
+        System.out.println("Access Token: " + token);
+        conn.setRequestProperty("Authorization", "Bearer " + token);
+        System.out.println("Authorization: Bearer " + readFromStorage("access_token.txt"));
+
+        OutputStream outputStream = conn.getOutputStream();
+        PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
+
+        // Add JSON fields
+        if (jsonPart != null) {
+            for (Iterator<String> it = jsonPart.keys(); it.hasNext(); ) {
+                String key = it.next();
+                String value = jsonPart.optString(key);
+                writer.append("--").append(boundary).append(LINE_FEED);
+                writer.append("Content-Disposition: form-data; name=\"").append(key).append("\"").append(LINE_FEED);
+                writer.append("Content-Type: text/plain; charset=UTF-8").append(LINE_FEED);
+                writer.append(LINE_FEED).append(value).append(LINE_FEED);
+            }
+        }
+
+        // Add image files with imageKey as the field name
+        for (Map.Entry<String, File> entry : imageFiles.entrySet()) {
+            String fieldName = entry.getKey();
+            File file = entry.getValue();
+
+            writer.append("--").append(boundary).append(LINE_FEED);
+            writer.append("Content-Disposition: form-data; name=\"").append(fieldName)
+                    .append("\"; filename=\"").append(file.getName()).append("\"").append(LINE_FEED);
+            writer.append("Content-Type: ").append("image/jpeg").append(LINE_FEED); // or guess from file
+            writer.append("Content-Transfer-Encoding: binary").append(LINE_FEED);
+            writer.append(LINE_FEED).flush();
+
+            FileInputStream inputStream = new FileInputStream(file);
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+            outputStream.flush();
+            inputStream.close();
+            writer.append(LINE_FEED).flush();
+        }
+
+        // Finish request
+        writer.append("--").append(boundary).append("--").append(LINE_FEED);
+        writer.flush();
+        writer.close();
+
+        // Flush and close the binary stream too!
+        outputStream.flush();
+        outputStream.close();
+
+        int responseCode = conn.getResponseCode();
+        InputStream is = (responseCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
+        BufferedReader in = new BufferedReader(new InputStreamReader(is));
+        String inputLine;
+        StringBuilder response = new StringBuilder();
+        while ((inputLine = in.readLine()) != null) {
+            response.append(inputLine);
+        }
+        in.close();
+
+//        System.out.println("Response: " + response.toString());
+        // Wrap in JSONObject before returning
+        JSONObject result = new JSONObject();
+        try {
+            result.put("status", responseCode);
+            result.put("response", response.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            result.put("status", 500);
+            result.put("response", "Failed to build JSON response");
+        }
+        return result;
     }
 
     public JSONObject sendRequestWithHeaders(String url, JSONObject jsonParam, String type) {
