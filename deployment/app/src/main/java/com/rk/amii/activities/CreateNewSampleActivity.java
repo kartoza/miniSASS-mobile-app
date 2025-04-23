@@ -444,6 +444,8 @@ public class CreateNewSampleActivity extends AppCompatActivity {
                 assessmentInputObject.put("longitude", "0");
                 assessmentInputObject.put("selectedSite", site.getOnlineSiteId());
                 assessmentInputObject.put("flag", "dirty");
+                assessmentInputObject.put("ml_score", mlScore);
+
 
 
                 assessmentDataObject.put("score", miniSassScore);
