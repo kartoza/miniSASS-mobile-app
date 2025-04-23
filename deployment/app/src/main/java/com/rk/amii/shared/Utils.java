@@ -3,7 +3,6 @@ package com.rk.amii.shared;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.NetworkCapabilities;
 
 import com.rk.amii.MainActivity;
 
@@ -88,16 +87,5 @@ public class Utils {
                 = (ConnectivityManager) context.getSystemService(MainActivity.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-
-    public static boolean isConnected(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm != null) {
-            NetworkCapabilities nc = cm.getNetworkCapabilities(cm.getActiveNetwork());
-            return nc != null &&
-                    nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                    nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
-        }
-        return false;
     }
 }
