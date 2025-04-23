@@ -297,12 +297,20 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Gets a list of all sites from the database
-     * @return A list of sites
+     * Gets a list of sites from the database with optional filtering
+     * @param whereClause The optional WHERE clause, excluding the 'WHERE' itself (e.g., "riverType = ? AND siteName LIKE ?")
+     * @param whereArgs The arguments for the WHERE clause placeholders
+     * @return A list of filtered sites
      */
-    public ArrayList<SitesModel> getSites() {
+    public ArrayList<SitesModel> getSites(String whereClause, String[] whereArgs) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + SITES_TABLE_NAME, null);
+        String query = "SELECT * FROM " + SITES_TABLE_NAME;
+
+        if (whereClause != null && !whereClause.trim().isEmpty()) {
+            query += " WHERE " + whereClause;
+        }
+
+        Cursor cursor = db.rawQuery(query, whereArgs);
         ArrayList<SitesModel> sites = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
@@ -322,6 +330,10 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return sites;
+    }
+
+    public ArrayList<SitesModel> getSites() {
+        return getSites(null, null);
     }
 
     /**
