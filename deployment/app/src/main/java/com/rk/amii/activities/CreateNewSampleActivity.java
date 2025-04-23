@@ -419,7 +419,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
                         String imageKey = "pest_" + i + ":" + onlineInvertMapping.get(currentSample.getInvertType());
                         File image = new File(currentSample.getLocation());
 
-                        imageFiles.put(imageKey, image); // ✅ Keep imageKey
+                        imageFiles.put(imageKey, image);
                         assessmentDataObject.put(onlineInvertMapping.get(currentSample.getInvertType()), true);
                     }
                 }

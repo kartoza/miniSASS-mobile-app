@@ -3,13 +3,9 @@ package com.rk.amii.shared;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.NetworkCapabilities;
 
 import com.rk.amii.MainActivity;
-
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
 
 public class Utils {
 
@@ -94,38 +90,14 @@ public class Utils {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-//    public static boolean isConnected(Context context) {
-//        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//        if (cm != null) {
-//            NetworkCapabilities nc = cm.getNetworkCapabilities(cm.getActiveNetwork());
-//            return nc != null &&
-//                    nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-//                    nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
-//        }
-//        return false;
-//    }
-
-    public static boolean hasInternetAccess(Context context) {
+    public static boolean isConnected(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        boolean isConnected = false;
         if (cm != null) {
-            Network network = cm.getActiveNetwork();
-            if (network != null) {
-                NetworkCapabilities nc = cm.getNetworkCapabilities(network);
-                isConnected = nc != null &&
-                        nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                        nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
-            }
+            NetworkCapabilities nc = cm.getNetworkCapabilities(cm.getActiveNetwork());
+            return nc != null &&
+                    nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
+                    nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
         }
-
-        boolean hasInternet = false;
-        try {
-            Process p = Runtime.getRuntime().exec("ping -c 1 www.google.com");
-            hasInternet = p.waitFor() == 0;
-        } catch (Exception e) {
-            hasInternet = false;
-        }
-
-        return isConnected && hasInternet;
+        return false;
     }
 }

@@ -477,7 +477,6 @@ public class ApiService {
         }
         in.close();
 
-//        System.out.println("Response: " + response.toString());
         // Wrap in JSONObject before returning
         JSONObject result = new JSONObject();
         try {
@@ -578,16 +577,4 @@ public class ApiService {
         }
         return "";
     }
-
-//    public boolean isInternetAvailable(Context context) {
-//        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-//        if (cm != null) {
-//            NetworkCapabilities capabilities = cm.getNetworkCapabilities(cm.getActiveNetwork());
-//            return capabilities != null &&
-//                    (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
-//                            || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
-//                            || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
-//        }
-//        return false;
-//    }
 }
