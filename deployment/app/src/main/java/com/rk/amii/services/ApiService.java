@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 
@@ -282,19 +283,34 @@ public class ApiService {
         return true;
     }
 
-    public Integer createSite(JSONObject details) {
-        JSONObject response = sendRequestWithHeaders(this.domain+"monitor/sites/", details, "POST");
-        try {
-            if (response.get("status").toString().trim().equals("201")) {
-                JSONObject data = new JSONObject(response.get("data").toString());
-                System.out.println(data);
-                return Integer.parseInt(data.getString("gid"));
+    public Integer createSite(Map<String, File> imageFiles, JSONObject details) {
+        AtomicInteger result = new AtomicInteger(0);
+        Thread thread = new Thread(() -> {
+            try {
+                JSONObject response = uploadMultipleImages(this.domain+"monitor/sites/", imageFiles, details);
+                try {
+                    if (response.get("status").toString().trim().equals("201")) {
+                        JSONObject data = new JSONObject(response.get("data").toString());
+                        result.set(Integer.parseInt(data.getString("gid")));
+                    } else {
+                        result.set(0);
+                    }
+                } catch (Exception e) {
+                    System.out.println("Create Site exception: " + e);
+                    result.set(0);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            return 0;
-        } catch (Exception e) {
-            System.out.println("Create Site exception: " + e);
-            return 0;
+        });
+
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
+        return result.get();
     }
 
     public boolean createAssessment(Map<String, File> imageFiles, JSONObject details) throws IOException, JSONException {
@@ -416,9 +432,7 @@ public class ApiService {
         conn.setReadTimeout(30000);    // 30 sec to read
 
         String token = readFromStorage("access_token.txt");
-        System.out.println("Access Token: " + token);
         conn.setRequestProperty("Authorization", "Bearer " + token);
-        System.out.println("Authorization: Bearer " + readFromStorage("access_token.txt"));
 
         OutputStream outputStream = conn.getOutputStream();
         PrintWriter writer = new PrintWriter(new OutputStreamWriter(outputStream, "UTF-8"), true);
@@ -481,7 +495,7 @@ public class ApiService {
         JSONObject result = new JSONObject();
         try {
             result.put("status", responseCode);
-            result.put("response", response.toString());
+            result.put("data", response);
         } catch (JSONException e) {
             e.printStackTrace();
             result.put("status", 500);

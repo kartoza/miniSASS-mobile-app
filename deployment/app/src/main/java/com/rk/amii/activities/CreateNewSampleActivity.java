@@ -364,7 +364,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
                         .setIcon(R.drawable.ic_baseline_image_24)
                         .show();
             } else {
-                saveAssessment((int)siteId, false);
+                saveAssessment((int)siteId, true);
             }
 
         });

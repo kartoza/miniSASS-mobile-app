@@ -23,9 +23,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.rk.amii.activities.AuthenticationActivity;
+import com.rk.amii.database.DBHandler;
 import com.rk.amii.databinding.ActivityMainBinding;
+import com.rk.amii.models.SitesModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {

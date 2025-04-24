@@ -35,8 +35,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CreateNewSiteActivity extends AppCompatActivity {
 
@@ -135,7 +138,8 @@ public class CreateNewSiteActivity extends AppCompatActivity {
             if (isOnline) {
                 JSONObject siteObject = new JSONObject();
                 JSONObject siteDetails = new JSONObject();
-                JSONArray siteImageObjects = new JSONArray();
+                Map<String, File> imageFiles = new HashMap<>();
+
                 try {
                     ApiService service = new ApiService(this);
 
@@ -149,20 +153,24 @@ public class CreateNewSiteActivity extends AppCompatActivity {
 
                     Integer counter = 0;
                     for(String imagePath : siteImages) {
-                        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                        byte[] data = stream.toByteArray();
-                        JSONObject temp = new JSONObject();
-                        temp.put("image_"+counter, Base64.decode(Base64.encodeToString(data, Base64.DEFAULT), Base64.DEFAULT));
-                        siteImageObjects.put(temp);
+//                        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+//                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//                        byte[] data = stream.toByteArray();
+//                        JSONObject temp = new JSONObject();
+//                        temp.put("image_"+counter, Base64.decode(Base64.encodeToString(data, Base64.DEFAULT), Base64.DEFAULT));
+//                        siteImageObjects.put(temp);
+
+                        String imageKey = "site_" + counter;
+                        File image = new File(imagePath);
+
+                        imageFiles.put(imageKey, image);
                         counter +=1;
                     }
 
                     siteObject.put("site_data", siteDetails);
-                    siteObject.put("images", siteImageObjects);
 
-                    Integer onlineSiteId = service.createSite(siteObject);
+                    Integer onlineSiteId = service.createSite(imageFiles, siteObject);
                     if (onlineSiteId == 0) {
                         this.showCouldNotSaveSiteDialog(siteId);
                     } else {
