@@ -499,9 +499,9 @@ public class DBHandler extends SQLiteOpenHelper {
      * @param uploadPreference The user's upload preference (e.g., wifi)
      * @return The user id
      */
-    public long addNewUser(String username, String email, String name, String surname,
-                           String organisationType, String organisationName, String country,
-                           String uploadPreference) {
+    public long addOrUpdateUserProfile(String username, String email, String name, String surname,
+                                       String organisationType, String organisationName, String country,
+                                       String uploadPreference) {
         SQLiteDatabase db = this.getWritableDatabase();
 
         // Delete all existing rows first

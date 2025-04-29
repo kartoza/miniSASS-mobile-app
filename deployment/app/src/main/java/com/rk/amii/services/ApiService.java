@@ -258,6 +258,24 @@ public class ApiService {
         return result;
     }
 
+    public JSONObject updateUserProfile(JSONObject payload) {
+        JSONObject response = sendRequestWithHeaders(
+                this.domain+"authentication/api/user/update/",
+                payload,
+                "POST"
+        );
+        JSONObject result = new JSONObject();
+        try {
+            if (response.getString("status").trim().equals("200")) {
+                String dataString = response.getString("data");
+                result = new JSONObject(dataString);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public boolean resetPassword(JSONObject details) {
         System.out.println(details);
         JSONObject response = sendPostRequest(this.domain+"authentication/api/request-reset/",details);

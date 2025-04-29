@@ -74,7 +74,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                         String country = safeOptString(response, "country");
                         String uploadPreference = safeOptString(response, "upload_preference");
 
-                        dbHandler.addNewUser(username, email, name, surname,
+                        dbHandler.addOrUpdateUserProfile(username, email, name, surname,
                                 organisationType, organisationName, country, uploadPreference);
                     } catch (Exception e) {
                         e.printStackTrace();
