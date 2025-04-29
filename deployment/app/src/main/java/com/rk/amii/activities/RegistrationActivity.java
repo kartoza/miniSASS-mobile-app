@@ -148,9 +148,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 R.layout.dropdown_item, organisationTypes);
         organisationType.setAdapter(adapter);
 
-        String[] countries = getResources().getStringArray(R.array.countries);
+        String[] countryDisplayNames = getResources().getStringArray(R.array.countries_display_names);
         ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(this,
-                R.layout.dropdown_item, countries);
+                R.layout.dropdown_item, countryDisplayNames);
         country.setAdapter(countryAdapter);
     }
 

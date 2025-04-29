@@ -30,7 +30,8 @@ import java.util.Map;
 public class ApiService {
 
     private final Context context;
-    private final String domain = "https://minisass.sta.do.kartoza.com/";
+//    private final String domain = "https://minisass.sta.do.kartoza.com/";
+    private final String domain = "http://192.168.1.7:5000/";
 
     public ApiService(Context context) {
         this.context = context;
@@ -239,6 +240,24 @@ public class ApiService {
         }
     }
 
+    public JSONObject getUserProfile() {
+        JSONObject response = sendRequestWithHeaders(
+            this.domain+"authentication/api/user/update/",
+                new JSONObject(),
+            "GET"
+        );
+        JSONObject result = new JSONObject();
+        try {
+            if (response.getString("status").trim().equals("200")) {
+                String dataString = response.getString("data");
+                result = new JSONObject(dataString);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     public boolean resetPassword(JSONObject details) {
         System.out.println(details);
         JSONObject response = sendPostRequest(this.domain+"authentication/api/request-reset/",details);
@@ -391,14 +410,17 @@ public class ApiService {
                     conn.setRequestProperty("Accept","application/json");
                     conn.setRequestProperty("Authorization", "Bearer " + readFromStorage("access_token.txt"));
                     conn.setConnectTimeout(5000);
-                    conn.setDoOutput(true);
                     conn.setDoInput(true);
 
-                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-
-                    os.writeBytes(jsonParam.toString());
-                    os.flush();
-                    os.close();
+                    if (type.equals("POST") || type.equals("PUT") || type.equals("PATCH")) {
+                        conn.setDoOutput(true);
+                        DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                        os.writeBytes(jsonParam.toString());
+                        os.flush();
+                        os.close();
+                    } else {
+                        conn.setDoOutput(false);
+                    }
 
                     System.out.println("STATUS " + conn.getResponseCode());
                     System.out.println("MSG " + conn.getResponseMessage());

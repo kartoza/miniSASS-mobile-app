@@ -44,7 +44,7 @@
         <item>Other</item>
     </string-array>
 
-    <string-array name="countries">
+    <string-array name="countries_display_names">
         <item>Afghanistan</item>
         <item>Albania</item>
         <item>Algeria</item>
@@ -304,6 +304,16 @@
     <string name="short_stubby_legs_description">Short stubby leg-like structures near the head on both sides of the body</string>
     <string name="rounded_body_description">A body which is rounded and has a smooth outline</string>
 
+    <string-array name="upload_preference_values">
+        <item>wifi</item>
+        <item>mobile</item>
+        <item>both</item>
+    </string-array>
 
+    <string-array name="upload_preference_display_names">
+        <item>Wi-Fi Only</item>
+        <item>Mobile Data Only</item>
+        <item>Wi-Fi and Mobile Data</item>
+    </string-array>
 
 </resources>
