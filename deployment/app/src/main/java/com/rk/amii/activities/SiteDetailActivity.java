@@ -81,6 +81,7 @@ public class SiteDetailActivity extends AppCompatActivity {
         long siteId = Integer.parseInt(intent.getStringExtra("siteId"));
         String type = intent.getStringExtra("type");
         this.onPrepareActivity(siteId, type);
+        isOnline = Utils.isNetworkAvailable(getApplicationContext());
     }
 
     /**

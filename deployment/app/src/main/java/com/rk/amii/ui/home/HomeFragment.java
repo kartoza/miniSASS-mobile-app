@@ -89,7 +89,6 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
     }
 
-
     @SuppressLint("MissingPermission")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -331,6 +330,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        isOnline = Utils.isNetworkAvailable(getContext());
         map.onResume();
     }
 

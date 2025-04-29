@@ -149,6 +149,12 @@ public class EditSiteActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isOnline = Utils.isNetworkAvailable(this);
+    }
+
     private void showCouldNOtUpdateSiteDialog() {
         new AlertDialog.Builder(EditSiteActivity.this)
                 .setTitle(getResources().getString(R.string.could_not_update_online_site))

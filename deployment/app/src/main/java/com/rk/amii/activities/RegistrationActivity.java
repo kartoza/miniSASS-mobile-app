@@ -85,6 +85,12 @@ public class RegistrationActivity extends AppCompatActivity {
         //});
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isOnline = Utils.isNetworkAvailable(this);
+    }
+
     /**
      * Validate the password input. The password must contain the following:
      * 1 uppercase character
