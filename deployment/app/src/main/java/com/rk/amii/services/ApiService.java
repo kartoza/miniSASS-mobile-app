@@ -30,7 +30,8 @@ import java.util.Map;
 public class ApiService {
 
     private final Context context;
-    private final String domain = "https://minisass.sta.do.kartoza.com/";
+//    private final String domain = "https://minisass.sta.do.kartoza.com/";
+    private final String domain = "http://192.168.1.7:5000/";
 
     public ApiService(Context context) {
         this.context = context;
@@ -189,10 +190,9 @@ public class ApiService {
                     String accessToken = tokens.optString("access_token", "").trim();
                     String refreshToken = tokens.optString("refresh_token", "").trim();
                     Boolean gaveConsent = null;
-//                  TODO: Confirm to Nic about consent behavior.
-//                    if (tokens.has("is_agreed_to_privacy_policy")) {
-//                        gaveConsent = tokens.optBoolean("is_agreed_to_privacy_policy", false); // or handle with 'null' explicitly if needed
-//                    }
+                    if (tokens.has("is_agreed_to_privacy_policy")) {
+                        gaveConsent = tokens.optBoolean("is_agreed_to_privacy_policy", false);
+                    }
                     if (!TextUtils.isEmpty(accessToken) || !TextUtils.isEmpty(refreshToken)) {
                         writeToStorage("refresh_token.txt", refreshToken);
                         writeToStorage("access_token.txt", accessToken);

@@ -136,19 +136,12 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle("Privacy Notice")
                 .setView(message)
                 .setCancelable(false)
-                .setPositiveButton("Accept", (dialog, which) -> {
+                .setPositiveButton("Continue", (dialog, which) -> {
                     ApiService service = new ApiService(MainActivity.this);
                     service.sendPrivacyConsent(true);
                     Toast.makeText(MainActivity.this, "You accepted the privacy policy.", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
-                })
-                .setNegativeButton("Decline", (dialog, which) -> {
-                    ApiService service = new ApiService(MainActivity.this);
-                    service.sendPrivacyConsent(false);
-                    Toast.makeText(MainActivity.this, "You declined the privacy policy.", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                })
-                .show();
+                }).show();
     }
 
 
