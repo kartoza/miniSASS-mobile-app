@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         Boolean isAgreedToPrivacyPolicy = (Boolean) getIntent().getExtras().get("is_agreed_to_privacy_policy");
-        if (isAgreedToPrivacyPolicy == null) {
+        if (isAgreedToPrivacyPolicy == false) {
             showConsentDialog();
         }
     }
@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     private void showConsentDialog() {
         TextView message = new TextView(this);
         message.setText(
-                "We use cookies and analytics to improve your experience. By clicking Accept, you agree to our Privacy Policy."
+                "We use cookies and analytics to improve your experience. By clicking continue, you agree to our Privacy Policy."
         );
         message.setPadding(50, 40, 50, 0);
         message.setTextSize(16f);
@@ -136,19 +136,12 @@ public class MainActivity extends AppCompatActivity {
                 .setTitle("Privacy Notice")
                 .setView(message)
                 .setCancelable(false)
-                .setPositiveButton("Accept", (dialog, which) -> {
+                .setPositiveButton("Continue", (dialog, which) -> {
                     ApiService service = new ApiService(MainActivity.this);
                     service.sendPrivacyConsent(true);
                     Toast.makeText(MainActivity.this, "You accepted the privacy policy.", Toast.LENGTH_SHORT).show();
                     dialog.dismiss();
-                })
-                .setNegativeButton("Decline", (dialog, which) -> {
-                    ApiService service = new ApiService(MainActivity.this);
-                    service.sendPrivacyConsent(false);
-                    Toast.makeText(MainActivity.this, "You declined the privacy policy.", Toast.LENGTH_SHORT).show();
-                    dialog.dismiss();
-                })
-                .show();
+                }).show();
     }
 
 
