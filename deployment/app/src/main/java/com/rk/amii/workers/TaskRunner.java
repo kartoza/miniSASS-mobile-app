@@ -7,6 +7,7 @@ import android.os.Looper;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.work.ListenableWorker.Result;  // Add this import for Result
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -22,9 +23,13 @@ import org.json.JSONObject;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 
 public class TaskRunner extends Worker {
 
@@ -41,12 +46,12 @@ public class TaskRunner extends Worker {
 
         boolean isOnline = Utils.isNetworkAvailable(getApplicationContext());
 
-        new Handler(Looper.getMainLooper()).post(() ->
-                Toast.makeText(
-                        getApplicationContext(),
-                        "Syncing Sites and Observations!",
-                        Toast.LENGTH_SHORT
-                ).show());
+//        new Handler(Looper.getMainLooper()).post(() ->
+//                Toast.makeText(
+//                        getApplicationContext(),
+//                        "Syncing Sites and Observations!",
+//                        Toast.LENGTH_SHORT
+//                ).show());
 
         if (isOnline) {
             try {
@@ -76,15 +81,7 @@ public class TaskRunner extends Worker {
 
                             Integer counter = 0;
                             for(String imagePath : dbHandler.getSiteImagePathsBySiteId(site.getSiteId())) {
-//                        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-//                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//                        byte[] data = stream.toByteArray();
-//                        JSONObject temp = new JSONObject();
-//                        temp.put("image_"+counter, Base64.decode(Base64.encodeToString(data, Base64.DEFAULT), Base64.DEFAULT));
-//                        siteImageObjects.put(temp);
-
-                                String imageKey = "site_" + counter;
+                                String imageKey = "images_" + counter;
                                 File image = new File(imagePath);
 
                                 imageFiles.put(imageKey, image);
@@ -108,8 +105,8 @@ public class TaskRunner extends Worker {
             }
         }
 
-        new Handler(Looper.getMainLooper()).post(() ->
-                Toast.makeText(getApplicationContext(), "Sites synced!", Toast.LENGTH_SHORT).show());
+//        new Handler(Looper.getMainLooper()).post(() ->
+//                Toast.makeText(getApplicationContext(), "Sites synced!", Toast.LENGTH_SHORT).show());
 
         return Result.success();
     }

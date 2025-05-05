@@ -44,12 +44,12 @@ public class LandingFragment extends Fragment {
 
         requestPermissionsIfNecessary(permissions);
 
-//        // Create a work request
-//        OneTimeWorkRequest uploadRequest = new OneTimeWorkRequest.Builder(TaskRunner.class)
-//                .build();
-//
+        // Create a work request
+        OneTimeWorkRequest uploadRequest = new OneTimeWorkRequest.Builder(TaskRunner.class)
+                .build();
+
 //        // Enqueue the work
-//        WorkManager.getInstance(getContext()).enqueue(uploadRequest);
+        WorkManager.getInstance(getContext()).enqueue(uploadRequest);
         return inflater.inflate(R.layout.fragment_landing, container, false);
     }
 

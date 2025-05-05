@@ -83,13 +83,6 @@ public class Utils {
         return color;
     }
 
-//    public static boolean isNetworkAvailable(Context context) {
-//        ConnectivityManager connectivityManager
-//                = (ConnectivityManager) context.getSystemService(MainActivity.CONNECTIVITY_SERVICE);
-//        NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
-//        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-//    }
-
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         boolean isConnected = false;
