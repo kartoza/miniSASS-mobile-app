@@ -94,6 +94,12 @@ public class RegistrationActivity extends AppCompatActivity {
         //});
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isOnline = Utils.isNetworkAvailable(this);
+    }
+
     /**
      * Validate the password input. The password must contain the following:
      * 1 uppercase character
@@ -170,9 +176,9 @@ public class RegistrationActivity extends AppCompatActivity {
                 R.layout.dropdown_item, organisationTypes);
         organisationType.setAdapter(adapter);
 
-        String[] countries = getResources().getStringArray(R.array.countries);
+        String[] countryDisplayNames = getResources().getStringArray(R.array.countries_display_names);
         ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(this,
-                R.layout.dropdown_item, countries);
+                R.layout.dropdown_item, countryDisplayNames);
         country.setAdapter(countryAdapter);
     }
 

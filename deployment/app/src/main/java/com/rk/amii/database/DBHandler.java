@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.rk.amii.models.PhotoModel;
 import com.rk.amii.models.AssessmentModel;
 import com.rk.amii.models.SitesModel;
+import com.rk.amii.models.UserModel;
 import java.util.ArrayList;
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -54,6 +55,18 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String SITE_IMAGE_ID = "id";
     private static final String SITE_IMAGE_SITE_ID = "site_id";
     private static final String SITE_IMAGE_LOCATION = "image_location";
+
+    // User Table and Column Names
+    private static final String USER_TABLE_NAME = "user";
+    private static final String USER_ID = "id";
+    private static final String USER_USERNAME = "username";
+    private static final String USER_EMAIL = "email";
+    private static final String USER_NAME = "name";
+    private static final String USER_SURNAME = "surname";
+    private static final String USER_ORGANISATION_TYPE = "organisation_type";
+    private static final String USER_ORGANISATION_NAME = "organisation_name";
+    private static final String USER_COUNTRY = "country";
+    private static final String USER_UPLOAD_PREFERENCE = "upload_preference";
 
     public DBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -110,6 +123,19 @@ public class DBHandler extends SQLiteOpenHelper {
                 + PHOTO_ML_PREDICTIONS + " TEXT)";
 
         db.execSQL(photo_query);
+
+        String userQuery = "CREATE TABLE " + USER_TABLE_NAME + " ("
+                + USER_USERNAME + " TEXT, "
+                + USER_EMAIL + " TEXT,"
+                + USER_NAME + " TEXT,"
+                + USER_SURNAME + " TEXT,"
+                + USER_ORGANISATION_TYPE + " TEXT,"
+                + USER_ORGANISATION_NAME + " TEXT,"
+                + USER_COUNTRY + " TEXT,"
+                + USER_UPLOAD_PREFERENCE + " TEXT)";
+
+        db.execSQL(userQuery);
+
     }
 
     /**
@@ -457,7 +483,92 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + SITES_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
         onCreate(db);
+    }
+
+    /**
+     * Add a new user to the database
+     * @param username The username
+     * @param email The email address
+     * @param name The user's first name
+     * @param surname The user's surname
+     * @param organisationType The type of organisation (can be null)
+     * @param organisationName The name of the organisation
+     * @param country The user's country
+     * @param uploadPreference The user's upload preference (e.g., wifi)
+     * @return The user id
+     */
+    public long addOrUpdateUserProfile(String username, String email, String name, String surname,
+                                       String organisationType, String organisationName, String country,
+                                       String uploadPreference) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Delete all existing rows first
+        db.delete(USER_TABLE_NAME, null, null);
+
+        // Insert new user
+        ContentValues values = new ContentValues();
+        values.put(USER_USERNAME, username);
+        values.put(USER_EMAIL, email);
+        values.put(USER_NAME, name);
+        values.put(USER_SURNAME, surname == null ? "" : surname);
+        values.put(USER_ORGANISATION_TYPE, organisationType == null ? "" : organisationType);
+        values.put(USER_ORGANISATION_NAME, organisationName == null ? "" : organisationName);
+        values.put(USER_COUNTRY, country);
+        values.put(USER_UPLOAD_PREFERENCE, uploadPreference);
+
+        long id = db.insert(USER_TABLE_NAME, null, values);
+
+        db.close();
+        return id;
+    }
+
+
+    public UserModel getUserProfile() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT * FROM " + USER_TABLE_NAME + " LIMIT 1";
+        Cursor cursor = db.rawQuery(query, null);
+
+        UserModel user = null;
+
+        if (cursor.moveToFirst()) {
+            String username = cursor.getString(cursor.getColumnIndexOrThrow(USER_USERNAME));
+            String email = cursor.getString(cursor.getColumnIndexOrThrow(USER_EMAIL));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(USER_NAME));
+            String surname = cursor.getString(cursor.getColumnIndexOrThrow(USER_SURNAME));
+            String organisationType = cursor.getString(cursor.getColumnIndexOrThrow(USER_ORGANISATION_TYPE));
+            String organisationName = cursor.getString(cursor.getColumnIndexOrThrow(USER_ORGANISATION_NAME));
+            String country = cursor.getString(cursor.getColumnIndexOrThrow(USER_COUNTRY));
+            String uploadPreference = cursor.getString(cursor.getColumnIndexOrThrow(USER_UPLOAD_PREFERENCE));
+
+            user = new UserModel(username, email, name, surname, organisationType, organisationName, country, uploadPreference);
+        }
+
+        cursor.close();
+        db.close();
+
+        return user;
+    }
+
+    public int updateUserProfile(String username, String email, String name, String surname,
+                                 String organisationType, String organisationName, String country,
+                                 String uploadPreference) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(USER_USERNAME, username);
+        values.put(USER_EMAIL, email);
+        values.put(USER_NAME, name);
+        values.put(USER_SURNAME, surname);
+        values.put(USER_ORGANISATION_TYPE, organisationType);
+        values.put(USER_ORGANISATION_NAME, organisationName);
+        values.put(USER_COUNTRY, country);
+        values.put(USER_UPLOAD_PREFERENCE, uploadPreference);
+
+        int rowsUpdated = db.update(USER_TABLE_NAME, values, null, null); // Assuming single user
+        db.close();
+        return rowsUpdated;
     }
 
 }
