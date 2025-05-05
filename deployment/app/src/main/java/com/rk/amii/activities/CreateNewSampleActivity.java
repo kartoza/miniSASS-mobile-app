@@ -67,6 +67,8 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.time.LocalDate;
 
 
 public class CreateNewSampleActivity extends AppCompatActivity {
@@ -203,7 +205,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
 
         electricalConductivityUnitTypes.add("S/m");
         electricalConductivityUnitTypes.add("µS/cm");
-        electricalConductivityUnitTypes.add("m S/m");
+        electricalConductivityUnitTypes.add("mS/m");
         electricalConductivityUnitTypes.add("Unknown");
 
 
@@ -412,46 +414,56 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         if (isOnline) {
             JSONObject assessmentData = new JSONObject();
             JSONObject assessmentDataObject = new JSONObject();
+            Map<String, File> imageFiles = new HashMap<>();
             try {
                 ApiService service = new ApiService(this);
 
                 if (uploadImages) {
-                    for(int i = 0; i < sampleItems.size(); i++) {
+                    for (int i = 0; i < sampleItems.size(); i++) {
                         SampleItemModel currentSample = sampleItems.get(i);
 
-                        String imageKey = "pest_"+i+":"+onlineInvertMapping.get(currentSample.getInvertType());
-
+                        String imageKey = "pest_" + i + ":" + onlineInvertMapping.get(currentSample.getInvertType());
                         File image = new File(currentSample.getLocation());
 
-                        byte[] fileData = new byte[(int) image.length()];
-                        DataInputStream dis = new DataInputStream(new FileInputStream(image));
-                        assessmentData.put(imageKey, fileData);
+                        imageFiles.put(imageKey, image);
                         assessmentDataObject.put(onlineInvertMapping.get(currentSample.getInvertType()), true);
-                        dis.close();
                     }
                 }
 
                 JSONObject assessmentInputObject = new JSONObject();
 
+                assessmentInputObject.put("riverName", site.getRiverName());
+                assessmentInputObject.put("siteName", site.getSiteName());
+                assessmentInputObject.put("siteDescription", site.getDescription());
+                assessmentInputObject.put("rivercategory", site.getRiverType());
+                assessmentInputObject.put("date", LocalDate.now().toString());
+                assessmentInputObject.put("collectorsname", "");
                 assessmentInputObject.put("notes", notes.getText().toString());
                 assessmentInputObject.put("waterclaritycm", waterClarity.getText().toString());
-                assessmentInputObject.put("watertemperaturOne", waterTemp.getText().toString());
+                assessmentInputObject.put("watertemperatureOne", waterTemp.getText().toString());
                 assessmentInputObject.put("ph", ph.getText().toString());
                 assessmentInputObject.put("dissolvedoxygenOne", dissolvedOxygen.getText().toString());
                 assessmentInputObject.put("dissolvedoxygenOneUnit", dissolvedOxygenUnit.getText().toString());
                 assessmentInputObject.put("electricalconduOne", electricalConductivity.getText().toString());
                 assessmentInputObject.put("electricalconduOneUnit", electricalConductivityUnit.getText().toString());
+                assessmentInputObject.put("latitude", "0");
+                assessmentInputObject.put("longitude", "0");
                 assessmentInputObject.put("selectedSite", site.getOnlineSiteId());
+                assessmentInputObject.put("flag", "dirty");
+                assessmentInputObject.put("ml_score", mlScore);
+
 
 
                 assessmentDataObject.put("score", miniSassScore);
                 assessmentDataObject.put("datainput", assessmentInputObject);
 
-                assessmentData.put("data", assessmentDataObject);
+                assessmentData.put("data", assessmentDataObject.toString());
+                assessmentData.put("siteId", site.getOnlineSiteId());
+                assessmentData.put("create_site_or_observation", "false");
 
                 System.out.println(assessmentData);
 
-                boolean created = service.createAssessment(assessmentData);
+                boolean created = service.createAssessment(imageFiles, assessmentData);
 
                 if (created) {
                     finish();

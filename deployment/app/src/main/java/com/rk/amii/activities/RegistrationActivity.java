@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.CheckBox;
 
 import com.rk.amii.R;
 import com.rk.amii.services.ApiService;
@@ -32,6 +34,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private TextView surname;
     private TextView email;
     private TextView password;
+    private CheckBox privacyPolicyCheckbox;
     private AutoCompleteTextView organisationType;
     private TextView organisationName;
     private AutoCompleteTextView country;
@@ -58,6 +61,12 @@ public class RegistrationActivity extends AppCompatActivity {
             String organisationTypeValue = organisationType.getText().toString();
             String organisationNameValue = organisationName.getText().toString();
             String countryValue = country.getText().toString();
+
+            if (!privacyPolicyCheckbox.isChecked()) {
+                Toast.makeText(RegistrationActivity.this,
+                        "Please agree to the Privacy Policy", Toast.LENGTH_SHORT).show();
+                return;
+            }
 
             // Validate input fields
             if (
@@ -148,6 +157,19 @@ public class RegistrationActivity extends AppCompatActivity {
         organisationName = findViewById(R.id.idRegistrationOrganisationName);
         country = findViewById(R.id.idRegistrationCountry);
         registrationButton = findViewById(R.id.idRegistrationButton);
+        privacyPolicyCheckbox = findViewById(R.id.idPrivacyPolicyCheckbox);
+
+        // Add this code in your onCreate method or appropriate initialization method
+        TextView privacyPolicyLink = findViewById(R.id.idPrivacyPolicyLink);
+        privacyPolicyLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://minisass.sta.do.kartoza.com/#/privacy-policy#privacy-policy-title";
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(url));
+                startActivity(intent);
+            }
+        });
 
         String[] organisationTypes = getResources().getStringArray(R.array.organisationTypes);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,

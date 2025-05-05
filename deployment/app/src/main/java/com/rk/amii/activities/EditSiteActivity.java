@@ -128,7 +128,6 @@ public class EditSiteActivity extends AppCompatActivity {
                         siteDetails.put("river_name", riverNameValue);
                         siteDetails.put("description", descriptionValue);
                         siteDetails.put("river_cat", riverTypeValue.toLowerCase());
-                        siteDetails.put("user", "19");
 
                         boolean updated = service.updateSiteById(String.valueOf(onlineSiteId), siteDetails);
 

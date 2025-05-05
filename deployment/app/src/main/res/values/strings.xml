@@ -253,7 +253,7 @@
 
     <string name="upload_images">Upload Images</string>
     <string name="do_you_want_to_upload_images_start">Do you want to upload the assessment images? They are </string>
-    <string name="do_you_want_to_upload_images_end">MB in size.</string>
+    <string name="do_you_want_to_upload_images_end"> MB in size.</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
