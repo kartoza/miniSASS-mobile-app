@@ -153,15 +153,7 @@ public class CreateNewSiteActivity extends AppCompatActivity {
 
                     Integer counter = 0;
                     for(String imagePath : siteImages) {
-//                        Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-//                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-//                        byte[] data = stream.toByteArray();
-//                        JSONObject temp = new JSONObject();
-//                        temp.put("image_"+counter, Base64.decode(Base64.encodeToString(data, Base64.DEFAULT), Base64.DEFAULT));
-//                        siteImageObjects.put(temp);
-
-                        String imageKey = "site_" + counter;
+                        String imageKey = "images_" + counter;
                         File image = new File(imagePath);
 
                         imageFiles.put(imageKey, image);
