@@ -11,8 +11,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONObject;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -200,10 +200,9 @@ public class ApiService {
                     String accessToken = tokens.optString("access_token", "").trim();
                     String refreshToken = tokens.optString("refresh_token", "").trim();
                     Boolean gaveConsent = null;
-//                  TODO: Confirm to Nic about consent behavior.
-//                    if (tokens.has("is_agreed_to_privacy_policy")) {
-//                        gaveConsent = tokens.optBoolean("is_agreed_to_privacy_policy", false); // or handle with 'null' explicitly if needed
-//                    }
+                    if (tokens.has("is_agreed_to_privacy_policy")) {
+                        gaveConsent = tokens.optBoolean("is_agreed_to_privacy_policy", false);
+                    }
                     if (!TextUtils.isEmpty(accessToken) || !TextUtils.isEmpty(refreshToken)) {
                         writeToStorage("refresh_token.txt", refreshToken);
                         writeToStorage("access_token.txt", accessToken);
