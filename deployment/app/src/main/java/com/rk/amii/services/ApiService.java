@@ -375,56 +375,56 @@ public class ApiService {
         return response;
     }
 
-
     public JSONObject sendRequestWithHeaders(String url, JSONObject jsonParam, String type) {
         final JSONObject response = new JSONObject();
-        System.out.println(jsonParam);
-        System.out.println(type);
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL endpointUrl = new URL(url);
-                    HttpURLConnection conn = (HttpURLConnection) endpointUrl.openConnection();
-                    conn.setRequestMethod(type);
-                    conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
-                    conn.setRequestProperty("Accept","application/json");
-                    conn.setRequestProperty("Authorization", "Bearer " + readFromStorage("access_token.txt"));
-                    conn.setConnectTimeout(5000);
+
+        Thread thread = new Thread(() -> {
+            try {
+                URL endpointUrl = new URL(url);
+                HttpURLConnection conn = (HttpURLConnection) endpointUrl.openConnection();
+                conn.setRequestMethod(type);
+                conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                conn.setRequestProperty("Accept", "application/json");
+
+                String token = readFromStorage("access_token.txt");
+                System.out.println("Access Token: " + token);
+                conn.setRequestProperty("Authorization", "Bearer " + token);
+
+                conn.setConnectTimeout(5000);
+                conn.setDoInput(true);
+
+                // Only write to output stream if not a GET request
+                if (!type.equals("GET")) {
                     conn.setDoOutput(true);
-                    conn.setDoInput(true);
-
                     DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-
                     os.writeBytes(jsonParam.toString());
                     os.flush();
                     os.close();
+                }
 
-                    System.out.println("STATUS " + conn.getResponseCode());
-                    System.out.println("MSG " + conn.getResponseMessage());
+                int statusCode = conn.getResponseCode();
+                InputStream stream = (statusCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
 
-                    conn.disconnect();
+                BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+                StringBuilder content = new StringBuilder();
+                String current;
+                while ((current = br.readLine()) != null) {
+                    content.append(current);
+                }
 
-                    response.put("status", conn.getResponseCode());
-                    response.put("message", conn.getResponseMessage());
+                response.put("status", statusCode);
+                response.put("message", conn.getResponseMessage());
+                response.put("data", content.toString());
 
-                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String current;
-                    String content = "";
-                    while ((current = br.readLine()) != null) {
-                        content += current;
-                    }
-                    System.out.println("CONTENT " + content);
-                    response.put("data", content);
+                conn.disconnect();
 
-                } catch (Exception e) {
-                    try {
-                        throw e;
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    } catch (JSONException ex) {
-                        ex.printStackTrace();
-                    }
+            } catch (Exception e) {
+                e.printStackTrace();
+                try {
+                    response.put("status", 500);
+                    response.put("message", "Error: " + e.getMessage());
+                } catch (JSONException jsonEx) {
+                    jsonEx.printStackTrace();
                 }
             }
         });
