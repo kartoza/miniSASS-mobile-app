@@ -28,6 +28,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private static final String ASSESSMENT_TABLE_NAME = "assessments";
     private static final String ASSESSMENT_ID = "id";
+    private static final String ASSESSMENT_ONLINE_ID = "online_id";
     private static final String ASSESSMENT_MINISASS_SCORE = "score";
     private static final String ASSESSMENT_ML_SCORE = "ml_score";
     private static final String ASSESSMENT_NOTES = "notes";
@@ -88,6 +89,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         String assessmentQuery = "CREATE TABLE " + ASSESSMENT_TABLE_NAME + " ("
                 + ASSESSMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ASSESSMENT_ONLINE_ID + " INTEGER, "
                 + ASSESSMENT_MINISASS_SCORE + " TEXT,"
                 + ASSESSMENT_ML_SCORE + " TEXT,"
                 + ASSESSMENT_NOTES + " TEXT,"
@@ -235,7 +237,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public long addNewAssessment(String miniSassScore, String mlScore, String notes, String ph,
                                  String waterTemp, String dissolvedOxygen, String dissolvedOxygenUnit,
                                  String electricalConductivity, String electricalConductivityUnit,
-                                 String waterClarity) {
+                                 String waterClarity, Integer onlineAssessmentId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ASSESSMENT_MINISASS_SCORE, miniSassScore);
@@ -248,9 +250,25 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(ASSESSMENT_ELECTRICAL_CONDUCTIVITY, electricalConductivity);
         values.put(ASSESSMENT_ELECTRICAL_CONDUCTIVITY_UNIT, electricalConductivityUnit);
         values.put(ASSESSMENT_WATER_CLARITY, waterClarity);
+        values.put(ASSESSMENT_ONLINE_ID, onlineAssessmentId);
         long id = db.insert(ASSESSMENT_TABLE_NAME, null, values);
         db.close();
         return id;
+    }
+
+    /**
+     * Update the assessment, set online assessment id value
+     * @param assessmentId site id
+     * @param onlineId online site id
+     * @return Id of the uploaded site
+     */
+    public int updateAssessmentUploaded(String assessmentId, Integer onlineId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ASSESSMENT_ONLINE_ID, onlineId);
+        int updated = db.update(ASSESSMENT_TABLE_NAME, values, "id = ?", new String[]{assessmentId});
+        db.close();
+        return updated;
     }
 
     /**
@@ -323,12 +341,20 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Gets a list of all sites from the database
-     * @return A list of sites
+     * Gets a list of sites from the database with optional filtering
+     * @param whereClause The optional WHERE clause, excluding the 'WHERE' itself (e.g., "riverType = ? AND siteName LIKE ?")
+     * @param whereArgs The arguments for the WHERE clause placeholders
+     * @return A list of filtered sites
      */
-    public ArrayList<SitesModel> getSites() {
+    public ArrayList<SitesModel> getSites(String whereClause, String[] whereArgs) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + SITES_TABLE_NAME, null);
+        String query = "SELECT * FROM " + SITES_TABLE_NAME;
+
+        if (whereClause != null && !whereClause.trim().isEmpty()) {
+            query += " WHERE " + whereClause;
+        }
+
+        Cursor cursor = db.rawQuery(query, whereArgs);
         ArrayList<SitesModel> sites = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
@@ -348,6 +374,44 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return sites;
+    }
+
+    public ArrayList<SitesModel> getSites() {
+        return getSites(null, null);
+    }
+
+    /**
+     * Get an all assessment from the database
+     * @return All assessments
+     */
+    public ArrayList<AssessmentModel> getAssessments() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "
+                + ASSESSMENT_TABLE_NAME, null);
+
+        ArrayList<AssessmentModel> assessments = new ArrayList<>();;
+        if (cursor.moveToFirst()) {
+            do {
+                assessments.add(new AssessmentModel(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getFloat(2),
+                        cursor.getFloat(3),
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getString(6),
+                        cursor.getString(7),
+                        cursor.getString(8),
+                        cursor.getString(9),
+                        cursor.getString(10),
+                        cursor.getString(11)
+                ));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return assessments;
     }
 
     /**
@@ -406,16 +470,17 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             assessment = new AssessmentModel(
                     cursor.getInt(0),
-                    cursor.getFloat(1),
+                    cursor.getInt(1),
                     cursor.getFloat(2),
-                    cursor.getString(3),
+                    cursor.getFloat(3),
                     cursor.getString(4),
                     cursor.getString(5),
                     cursor.getString(6),
                     cursor.getString(7),
                     cursor.getString(8),
                     cursor.getString(9),
-                    cursor.getString(10)
+                    cursor.getString(10),
+                    cursor.getString(11)
             );
         }
         cursor.close();

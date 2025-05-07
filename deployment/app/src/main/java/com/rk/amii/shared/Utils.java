@@ -8,6 +8,8 @@ import com.rk.amii.models.UserModel;
 
 import com.rk.amii.MainActivity;
 
+import java.util.HashMap;
+
 public class Utils {
 
     /**
@@ -92,7 +94,6 @@ public class Utils {
             uploadPreference = user.getUploadPreference();
         }
 
-
         ConnectivityManager connectivityManager =
                 (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
@@ -112,5 +113,25 @@ public class Utils {
 
         // If uploadPreference is "wifi" but current network is mobile, etc.
         return false;
+    }
+
+    public static HashMap<String, String> getOnlineInvertMapping() {
+        HashMap<String, String> onlineInvertMapping = new HashMap<String, String>();
+        onlineInvertMapping.put("Bugs & Beetles", "bugs_beetles");
+        onlineInvertMapping.put("Caddisflies", "caddisflies");
+        onlineInvertMapping.put("Damselflies", "damselflies");
+        onlineInvertMapping.put("Dragonflies", "dragonflies");
+        onlineInvertMapping.put("Flat worms", "flatworms");
+        onlineInvertMapping.put("Crabs & Shrimps", "crabs_shrimps");
+        onlineInvertMapping.put("Leeches", "leeches");
+        onlineInvertMapping.put("Minnow Mayflies", "minnow_mayflies");
+        onlineInvertMapping.put("Other Mayflies", "other_mayflies");
+        onlineInvertMapping.put("Snails/Clams/Mussels", "snails");
+        onlineInvertMapping.put("Stoneflies", "stoneflies");
+        onlineInvertMapping.put("Trueflies", "true_flies");
+        onlineInvertMapping.put("Worms", "worms");
+
+        return onlineInvertMapping;
+
     }
 }

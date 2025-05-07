@@ -225,6 +225,7 @@ public class HomeFragment extends Fragment {
                     assessments.add(
                             new AssessmentModel(
                                     assessmentIds.get(j),
+                                    assessment.getOnlineAssessmentId(),
                                     assessment.getMiniSassScore(),
                                     assessment.getMiniSassMLScore(),
                                     assessment.getNotes(),

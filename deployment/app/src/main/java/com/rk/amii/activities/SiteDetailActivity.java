@@ -140,6 +140,7 @@ public class SiteDetailActivity extends AppCompatActivity {
             assessments.add(
                     new AssessmentModel(
                             assessmentIds.get(i),
+                            assessment.getOnlineAssessmentId(),
                             assessment.getMiniSassScore(),
                             assessment.getMiniSassMLScore(),
                             assessment.getNotes(),
@@ -223,6 +224,7 @@ public class SiteDetailActivity extends AppCompatActivity {
 
                             assessments.add(
                                     new AssessmentModel(
+                                            Integer.parseInt(assessment.getString("gid")),
                                             Integer.parseInt(assessment.getString("gid")),
                                             Float.parseFloat(assessment.getString("score")),
                                             Float.parseFloat("0.00"),
