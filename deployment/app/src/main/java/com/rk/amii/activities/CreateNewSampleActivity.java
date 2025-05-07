@@ -159,21 +159,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         mlLabels.add("Trueflies");
         mlLabels.add("Worms");
 
-
-        onlineInvertMapping.put("Bugs & Beetles", "bugs_beetles");
-        onlineInvertMapping.put("Caddisflies", "caddisflies");
-        onlineInvertMapping.put("Damselflies", "damselflies");
-        onlineInvertMapping.put("Dragonflies", "dragonflies");
-        onlineInvertMapping.put("Flat worms", "flatworms");
-        onlineInvertMapping.put("Crabs & Shrimps", "crabs_shrimps");
-        onlineInvertMapping.put("Leeches", "leeches");
-        onlineInvertMapping.put("Minnow Mayflies", "minnow_mayflies");
-        onlineInvertMapping.put("Other Mayflies", "other_mayflies");
-        onlineInvertMapping.put("Snails/Clams/Mussels", "snails");
-        onlineInvertMapping.put("Stoneflies", "stoneflies");
-        onlineInvertMapping.put("Trueflies", "true_flies");
-        onlineInvertMapping.put("Worms", "worms");
-
+        onlineInvertMapping = Utils.getOnlineInvertMapping();
 
         ph = findViewById(R.id.idPhAdd);
         waterTemp = findViewById(R.id.idWaterTempAdd);
@@ -364,7 +350,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
                         .setIcon(R.drawable.ic_baseline_image_24)
                         .show();
             } else {
-                saveAssessment((int) siteId, false);
+                saveAssessment((int) siteId, true);
             }
 
         });
@@ -386,7 +372,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         Double miniSassScore = calculateScore();
         Double mlScore = calculateMLScore();
         SitesModel site = dbHandler.getSiteById((int)siteId);
-        float assessmentId = dbHandler.addNewAssessment(
+        long assessmentId = dbHandler.addNewAssessment(
                 miniSassScore.toString(),
                 mlScore.toString(),
                 notes.getText().toString(),
@@ -396,7 +382,8 @@ public class CreateNewSampleActivity extends AppCompatActivity {
                 dissolvedOxygenUnit.getText().toString(),
                 electricalConductivity.getText().toString(),
                 electricalConductivityUnit.getText().toString(),
-                waterClarity.getText().toString()
+                waterClarity.getText().toString(),
+                0
         );
         dbHandler.addNewSiteAssessment((int)siteId, (int)assessmentId);
         for(int i = 0; i < sampleItems.size(); i++) {
@@ -457,9 +444,10 @@ public class CreateNewSampleActivity extends AppCompatActivity {
 
                 System.out.println(assessmentData);
 
-                boolean created = service.createAssessment(imageFiles, assessmentData);
+                Integer onlineAssessmentId = service.createAssessment(imageFiles, assessmentData);
 
-                if (created) {
+                if (onlineAssessmentId != 0) {
+                    dbHandler.updateAssessmentUploaded(String.valueOf(assessmentId), onlineAssessmentId);
                     finish();
                 } else {
                     this.showCouldNotSaveSiteOnlineDialog();

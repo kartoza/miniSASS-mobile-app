@@ -103,6 +103,7 @@ public class SitesAdapter extends RecyclerView.Adapter<SitesAdapter.ViewHolder> 
             assessments.add(
                     new AssessmentModel(
                             assessmentIds.get(i),
+                            assessment.getOnlineAssessmentId(),
                             assessment.getMiniSassScore(),
                             assessment.getMiniSassMLScore(),
                             assessment.getNotes(),

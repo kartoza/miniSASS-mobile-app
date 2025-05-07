@@ -15,6 +15,8 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
+import androidx.work.ExistingWorkPolicy;
+
 
 import com.rk.amii.R;
 import com.rk.amii.shared.Utils;
@@ -44,12 +46,17 @@ public class LandingFragment extends Fragment {
 
         requestPermissionsIfNecessary(permissions);
 
-        // Create a work request
         OneTimeWorkRequest uploadRequest = new OneTimeWorkRequest.Builder(TaskRunner.class)
                 .build();
 
-//        // Enqueue the work
-        WorkManager.getInstance(getContext()).enqueue(uploadRequest);
+        // Use unique work to ensure it only runs once
+        WorkManager.getInstance(requireContext())
+                .enqueueUniqueWork(
+                        "task_runner_unique_work",  // Unique name for this work
+                        ExistingWorkPolicy.KEEP,    // KEEP means if it's already running, don't start a new one
+                        uploadRequest
+                );
+
         return inflater.inflate(R.layout.fragment_landing, container, false);
     }
 

@@ -40,8 +40,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ApiService {
 
     private final Context context;
-//    private final String domain = "https://minisass.sta.do.kartoza.com/";
-    private final String domain = "http://192.168.1.7:5000/";
+    private final String domain = "https://minisass.sta.do.kartoza.com/";
+//    private final String domain = "http://192.168.1.7:5000/";
 
     public ApiService(Context context) {
         this.context = context;
@@ -312,21 +312,18 @@ public class ApiService {
         return result.get();
     }
 
-    public boolean createAssessment(Map<String, File> imageFiles, JSONObject details) throws IOException, JSONException {
-        AtomicBoolean result = new AtomicBoolean(false);
+    public Integer createAssessment(Map<String, File> imageFiles, JSONObject details) throws IOException, JSONException {
+        AtomicInteger result = new AtomicInteger(0);
         Thread thread = new Thread(() -> {
             try {
                 JSONObject response = uploadMultipleImages(this.domain+"monitor/observations/", imageFiles, details);
                 try {
                     if (response.get("status").toString().trim().equals("201")) {
-                        System.out.println(response);
-                        result.set(true);
-                    } else {
-                        result.set(false);
+                        JSONObject data = new JSONObject(response.get("data").toString());
+                        result.set(Integer.parseInt(data.getString("observation_id")));
                     }
                 } catch (Exception e) {
                     System.out.println("Create assessment exception: " + e);
-                    result.set(false);
                 }
             } catch (Exception e) {
 

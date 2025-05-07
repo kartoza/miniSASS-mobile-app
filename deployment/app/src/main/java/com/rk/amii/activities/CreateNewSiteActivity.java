@@ -145,7 +145,8 @@ public class CreateNewSiteActivity extends AppCompatActivity {
 
                     String[] locationLngLat = siteLocationValue.split(",");
 
-                    siteDetails.put("the_geom", "SRID=4326;POINT ("+locationLngLat[0]+" "+locationLngLat[1]+")");
+                    siteDetails.put("longitude", locationLngLat[1]);
+                    siteDetails.put("latitude", locationLngLat[0]);
                     siteDetails.put("site_name", siteNameValue);
                     siteDetails.put("river_name", riverNameValue);
                     siteDetails.put("description", descriptionValue);
