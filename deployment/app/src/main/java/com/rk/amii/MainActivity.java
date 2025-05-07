@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        isOnline = Utils.isNetworkAvailable(this);
         if(getFragmentRefreshListener()!= null){
             getFragmentRefreshListener().onRefresh();
         }

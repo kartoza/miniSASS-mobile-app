@@ -61,6 +61,12 @@ public class LandingFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        isOnline = Utils.isNetworkAvailable(getContext());
+    }
+
+    @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     }

@@ -356,6 +356,12 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isOnline = Utils.isNetworkAvailable(this);
+    }
+
     private void saveAssessment(int siteId, boolean uploadImages) {
         loading = true;
         loadingView.setVisibility(View.VISIBLE);

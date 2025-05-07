@@ -79,6 +79,12 @@ public class CreateNewSiteActivity extends AppCompatActivity {
         this.setOnClickListeners();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        isOnline = Utils.isNetworkAvailable(this);
+    }
+
     /**
      * Set the onclick listeners for taking a photo, selecting a date, and adding a site
      */

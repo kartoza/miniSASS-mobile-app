@@ -2,8 +2,9 @@ package com.rk.amii.shared;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
-import android.net.Network;
-import android.net.NetworkCapabilities;
+import android.net.NetworkInfo;
+import com.rk.amii.database.DBHandler;
+import com.rk.amii.models.UserModel;
 
 import com.rk.amii.MainActivity;
 
@@ -86,27 +87,32 @@ public class Utils {
     }
 
     public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        boolean isConnected = false;
-        if (cm != null) {
-            Network network = cm.getActiveNetwork();
-            if (network != null) {
-                NetworkCapabilities nc = cm.getNetworkCapabilities(network);
-                isConnected = nc != null &&
-                        nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) &&
-                        nc.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
-            }
+        DBHandler dbHandler = new DBHandler(context);
+        UserModel user = dbHandler.getUserProfile();
+        String uploadPreference = "both";
+        if (user != null) {
+            uploadPreference = user.getUploadPreference();
         }
 
-        boolean hasInternet = false;
-        try {
-            Process p = Runtime.getRuntime().exec("ping -c 1 www.google.com");
-            hasInternet = p.waitFor() == 0;
-        } catch (Exception e) {
-            hasInternet = false;
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
+
+        if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()) {
+            return false;
         }
 
-        return isConnected && hasInternet;
+        int type = activeNetworkInfo.getType();
+        if ("wifi".equals(uploadPreference) && type == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        } else if ("mobile".equals(uploadPreference) && type == ConnectivityManager.TYPE_MOBILE) {
+            return true;
+        } else if ("both".equals(uploadPreference)) {
+            return true;
+        }
+
+        // If uploadPreference is "wifi" but current network is mobile, etc.
+        return false;
     }
 
     public static HashMap<String, String> getOnlineInvertMapping() {
