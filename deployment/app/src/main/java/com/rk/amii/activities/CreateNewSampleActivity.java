@@ -129,18 +129,18 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         scores = new ArrayList<>();
 
         scores.add(new ScoreModel("Bugs & Beetles", 5));
-        scores.add(new ScoreModel("Caddisflies",9));
-        scores.add(new ScoreModel("Damselflies",4));
-        scores.add(new ScoreModel("Dragonflies",6));
-        scores.add(new ScoreModel("Flat worms",3));
-        scores.add(new ScoreModel("Crabs & Shrimps",6));
-        scores.add(new ScoreModel("Leeches",2));
-        scores.add(new ScoreModel("Minnow Mayflies",5));
-        scores.add(new ScoreModel("Other Mayflies",11));
-        scores.add(new ScoreModel("Snails/Clams/Mussels",4));
-        scores.add(new ScoreModel("Stoneflies",17));
-        scores.add(new ScoreModel("Trueflies",2));
-        scores.add(new ScoreModel("Worms",2));
+        scores.add(new ScoreModel("Caddisflies", 9));
+        scores.add(new ScoreModel("Damselflies", 4));
+        scores.add(new ScoreModel("Dragonflies", 6));
+        scores.add(new ScoreModel("Flat worms", 3));
+        scores.add(new ScoreModel("Crabs & Shrimps", 6));
+        scores.add(new ScoreModel("Leeches", 2));
+        scores.add(new ScoreModel("Minnow Mayflies", 5));
+        scores.add(new ScoreModel("Other Mayflies", 11));
+        scores.add(new ScoreModel("Snails/Clams/Mussels", 4));
+        scores.add(new ScoreModel("Stoneflies", 17));
+        scores.add(new ScoreModel("Trueflies", 2));
+        scores.add(new ScoreModel("Worms", 2));
 
         mlLabels = new ArrayList<>();
         mlLabels.add("Bugs & Beetles");
@@ -239,29 +239,28 @@ public class CreateNewSampleActivity extends AppCompatActivity {
 
         try {
             tflite = new Interpreter(loadModelFile());
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
 
-
         //Hide choose invert view
-        chooseInvertView = (LinearLayout)this.findViewById(R.id.chooseInvertView);
+        chooseInvertView = (LinearLayout) this.findViewById(R.id.chooseInvertView);
         chooseInvertView.setVisibility(View.INVISIBLE);
 
-        addSampleItem = (Button)this.findViewById(R.id.idBtnAddSampleItem);
+        addSampleItem = (Button) this.findViewById(R.id.idBtnAddSampleItem);
 
-        addAssessment = (Button)this.findViewById(R.id.idBtnAddAssessment);
+        addAssessment = (Button) this.findViewById(R.id.idBtnAddAssessment);
 
         sampleItemsView = (RecyclerView) this.findViewById(R.id.rvSampleItems);
 
         sampleItemsContainer = (NestedScrollView) this.findViewById(R.id.sampleItems);
         sampleItemsContainer.setVisibility(View.VISIBLE);
 
-        loadingView = (LinearLayout)this.findViewById(R.id.idLoadingView);
+        loadingView = (LinearLayout) this.findViewById(R.id.idLoadingView);
         loadingView.setVisibility(View.INVISIBLE);
 
-        placeholderText = (TextView)this.findViewById(R.id.idNoAssessment);
+        placeholderText = (TextView) this.findViewById(R.id.idNoAssessment);
 
         if (sampleItems.size() > 0) {
             placeholderText.setVisibility(View.INVISIBLE);
@@ -273,7 +272,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         macroinvertebrates = (Spinner) findViewById(R.id.macroinvertebratesSpinner);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                this,R.array.macroinvertebrates,R.layout.spinner);
+                this, R.array.macroinvertebrates, R.layout.spinner);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         macroinvertebrates.setAdapter(adapter);
@@ -286,6 +285,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
                     addSampleItem.setEnabled(true);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
@@ -298,21 +298,21 @@ public class CreateNewSampleActivity extends AppCompatActivity {
             startActivityForResult(showKeyIntent, 150);
         });
 
-        this.imageView = (ImageView)this.findViewById(R.id.image);
-        takePhotoButton = (Button)this.findViewById(R.id.idBtnTakePhoto);
+        this.imageView = (ImageView) this.findViewById(R.id.image);
+        takePhotoButton = (Button) this.findViewById(R.id.idBtnTakePhoto);
 
-        if(ContextCompat.checkSelfPermission(
+        if (ContextCompat.checkSelfPermission(
                 CreateNewSampleActivity.this,
                 Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(CreateNewSampleActivity.this, new String[]{
-                    Manifest.permission.CAMERA},100);
+                    Manifest.permission.CAMERA}, 100);
         }
 
-        if(ContextCompat.checkSelfPermission(
+        if (ContextCompat.checkSelfPermission(
                 CreateNewSampleActivity.this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(CreateNewSampleActivity.this, new String[]{
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE},200);
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE}, 200);
         }
 
         takePhotoButton.setOnClickListener(view -> {
@@ -322,7 +322,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
 
         addSampleItem.setOnClickListener(view -> {
             sampleItems.add(new SampleItemModel(bitmap, invertType, "", photoLocation));
-            sampleItemAdapter = new SampleItemAdapter (CreateNewSampleActivity.this, sampleItems);
+            sampleItemAdapter = new SampleItemAdapter(CreateNewSampleActivity.this, sampleItems);
             sampleItemsView.setLayoutManager(new LinearLayoutManager(CreateNewSampleActivity.this));
             sampleItemsView.setAdapter(sampleItemAdapter);
             sampleItemsContainer.setVisibility(View.VISIBLE);
@@ -342,30 +342,31 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         addAssessment.setOnClickListener(view -> {
 
             double totalFileSize = 0;
-            for(int i = 0; i < sampleItems.size(); i++) {
+            for (int i = 0; i < sampleItems.size(); i++) {
                 SampleItemModel currentSample = sampleItems.get(i);
                 File image = new File(currentSample.getLocation());
                 totalFileSize += (double) image.length() / (1024 * 1024);
             }
             String formattedSize = String.format("%.2f", totalFileSize);
 
-            if(isOnline) {
+            if (isOnline) {
                 new AlertDialog.Builder(CreateNewSampleActivity.this)
                         .setTitle(getResources().getString(R.string.upload_images))
                         .setMessage(getResources().getString(R.string.do_you_want_to_upload_images_start) + " " + formattedSize + " " + getResources().getString(R.string.do_you_want_to_upload_images_end))
                         .setNegativeButton(getResources().getString(R.string.no), (dialog, which) -> {
-                            saveAssessment((int)siteId, false);
+                            saveAssessment((int) siteId, false);
                         })
                         .setPositiveButton(getResources().getString(R.string.yes), (dialog, which) -> {
-                            saveAssessment((int)siteId, true);
+                            saveAssessment((int) siteId, true);
                         })
                         .setIcon(R.drawable.ic_baseline_image_24)
                         .show();
             } else {
-                saveAssessment((int)siteId, false);
+                saveAssessment((int) siteId, false);
             }
 
         });
+    }
 
     private void saveAssessment(int siteId, boolean uploadImages) {
         loading = true;
