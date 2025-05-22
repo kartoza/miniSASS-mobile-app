@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -40,8 +41,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ApiService {
 
     private final Context context;
-    private final String domain = "https://minisass.sta.do.kartoza.com/";
-//    private final String domain = "http://192.168.1.7:5000/";
+//    private final String domain = "https://minisass.sta.do.kartoza.com/";
+    private final String domain = "http://192.168.1.7:5000/";
 
     public ApiService(Context context) {
         this.context = context;
@@ -550,16 +551,18 @@ public class ApiService {
                 String token = readFromStorage("access_token.txt");
                 System.out.println("Access Token: " + token);
                 conn.setRequestProperty("Authorization", "Bearer " + token);
-                System.out.println("Authorization: Bearer " + readFromStorage("access_token.txt"));
 
                 conn.setConnectTimeout(5000);
-                conn.setDoOutput(true);
                 conn.setDoInput(true);
 
-                DataOutputStream os = new DataOutputStream(conn.getOutputStream());
-                os.writeBytes(jsonParam.toString());
-                os.flush();
-                os.close();
+                // Only write to output stream if not a GET request
+                if (!type.equals("GET")) {
+                    conn.setDoOutput(true);
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    os.writeBytes(jsonParam.toString());
+                    os.flush();
+                    os.close();
+                }
 
                 int statusCode = conn.getResponseCode();
                 InputStream stream = (statusCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
@@ -579,6 +582,12 @@ public class ApiService {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                try {
+                    response.put("status", 500);
+                    response.put("message", "Error: " + e.getMessage());
+                } catch (JSONException jsonEx) {
+                    jsonEx.printStackTrace();
+                }
             }
         });
 
