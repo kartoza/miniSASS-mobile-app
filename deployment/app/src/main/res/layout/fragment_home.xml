@@ -7,10 +7,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.home.HomeFragment"
     android:hardwareAccelerated="false">
-    <org.osmdroid.views.MapView android:id="@+id/map"
+    <com.mapbox.mapboxsdk.maps.MapView
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"/>
+        android:layout_height="match_parent" />
     <LinearLayout
         android:id="@+id/mapMessageView"
         android:layout_width="match_parent"

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.PointF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.graphics.RectF;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -34,28 +36,54 @@ import com.rk.amii.databinding.FragmentHomeBinding;
 import com.rk.amii.models.AssessmentModel;
 import com.rk.amii.models.LocationPinModel;
 import com.rk.amii.models.SitesModel;
-import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
-import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Marker;
+import org.json.JSONObject;
+//import org.maplibre.gl.MapLibre;
+//import org.maplibre.gl.camera.CameraPosition;
+//import org.maplibre.gl.geometry.LatLng;
+//import org.maplibre.gl.maps.MapView;
+//import org.maplibre.gl.maps.MapboxMap;
+//import org.maplibre.gl.maps.OnMapReadyCallback;
+//import org.maplibre.gl.maps.Style;
+//import org.maplibre.gl.style.layers.SymbolLayer;
+//import org.maplibre.gl.style.sources.GeoJsonSource;
+//import org.maplibre.gl.geojson.Feature;
+//import org.maplibre.gl.geojson.FeatureCollection;
+//import org.maplibre.gl.geojson.Point;
+
+
+//import com.mapbox.mapboxsdk.Mapbox;
+//import com.mapbox.mapboxsdk.camera.CameraPosition;
+//import com.mapbox.mapboxsdk.geometry.LatLng;
+//import com.mapbox.mapboxsdk.maps.MapView;
+
+import com.mapbox.mapboxsdk.Mapbox;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.mapboxsdk.style.sources.VectorSource;
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
+import com.mapbox.geojson.Point;
+import com.mapbox.mapboxsdk.style.expressions.Expression;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private FragmentHomeBinding binding;
-    private MapView map = null;
+    private MapView mapView;
+    private MapboxMap mapboxMap;
     private View view;
     private DBHandler dbHandler;
     int LOCATION_REFRESH_TIME = 5000;
@@ -65,6 +93,69 @@ public class HomeFragment extends Fragment {
     private Button retryBtn;
     TextView mapMessage;
     private boolean isOnline = false;
+
+    // Style constants
+    private static final String STYLE_JSON = "{\n" +
+            "  \"version\": 8,\n" +
+            "  \"name\": \"miniSASS\",\n" +
+            "  \"metadata\": {\"maputnik:renderer\": \"mbgljs\"},\n" +
+            "  \"center\": [25.2, -28.15],\n" +
+            "  \"zoom\": 5,\n" +
+            "  \"sources\": {\n" +
+            "    \"OSM tiles\": {\n" +
+            "      \"type\": \"raster\",\n" +
+            "      \"tiles\": [\"https://tile.openstreetmap.org/{z}/{x}/{y}.png\"],\n" +
+            "      \"minzoom\": 0,\n" +
+            "      \"maxzoom\": 24\n" +
+            "    },\n" +
+            "    \"MiniSASS Observations\": {\n" +
+            "      \"type\": \"vector\",\n" +
+            "      \"tiles\": [\n" +
+            "        \"http://192.168.122.1:7800/tiles/public.minisass_observations/{z}/{x}/{y}.pbf\"\n" +
+            "      ],\n" +
+            "      \"minZoom\": 0,\n" +
+            "      \"maxZoom\": 14\n" +
+            "    }\n" +
+            "  },\n" +
+            "  \"sprite\": \"https://raw.githubusercontent.com/kartoza/miniSASS/main/django_project/webmapping/styles/icons/minisass_sprites_larger\",\n" +
+            "  \"glyphs\": \"https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=cc4PpmmWZP73LjU1nsw3\",\n" +
+            "  \"layers\": [\n" +
+            "    {\n" +
+            "      \"id\": \"OSM Background\",\n" +
+            "      \"type\": \"raster\",\n" +
+            "      \"source\": \"OSM tiles\",\n" +
+            "      \"layout\": {\"visibility\": \"visible\"},\n" +
+            "      \"paint\": {\"raster-resampling\": \"linear\"}\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"id\": \"No invertebrates found - dirty\",\n" +
+            "      \"type\": \"symbol\",\n" +
+            "      \"source\": \"MiniSASS Observations\",\n" +
+            "      \"source-layer\": \"public.minisass_observations\",\n" +
+            "      \"filter\": [\"all\", [\"==\", \"score\", \"0\"], [\"==\", \"flag\", \"dirty\"]],\n" +
+            "      \"layout\": {\n" +
+            "        \"text-field\": \"\",\n" +
+            "        \"icon-image\": \"crab_u_dirty\",\n" +
+            "        \"visibility\": \"visible\",\n" +
+            "        \"icon-size\": {\"stops\": [[5, 0.5], [17, 2]]}\n" +
+            "      }\n" +
+            "    },\n" +
+            "    {\n" +
+            "      \"id\": \"No invertebrates found - clean\",\n" +
+            "      \"type\": \"symbol\",\n" +
+            "      \"source\": \"MiniSASS Observations\",\n" +
+            "      \"source-layer\": \"public.minisass_observations\",\n" +
+            "      \"filter\": [\"all\", [\"==\", \"score\", \"0\"], [\"==\", \"flag\", \"clean\"]],\n" +
+            "      \"layout\": {\n" +
+            "        \"text-field\": \"\",\n" +
+            "        \"icon-image\": \"crab_u\",\n" +
+            "        \"visibility\": \"visible\",\n" +
+            "        \"icon-size\": {\"stops\": [[5, 0.5], [17, 2]]}\n" +
+            "      }\n" +
+            "    }\n" +
+            "    /* Additional layers omitted for brevity */\n" +
+            "  ]\n" +
+            "}";
 
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
@@ -96,7 +187,10 @@ public class HomeFragment extends Fragment {
 
         isOnline = Utils.isNetworkAvailable(this.getContext());
 
-        map = (MapView) view.findViewById(R.id.map);
+        mapView = view.findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+
         retryBtn = view.findViewById(R.id.onlineSitesRetry);
         mapMessage = view.findViewById(R.id.mapMessageText);
 
@@ -106,10 +200,10 @@ public class HomeFragment extends Fragment {
         }
 
         retryBtn.setOnClickListener(view -> {
-            this.fetchOnlineSites();
+            if (mapboxMap != null) {
+                loadMapStyle();
+            }
         });
-
-        map.setMinZoomLevel(3.0);
 
         location_manager = (LocationManager) HomeFragment.this.getContext().getSystemService(Context.LOCATION_SERVICE);
         location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
@@ -119,7 +213,149 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onMapReady(@NonNull MapboxMap mapboxMap) {
+        this.mapboxMap = mapboxMap;
+
+        // Set initial camera position to South Africa
+        mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                .target(new LatLng(-28.15, 25.2)) // Center from the style JSON
+                .zoom(5) // Zoom from the style JSON
+                .build());
+
+        // Load the map style
+        if (isOnline) {
+            loadMapStyle();
+        } else {
+            // Load a basic style and add offline sites
+            mapboxMap.setStyle(new Style.Builder().fromUri("https://demotiles.maplibre.org/style.json"), style -> {
+                addOfflineSites(style);
+            });
+        }
+
+        // Check if location services are enabled
+        checkLocationServices();
+    }
+
+    private void loadMapStyle() {
+        try {
+            // Hide loading indicator and message
+            view.findViewById(R.id.idPBLoadingSites).setVisibility(View.GONE);
+            view.findViewById(R.id.mapMessageView).setVisibility(View.GONE);
+
+            // Load style from JSON string
+            // Note: In a production app, you might want to load this from a file or URL
+            mapboxMap.setStyle(new Style.Builder().fromJson(STYLE_JSON), style -> {
+                // Style loaded successfully
+                Log.i("MapStyle", "Map style loaded successfully");
+
+                // Setup click listener for features
+                setupFeatureClickListener();
+
+                // Add offline sites if needed
+                addOfflineSites(style);
+            });
+        } catch (Exception e) {
+            Log.e("MapStyle", "Error loading map style: " + e.getMessage());
+            mapMessage.setText("Could not load map style. Please try again.");
+            view.findViewById(R.id.onlineSitesRetry).setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setupFeatureClickListener() {
+        mapboxMap.addOnMapClickListener(point -> {
+            // Query features at the clicked point
+            PointF screenPoint = mapboxMap.getProjection().toScreenLocation(point);
+
+            // Create a small rectangle around the clicked point to make selection easier
+            RectF clickRect = new RectF(
+                    screenPoint.x - 10, screenPoint.y - 10,
+                    screenPoint.x + 10, screenPoint.y + 10);
+
+            // Query all layers that start with our pattern
+            List<Feature> features = mapboxMap.queryRenderedFeatures(clickRect,
+                    (Expression.literal(true)));
+
+            // Filter features to only include those from MiniSASS Observations source
+            List<Feature> minisassFeatures = new ArrayList<>();
+            for (Feature feature : features) {
+                if (feature.getStringProperty("source") != null &&
+                        feature.getStringProperty("source").equals("MiniSASS Observations")) {
+                    minisassFeatures.add(feature);
+                }
+            }
+
+            if (!minisassFeatures.isEmpty()) {
+                Feature feature = minisassFeatures.get(0);
+
+                // Extract site ID from feature properties
+                String siteId = feature.getStringProperty("gid");
+
+                // Open site detail activity
+                Intent intent = new Intent(HomeFragment.this.getContext(), SiteDetailActivity.class);
+                intent.putExtra("siteId", siteId);
+                intent.putExtra("type", "online");
+                HomeFragment.this.getContext().startActivity(intent);
+
+                return true;
+            }
+            return false;
+        });
+    }
+
+    private void addOfflineSites(Style style) {
+        ArrayList<LocationPinModel> offlineSites = getSiteLocations();
+
+        if (offlineSites.isEmpty()) {
+            return;
+        }
+
+        // Create features from offline sites
+        List<Feature> features = new ArrayList<>();
+        for (LocationPinModel site : offlineSites) {
+            Feature feature = Feature.fromGeometry(
+                    Point.fromLngLat(site.getLongitude(), site.getLatitude()));
+            feature.addStringProperty("id", String.valueOf(site.getPinId()));
+            feature.addStringProperty("color", site.getPinColor());
+            features.add(feature);
+        }
+
+        // Add source for offline sites
+        GeoJsonSource offlineSource = new GeoJsonSource("offline-sites",
+                FeatureCollection.fromFeatures(features));
+        style.addSource(offlineSource);
+
+        // Add layer for offline sites
+        SymbolLayer offlineLayer = new SymbolLayer("offline-sites-layer", "offline-sites");
+        offlineLayer.setProperties(
+                PropertyFactory.iconImage("crab_u"), // Use a default icon
+                PropertyFactory.iconSize(1.5f),
+                PropertyFactory.iconAllowOverlap(true)
+        );
+
+        style.addLayer(offlineLayer);
+
+        // Add click listener for offline sites
+        mapboxMap.addOnMapClickListener(point -> {
+            PointF screenPoint = mapboxMap.getProjection().toScreenLocation(point);
+            List<Feature> clickedFeatures = mapboxMap.queryRenderedFeatures(
+                    screenPoint, "offline-sites-layer");
+
+            if (!clickedFeatures.isEmpty()) {
+                Feature clickedFeature = clickedFeatures.get(0);
+                String siteId = clickedFeature.getStringProperty("id");
+
+                Intent intent = new Intent(HomeFragment.this.getContext(), SiteDetailActivity.class);
+                intent.putExtra("siteId", siteId);
+                intent.putExtra("type", "offline");
+                HomeFragment.this.getContext().startActivity(intent);
+
+                return true;
+            }
+            return false;
+        });
+    }
+
+    private void checkLocationServices() {
         boolean location_enabled = false;
         try {
             location_enabled = location_manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
@@ -129,75 +365,13 @@ public class HomeFragment extends Fragment {
                         .setMessage("Your location services seems to be turned off. Please turn on your location services to continue.")
                         .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-
                             }
                         })
                         .setIcon(android.R.drawable.ic_dialog_map)
                         .show();
-                return;
             }
         } catch(Exception e) {
             System.out.println("Could not determine if location services are enabled.");
-        }
-
-        /* Deprecated in API 26 */
-        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
-        map.setTileSource(TileSourceFactory.MAPNIK);
-        map.setMultiTouchControls(true);
-        map.post(() -> {
-            GeoPoint geoPoint = new GeoPoint(-24.00, 24.029957);
-            IMapController iMapController = map.getController();
-            iMapController.setCenter(geoPoint);
-            iMapController.setZoom(6.0);
-        });
-
-        this.addSiteMarkers(getSiteLocations(), "offline");
-
-        if (isOnline) {
-            this.fetchOnlineSites();
-        }
-
-    }
-
-    private void fetchOnlineSites() {
-        ApiService service = new ApiService(this.getActivity().getApplicationContext());
-
-        // Get online sites and add markers to the map
-        try {
-            service.getSites(result -> {
-                try {
-                    JSONArray onlineSites = new JSONArray(result);
-
-                    ArrayList<LocationPinModel> onlineMarkers = new ArrayList<>();
-
-                    for (int i=0; i < onlineSites.length(); i++) {
-                        String geom = onlineSites.getJSONObject(i).getString("the_geom");
-                        Pattern pattern = Pattern.compile("\\((.*?)\\)");
-                        Matcher matcher = pattern.matcher(geom);
-                        if (matcher.find())
-                        {
-                            String[] point = matcher.group(1).split(" ");
-
-                            onlineMarkers.add(new LocationPinModel(
-                                    Double.parseDouble(point[1]),
-                                    Double.parseDouble(point[0]),
-                                    Utils.getStatusColor(0, "Sandy"),
-                                    Integer.parseInt(onlineSites.getJSONObject(i).getString("gid"))));
-                        }
-                    }
-
-
-                    this.addSiteMarkers(onlineMarkers, "online");
-                    view.findViewById(R.id.mapMessageView).setVisibility(View.GONE);
-                } catch (JSONException e) {
-                    mapMessage = view.findViewById(R.id.mapMessageText);
-                    mapMessage.setText("Could not fetch online sites");
-                    view.findViewById(R.id.onlineSitesRetry).setVisibility(View.VISIBLE);
-                    e.printStackTrace();
-                }
-            });
-        } catch (Exception e) {
-            System.out.println("ERR: " + e);
         }
     }
 
@@ -253,97 +427,47 @@ public class HomeFragment extends Fragment {
         return siteLocations;
     }
 
-    private void addSiteMarkers(ArrayList<LocationPinModel> siteLocations, String type) {
-        RadiusMarkerClusterer clusterer = new RadiusMarkerClusterer(this.getContext());
-        Drawable d = getResources().getDrawable(R.drawable.ic_map_cluster_40);
-        clusterer.setIcon(drawableToBitmap(d));
-        clusterer.getTextPaint().setColor(getResources().getColor(R.color.white));
-        //clusterer.getTextPaint().setTextSize(20.0f);
-
-
-        for (int i = 0; i < siteLocations.size(); i++) {
-
-            LocationPinModel siteLocation = siteLocations.get(i);
-
-            GeoPoint startPoint = new GeoPoint(siteLocation.getLatitude(), siteLocation.getLongitude());
-            Marker startMarker = new Marker(map);
-
-            Drawable unwrappedDrawable = AppCompatResources.getDrawable(this.getContext(), R.drawable.ic_crab_24);
-            Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-            DrawableCompat.setTint(wrappedDrawable, Color.parseColor(siteLocation.getPinColor()));
-
-            startMarker.setIcon(wrappedDrawable);
-            startMarker.setPosition(startPoint);
-            startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            clusterer.add(startMarker);
-
-            dbHandler = new DBHandler(HomeFragment.this.getActivity());
-            SitesModel currentSite = dbHandler.getSiteById(siteLocation.getPinId());
-
-            if (type == "offline") {
-                startMarker.setOnMarkerClickListener((marker, mapView) -> {
-                    Log.i("INFO", "SiteID: " + currentSite.getSiteId());
-                    Intent intent = new Intent(HomeFragment.this.getContext(), SiteDetailActivity.class);
-                    intent.putExtra("siteId", currentSite.getSiteId().toString());
-                    intent.putExtra("type", type);
-
-                    HomeFragment.this.getContext().startActivity(intent);
-                    return false;
-                });
-            } else if (type == "online") {
-                startMarker.setOnMarkerClickListener((marker, mapView) -> {
-                    /*Bundle args = new Bundle();
-                    args.putString("siteId", siteLocation.getPinId().toString());
-                    OnlineSiteDialog dialog = new OnlineSiteDialog();
-                    dialog.setArguments(args);
-                    dialog.show(getFragmentManager(), "online_site_dialog");
-                    return false;*/
-                    Intent intent = new Intent(HomeFragment.this.getContext(), SiteDetailActivity.class);
-                    intent.putExtra("siteId", siteLocation.getPinId().toString());
-                    intent.putExtra("type", type);
-
-                    HomeFragment.this.getContext().startActivity(intent);
-                    return false;
-                });
-            }
-        }
-        map.getOverlays().add(clusterer);
-        IGeoPoint center = map.getMapCenter();
-        map.getController().setCenter(center);
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
     }
-
-    public static Bitmap drawableToBitmap (Drawable drawable) {
-
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.setTint(Color.parseColor("#539987"));
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
-
 
     @Override
     public void onResume() {
         super.onResume();
         isOnline = Utils.isNetworkAvailable(getContext());
-        map.onResume();
+        mapView.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        map.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mapView.onDestroy();
         binding = null;
     }
 }
