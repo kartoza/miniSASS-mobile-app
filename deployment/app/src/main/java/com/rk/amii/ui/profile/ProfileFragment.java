@@ -1,6 +1,8 @@
 package com.rk.amii.ui.profile;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,9 @@ import org.json.JSONObject;
 
 public class ProfileFragment extends Fragment {
 
+    private static final String PREFS = "profile_prefs";
+    private static final String KEY_UPLOAD_PREF = "upload_pref";
+    private SharedPreferences prefs;
     private EditText editUsername, editEmail, editName, editSurname, editOrganisationName, editCountry;
     private Button buttonSave;
     private DBHandler dbHandler;
@@ -33,6 +38,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        prefs = requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
 
         dbHandler = new DBHandler(getContext());
 
@@ -57,15 +63,22 @@ public class ProfileFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerUploadPreference.setAdapter(adapter);
 
+        // Load user data from DB
+        loadProfile();
+
         spinnerUploadPreference.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String[] uploadPreferenceValues = getResources().getStringArray(R.array.upload_preference_values);
-                String selectedValue = uploadPreferenceValues[position];
+                String selectedValue  = uploadPreferenceValues[position];
+                String oldPref = prefs.getString(KEY_UPLOAD_PREF, "wifi");
 
-                if (selectedValue.equals("mobile") || selectedValue.equals("both")) {
+                if (!selectedValue.equals(oldPref) &&
+                    (selectedValue.equals("mobile") || selectedValue.equals("both"))) {
                     showDataWarning();
                 }
+
+                prefs.edit().putString(KEY_UPLOAD_PREF, selectedValue).apply();
             }
 
             @Override
@@ -73,9 +86,6 @@ public class ProfileFragment extends Fragment {
                 // Do nothing
             }
         });
-
-        // Load user data from DB
-        loadProfile();
 
         buttonSave.setOnClickListener(v -> saveProfile());
 
