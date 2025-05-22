@@ -224,9 +224,47 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         // Load the map style
         if (isOnline) {
-            loadMapStyle();
+            // Create a style with OpenStreetMap raster tiles
+            String osmStyleJson = "{\n" +
+                    "  \"version\": 8,\n" +
+                    "  \"sources\": {\n" +
+                    "    \"osm\": {\n" +
+                    "      \"type\": \"raster\",\n" +
+                    "      \"tiles\": [\"https://a.tile.openstreetmap.org/{z}/{x}/{y}.png\"],\n" +
+                    "      \"tileSize\": 256,\n" +
+                    "      \"attribution\": \"&copy; OpenStreetMap Contributors\",\n" +
+                    "      \"maxzoom\": 19\n" +
+                    "    },\n" +
+                    "    \"MiniSASS Observations\": {\n" +
+                    "      \"type\": \"vector\",\n" +
+                    "      \"tiles\": [\n" +
+                    "        \"https://minisass.org/tiles/public.minisass_observations/{z}/{x}/{y}.pbf\"\n" +
+                    "      ],\n" +
+                    "      \"minZoom\": 0,\n" +
+                    "      \"maxZoom\": 14\n" +
+                    "    }\n" +
+                    "  },\n" +
+                    "  \"layers\": [\n" +
+                    "    {\n" +
+                    "      \"id\": \"osm\",\n" +
+                    "      \"type\": \"raster\",\n" +
+                    "      \"source\": \"osm\"\n" +
+                    "    }\n" +
+                    "  ]\n" +
+                    "}";
+
+            mapboxMap.setStyle(new Style.Builder().fromJson(osmStyleJson), style -> {
+                // Style loaded successfully
+                Log.i("MapStyle", "OSM base map loaded successfully");
+
+                // Add vector tile source and layers for miniSASS observations
+                loadMiniSASSLayers(style);
+
+                // Setup click listener for features
+                setupFeatureClickListener();
+            });
         } else {
-            // Load a basic style and add offline sites
+            // Load a basic style for offline mode
             mapboxMap.setStyle(new Style.Builder().fromUri("https://demotiles.maplibre.org/style.json"), style -> {
                 addOfflineSites(style);
             });
@@ -234,6 +272,41 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         // Check if location services are enabled
         checkLocationServices();
+    }
+
+    private void loadMiniSASSLayers(Style style) {
+        try {
+            // Add vector source for miniSASS observations
+            VectorSource miniSASSSource = new VectorSource(
+                    "MiniSASS Observations",
+                    "https://minisass.org/tiles/public.minisass_observations/{z}/{x}/{y}.pbf"
+            );
+            style.addSource(miniSASSSource);
+
+            // Add a simple symbol layer for the observations
+            SymbolLayer observationsLayer = new SymbolLayer("minisass-observations", "MiniSASS Observations");
+            observationsLayer.setSourceLayer("public.minisass_observations");
+
+            // Use a circle if you don't have the crab icon
+            observationsLayer.withProperties(
+                    PropertyFactory.iconImage("marker-15"),  // Use a default marker icon
+                    PropertyFactory.iconSize(1.5f),
+                    PropertyFactory.iconAllowOverlap(true)
+            );
+
+            style.addLayer(observationsLayer);
+
+            Log.i("MapStyle", "MiniSASS layers added successfully");
+
+            // Hide loading indicator and message
+            view.findViewById(R.id.idPBLoadingSites).setVisibility(View.GONE);
+            view.findViewById(R.id.mapMessageView).setVisibility(View.GONE);
+
+        } catch (Exception e) {
+            Log.e("MapStyle", "Error loading MiniSASS layers: " + e.getMessage());
+            mapMessage.setText("Could not load online sites. Please try again.");
+            view.findViewById(R.id.onlineSitesRetry).setVisibility(View.VISIBLE);
+        }
     }
 
     private void loadMapStyle() {
