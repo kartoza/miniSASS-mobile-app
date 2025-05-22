@@ -3,8 +3,12 @@ package com.rk.amii.shared;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import com.rk.amii.database.DBHandler;
+import com.rk.amii.models.UserModel;
 
 import com.rk.amii.MainActivity;
+
+import java.util.HashMap;
 
 public class Utils {
 
@@ -83,9 +87,51 @@ public class Utils {
     }
 
     public static boolean isNetworkAvailable(Context context) {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) context.getSystemService(MainActivity.CONNECTIVITY_SERVICE);
+        DBHandler dbHandler = new DBHandler(context);
+        UserModel user = dbHandler.getUserProfile();
+        String uploadPreference = "both";
+        if (user != null) {
+            uploadPreference = user.getUploadPreference();
+        }
+
+        ConnectivityManager connectivityManager =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+
+        if (activeNetworkInfo == null || !activeNetworkInfo.isConnected()) {
+            return false;
+        }
+
+        int type = activeNetworkInfo.getType();
+        if ("wifi".equals(uploadPreference) && type == ConnectivityManager.TYPE_WIFI) {
+            return true;
+        } else if ("mobile".equals(uploadPreference) && type == ConnectivityManager.TYPE_MOBILE) {
+            return true;
+        } else if ("both".equals(uploadPreference)) {
+            return true;
+        }
+
+        // If uploadPreference is "wifi" but current network is mobile, etc.
+        return false;
+    }
+
+    public static HashMap<String, String> getOnlineInvertMapping() {
+        HashMap<String, String> onlineInvertMapping = new HashMap<String, String>();
+        onlineInvertMapping.put("Bugs & Beetles", "bugs_beetles");
+        onlineInvertMapping.put("Caddisflies", "caddisflies");
+        onlineInvertMapping.put("Damselflies", "damselflies");
+        onlineInvertMapping.put("Dragonflies", "dragonflies");
+        onlineInvertMapping.put("Flat worms", "flatworms");
+        onlineInvertMapping.put("Crabs & Shrimps", "crabs_shrimps");
+        onlineInvertMapping.put("Leeches", "leeches");
+        onlineInvertMapping.put("Minnow Mayflies", "minnow_mayflies");
+        onlineInvertMapping.put("Other Mayflies", "other_mayflies");
+        onlineInvertMapping.put("Snails/Clams/Mussels", "snails");
+        onlineInvertMapping.put("Stoneflies", "stoneflies");
+        onlineInvertMapping.put("Trueflies", "true_flies");
+        onlineInvertMapping.put("Worms", "worms");
+
+        return onlineInvertMapping;
+
     }
 }

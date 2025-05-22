@@ -30,7 +30,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AMII"
-        tools:targetApi="31">
+        tools:targetApi="31"
+        android:usesCleartextTraffic="true"
+        android:networkSecurityConfig="@xml/network_security_config"
+        >
         <activity
             android:name=".activities.ImageViewDescriptionActivity"
             android:exported="false" />
@@ -100,9 +103,24 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
+        <receiver android:name="com.rk.amii.services.NetworkChangeReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:permission="android.permission.ACCESS_NETWORK_STATE">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

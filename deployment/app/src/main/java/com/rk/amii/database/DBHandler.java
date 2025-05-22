@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.rk.amii.models.PhotoModel;
 import com.rk.amii.models.AssessmentModel;
 import com.rk.amii.models.SitesModel;
+import com.rk.amii.models.UserModel;
 import java.util.ArrayList;
 
 public class DBHandler extends SQLiteOpenHelper {
@@ -27,6 +28,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
     private static final String ASSESSMENT_TABLE_NAME = "assessments";
     private static final String ASSESSMENT_ID = "id";
+    private static final String ASSESSMENT_ONLINE_ID = "online_id";
     private static final String ASSESSMENT_MINISASS_SCORE = "score";
     private static final String ASSESSMENT_ML_SCORE = "ml_score";
     private static final String ASSESSMENT_NOTES = "notes";
@@ -55,6 +57,18 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String SITE_IMAGE_SITE_ID = "site_id";
     private static final String SITE_IMAGE_LOCATION = "image_location";
 
+    // User Table and Column Names
+    private static final String USER_TABLE_NAME = "user";
+    private static final String USER_ID = "id";
+    private static final String USER_USERNAME = "username";
+    private static final String USER_EMAIL = "email";
+    private static final String USER_NAME = "name";
+    private static final String USER_SURNAME = "surname";
+    private static final String USER_ORGANISATION_TYPE = "organisation_type";
+    private static final String USER_ORGANISATION_NAME = "organisation_name";
+    private static final String USER_COUNTRY = "country";
+    private static final String USER_UPLOAD_PREFERENCE = "upload_preference";
+
     public DBHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
     }
@@ -75,6 +89,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         String assessmentQuery = "CREATE TABLE " + ASSESSMENT_TABLE_NAME + " ("
                 + ASSESSMENT_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ASSESSMENT_ONLINE_ID + " INTEGER, "
                 + ASSESSMENT_MINISASS_SCORE + " TEXT,"
                 + ASSESSMENT_ML_SCORE + " TEXT,"
                 + ASSESSMENT_NOTES + " TEXT,"
@@ -110,6 +125,19 @@ public class DBHandler extends SQLiteOpenHelper {
                 + PHOTO_ML_PREDICTIONS + " TEXT)";
 
         db.execSQL(photo_query);
+
+        String userQuery = "CREATE TABLE " + USER_TABLE_NAME + " ("
+                + USER_USERNAME + " TEXT, "
+                + USER_EMAIL + " TEXT,"
+                + USER_NAME + " TEXT,"
+                + USER_SURNAME + " TEXT,"
+                + USER_ORGANISATION_TYPE + " TEXT,"
+                + USER_ORGANISATION_NAME + " TEXT,"
+                + USER_COUNTRY + " TEXT,"
+                + USER_UPLOAD_PREFERENCE + " TEXT)";
+
+        db.execSQL(userQuery);
+
     }
 
     /**
@@ -209,7 +237,7 @@ public class DBHandler extends SQLiteOpenHelper {
     public long addNewAssessment(String miniSassScore, String mlScore, String notes, String ph,
                                  String waterTemp, String dissolvedOxygen, String dissolvedOxygenUnit,
                                  String electricalConductivity, String electricalConductivityUnit,
-                                 String waterClarity) {
+                                 String waterClarity, Integer onlineAssessmentId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ASSESSMENT_MINISASS_SCORE, miniSassScore);
@@ -222,9 +250,25 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(ASSESSMENT_ELECTRICAL_CONDUCTIVITY, electricalConductivity);
         values.put(ASSESSMENT_ELECTRICAL_CONDUCTIVITY_UNIT, electricalConductivityUnit);
         values.put(ASSESSMENT_WATER_CLARITY, waterClarity);
+        values.put(ASSESSMENT_ONLINE_ID, onlineAssessmentId);
         long id = db.insert(ASSESSMENT_TABLE_NAME, null, values);
         db.close();
         return id;
+    }
+
+    /**
+     * Update the assessment, set online assessment id value
+     * @param assessmentId site id
+     * @param onlineId online site id
+     * @return Id of the uploaded site
+     */
+    public int updateAssessmentUploaded(String assessmentId, Integer onlineId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(ASSESSMENT_ONLINE_ID, onlineId);
+        int updated = db.update(ASSESSMENT_TABLE_NAME, values, "id = ?", new String[]{assessmentId});
+        db.close();
+        return updated;
     }
 
     /**
@@ -297,12 +341,20 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     /**
-     * Gets a list of all sites from the database
-     * @return A list of sites
+     * Gets a list of sites from the database with optional filtering
+     * @param whereClause The optional WHERE clause, excluding the 'WHERE' itself (e.g., "riverType = ? AND siteName LIKE ?")
+     * @param whereArgs The arguments for the WHERE clause placeholders
+     * @return A list of filtered sites
      */
-    public ArrayList<SitesModel> getSites() {
+    public ArrayList<SitesModel> getSites(String whereClause, String[] whereArgs) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT * FROM " + SITES_TABLE_NAME, null);
+        String query = "SELECT * FROM " + SITES_TABLE_NAME;
+
+        if (whereClause != null && !whereClause.trim().isEmpty()) {
+            query += " WHERE " + whereClause;
+        }
+
+        Cursor cursor = db.rawQuery(query, whereArgs);
         ArrayList<SitesModel> sites = new ArrayList<>();
         if (cursor.moveToFirst()) {
             do {
@@ -322,6 +374,44 @@ public class DBHandler extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return sites;
+    }
+
+    public ArrayList<SitesModel> getSites() {
+        return getSites(null, null);
+    }
+
+    /**
+     * Get an all assessment from the database
+     * @return All assessments
+     */
+    public ArrayList<AssessmentModel> getAssessments() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "
+                + ASSESSMENT_TABLE_NAME, null);
+
+        ArrayList<AssessmentModel> assessments = new ArrayList<>();;
+        if (cursor.moveToFirst()) {
+            do {
+                assessments.add(new AssessmentModel(
+                        cursor.getInt(0),
+                        cursor.getInt(1),
+                        cursor.getFloat(2),
+                        cursor.getFloat(3),
+                        cursor.getString(4),
+                        cursor.getString(5),
+                        cursor.getString(6),
+                        cursor.getString(7),
+                        cursor.getString(8),
+                        cursor.getString(9),
+                        cursor.getString(10),
+                        cursor.getString(11)
+                ));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return assessments;
     }
 
     /**
@@ -380,16 +470,17 @@ public class DBHandler extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             assessment = new AssessmentModel(
                     cursor.getInt(0),
-                    cursor.getFloat(1),
+                    cursor.getInt(1),
                     cursor.getFloat(2),
-                    cursor.getString(3),
+                    cursor.getFloat(3),
                     cursor.getString(4),
                     cursor.getString(5),
                     cursor.getString(6),
                     cursor.getString(7),
                     cursor.getString(8),
                     cursor.getString(9),
-                    cursor.getString(10)
+                    cursor.getString(10),
+                    cursor.getString(11)
             );
         }
         cursor.close();
@@ -457,7 +548,92 @@ public class DBHandler extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + SITES_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + USER_TABLE_NAME);
         onCreate(db);
+    }
+
+    /**
+     * Add a new user to the database
+     * @param username The username
+     * @param email The email address
+     * @param name The user's first name
+     * @param surname The user's surname
+     * @param organisationType The type of organisation (can be null)
+     * @param organisationName The name of the organisation
+     * @param country The user's country
+     * @param uploadPreference The user's upload preference (e.g., wifi)
+     * @return The user id
+     */
+    public long addOrUpdateUserProfile(String username, String email, String name, String surname,
+                                       String organisationType, String organisationName, String country,
+                                       String uploadPreference) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Delete all existing rows first
+        db.delete(USER_TABLE_NAME, null, null);
+
+        // Insert new user
+        ContentValues values = new ContentValues();
+        values.put(USER_USERNAME, username);
+        values.put(USER_EMAIL, email);
+        values.put(USER_NAME, name);
+        values.put(USER_SURNAME, surname == null ? "" : surname);
+        values.put(USER_ORGANISATION_TYPE, organisationType == null ? "" : organisationType);
+        values.put(USER_ORGANISATION_NAME, organisationName == null ? "" : organisationName);
+        values.put(USER_COUNTRY, country);
+        values.put(USER_UPLOAD_PREFERENCE, uploadPreference);
+
+        long id = db.insert(USER_TABLE_NAME, null, values);
+
+        db.close();
+        return id;
+    }
+
+
+    public UserModel getUserProfile() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String query = "SELECT * FROM " + USER_TABLE_NAME + " LIMIT 1";
+        Cursor cursor = db.rawQuery(query, null);
+
+        UserModel user = null;
+
+        if (cursor.moveToFirst()) {
+            String username = cursor.getString(cursor.getColumnIndexOrThrow(USER_USERNAME));
+            String email = cursor.getString(cursor.getColumnIndexOrThrow(USER_EMAIL));
+            String name = cursor.getString(cursor.getColumnIndexOrThrow(USER_NAME));
+            String surname = cursor.getString(cursor.getColumnIndexOrThrow(USER_SURNAME));
+            String organisationType = cursor.getString(cursor.getColumnIndexOrThrow(USER_ORGANISATION_TYPE));
+            String organisationName = cursor.getString(cursor.getColumnIndexOrThrow(USER_ORGANISATION_NAME));
+            String country = cursor.getString(cursor.getColumnIndexOrThrow(USER_COUNTRY));
+            String uploadPreference = cursor.getString(cursor.getColumnIndexOrThrow(USER_UPLOAD_PREFERENCE));
+
+            user = new UserModel(username, email, name, surname, organisationType, organisationName, country, uploadPreference);
+        }
+
+        cursor.close();
+        db.close();
+
+        return user;
+    }
+
+    public int updateUserProfile(String username, String email, String name, String surname,
+                                 String organisationType, String organisationName, String country,
+                                 String uploadPreference) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(USER_USERNAME, username);
+        values.put(USER_EMAIL, email);
+        values.put(USER_NAME, name);
+        values.put(USER_SURNAME, surname);
+        values.put(USER_ORGANISATION_TYPE, organisationType);
+        values.put(USER_ORGANISATION_NAME, organisationName);
+        values.put(USER_COUNTRY, country);
+        values.put(USER_UPLOAD_PREFERENCE, uploadPreference);
+
+        int rowsUpdated = db.update(USER_TABLE_NAME, values, null, null); // Assuming single user
+        db.close();
+        return rowsUpdated;
     }
 
 }

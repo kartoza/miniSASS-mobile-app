@@ -81,6 +81,7 @@ public class SiteDetailActivity extends AppCompatActivity {
         long siteId = Integer.parseInt(intent.getStringExtra("siteId"));
         String type = intent.getStringExtra("type");
         this.onPrepareActivity(siteId, type);
+        isOnline = Utils.isNetworkAvailable(getApplicationContext());
     }
 
     /**
@@ -139,6 +140,7 @@ public class SiteDetailActivity extends AppCompatActivity {
             assessments.add(
                     new AssessmentModel(
                             assessmentIds.get(i),
+                            assessment.getOnlineAssessmentId(),
                             assessment.getMiniSassScore(),
                             assessment.getMiniSassMLScore(),
                             assessment.getNotes(),
@@ -222,6 +224,7 @@ public class SiteDetailActivity extends AppCompatActivity {
 
                             assessments.add(
                                     new AssessmentModel(
+                                            Integer.parseInt(assessment.getString("gid")),
                                             Integer.parseInt(assessment.getString("gid")),
                                             Float.parseFloat(assessment.getString("score")),
                                             Float.parseFloat("0.00"),

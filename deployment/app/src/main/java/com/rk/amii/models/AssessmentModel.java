@@ -5,6 +5,7 @@ public class AssessmentModel {
     private final Float miniSassScore;
     private final Float miniSassMLScore;
     private final Integer assessmentId;
+    private final Integer onlineAssessmentId;
     private final String notes;
     private final String ph;
     private final String waterTemp;
@@ -17,6 +18,7 @@ public class AssessmentModel {
     /**
      * Create a new assessment
      * @param assessmentId assessment id
+     * @param onlineAssessmentId assessment id
      * @param miniSassScore miniSASS score
      * @param miniSassMLScore machine learning model prediction score
      * @param notes notes
@@ -28,13 +30,14 @@ public class AssessmentModel {
      * @param electricalConductivityUnit electrical conductivity unit
      * @param waterClarity water clarity
      */
-    public AssessmentModel (Integer assessmentId, Float miniSassScore, Float miniSassMLScore,
+    public AssessmentModel (Integer assessmentId, Integer onlneAssessmentId, Float miniSassScore, Float miniSassMLScore,
                             String notes, String ph, String waterTemp,
                             String dissolvedOxygen, String dissolvedOxygenUnit,
                             String electricalConductivity, String electricalConductivityUnit,
                             String waterClarity)
     {
         this.assessmentId = assessmentId;
+        this.onlineAssessmentId = onlneAssessmentId;
         this.miniSassScore = miniSassScore;
         this.miniSassMLScore = miniSassMLScore;
         this.notes = notes;
@@ -52,6 +55,12 @@ public class AssessmentModel {
      * @return the assessment id
      */
     public Integer getAssessmentId() { return this.assessmentId;}
+
+    /**
+     * Get the online assessment id
+     * @return the online assessment id
+     */
+    public Integer getOnlineAssessmentId() { return this.onlineAssessmentId;}
 
     /**
      * Get the mini-sass score
