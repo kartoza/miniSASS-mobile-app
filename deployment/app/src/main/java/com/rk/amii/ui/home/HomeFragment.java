@@ -1,13 +1,13 @@
 package com.rk.amii.ui.home;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.PointF;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -26,7 +26,23 @@ import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 
-import com.rk.amii.BuildConfig;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
+import com.mapbox.geojson.Point;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.style.expressions.Expression;
+import com.mapbox.mapboxsdk.style.layers.CircleLayer;
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.layers.Layer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.mapboxsdk.style.sources.VectorSource;
+import com.mapbox.mapboxsdk.style.sources.Source;
 import com.rk.amii.R;
 import com.rk.amii.activities.SiteDetailActivity;
 import com.rk.amii.database.DBHandler;
@@ -34,28 +50,20 @@ import com.rk.amii.databinding.FragmentHomeBinding;
 import com.rk.amii.models.AssessmentModel;
 import com.rk.amii.models.LocationPinModel;
 import com.rk.amii.models.SitesModel;
-import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.osmdroid.api.IGeoPoint;
-import org.osmdroid.api.IMapController;
-import org.osmdroid.bonuspack.clustering.RadiusMarkerClusterer;
-import org.osmdroid.config.Configuration;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.util.GeoPoint;
-import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Marker;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Iterator;
+import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private FragmentHomeBinding binding;
-    private MapView map = null;
+    private MapView mapView;
+    private MapboxMap mapboxMap;
     private View view;
     private DBHandler dbHandler;
     int LOCATION_REFRESH_TIME = 5000;
@@ -66,11 +74,94 @@ public class HomeFragment extends Fragment {
     TextView mapMessage;
     private boolean isOnline = false;
 
+    // Style constants
+    private static final String STYLE_JSON = "{\n" +
+        "  \"version\": 8,\n" +
+        "  \"name\": \"miniSASS\",\n" +
+        "  \"metadata\": {\"maputnik:renderer\": \"mbgljs\"},\n" +
+        "  \"center\": [25.2, -28.15],\n" +
+        "  \"zoom\": 5,\n" +
+        "  \"sources\": {\n" +
+        "    \"OSM tiles\": {\n" +
+        "      \"type\": \"raster\",\n" +
+        "      \"tiles\": [\"https://tile.openstreetmap.org/{z}/{x}/{y}.png\"],\n" +
+        "      \"minzoom\": 0,\n" +
+        "      \"maxzoom\": 24\n" +
+        "    },\n" +
+        "    \"MiniSASS Observations\": {\n" +
+        "      \"type\": \"vector\",\n" +
+        "      \"tiles\": [\n" +
+        "        \"http://192.168.1.7:7800/tiles/public.minisass_observations/{z}/{x}/{y}.pbf\"\n" +
+        "      ],\n" +
+        "      \"minZoom\": 0,\n" +
+        "      \"maxZoom\": 14\n" +
+        "    }\n" +
+        "  },\n" +
+        "  \"sprite\": \"https://raw.githubusercontent.com/kartoza/miniSASS/main/django_project/webmapping/styles/icons/minisass_sprites_larger\",\n" +
+        "  \"glyphs\": \"https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=cc4PpmmWZP73LjU1nsw3\",\n" +
+        "  \"layers\": [\n" +
+        "    {\n" +
+        "      \"id\": \"OSM Background\",\n" +
+        "      \"type\": \"raster\",\n" +
+        "      \"source\": \"OSM tiles\",\n" +
+        "      \"layout\": {\"visibility\": \"visible\"},\n" +
+        "      \"paint\": {\"raster-resampling\": \"linear\"}\n" +
+        "    },\n" +
+        "    {\n" +
+        "      \"id\": \"No invertebrates found - dirty\",\n" +
+        "      \"type\": \"symbol\",\n" +
+        "      \"source\": \"MiniSASS Observations\",\n" +
+        "      \"source-layer\": \"public.minisass_observations\",\n" +
+        "      \"filter\": [\"all\", [\"==\", \"score\", \"0\"], [\"==\", \"flag\", \"dirty\"]],\n" +
+        "      \"layout\": {\n" +
+        "        \"text-field\": \"\",\n" +
+        "        \"icon-image\": \"crab_u_dirty\",\n" +
+        "        \"visibility\": \"visible\",\n" +
+        "        \"icon-size\": {\"stops\": [[5, 0.5], [17, 2]]}\n" +
+        "      }\n" +
+        "    },\n" +
+        "    {\n" +
+        "      \"id\": \"No invertebrates found - clean\",\n" +
+        "      \"type\": \"symbol\",\n" +
+        "      \"source\": \"MiniSASS Observations\",\n" +
+        "      \"source-layer\": \"public.minisass_observations\",\n" +
+        "      \"filter\": [\"all\", [\"==\", \"score\", \"0\"], [\"==\", \"flag\", \"clean\"]],\n" +
+        "      \"layout\": {\n" +
+        "        \"text-field\": \"\",\n" +
+        "        \"icon-image\": \"crab_u\",\n" +
+        "        \"visibility\": \"visible\",\n" +
+        "        \"icon-size\": {\"stops\": [[5, 0.5], [17, 2]]}\n" +
+        "      }\n" +
+        "    }\n" +
+        "  ]\n" +
+        "}";
+
+
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
             double lat = location.getLatitude();
             double lng = location.getLongitude();
+
+            // Update map camera and location marker if mapboxMap is initialized
+            if (mapboxMap != null) {
+                // Update camera position
+                mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                        .target(new LatLng(lat, lng))
+                        .zoom(mapboxMap.getCameraPosition().zoom)  // Maintain current zoom level
+                        .build());
+
+                // Update the location marker
+                Style style = mapboxMap.getStyle();
+                if (style != null && style.getSource("current-location-source") != null) {
+                    GeoJsonSource locationSource = (GeoJsonSource) style.getSource("current-location-source");
+                    if (locationSource != null) {
+                        locationSource.setGeoJson(Point.fromLngLat(lng, lat));
+                    }
+                }
+
+                Log.i("Location", "Updated camera and marker to new location: " + lat + ", " + lng);
+            }
         }
 
         @Override
@@ -96,7 +187,10 @@ public class HomeFragment extends Fragment {
 
         isOnline = Utils.isNetworkAvailable(this.getContext());
 
-        map = (MapView) view.findViewById(R.id.map);
+        mapView = view.findViewById(R.id.mapView);
+        mapView.onCreate(savedInstanceState);
+        mapView.getMapAsync(this);
+
         retryBtn = view.findViewById(R.id.onlineSitesRetry);
         mapMessage = view.findViewById(R.id.mapMessageText);
 
@@ -104,12 +198,6 @@ public class HomeFragment extends Fragment {
             view.findViewById(R.id.idPBLoadingSites).setVisibility(View.GONE);
             mapMessage.setText("Could not fetch online sites. Connect your device to the internet if you want to view the online sites on the map.");
         }
-
-        retryBtn.setOnClickListener(view -> {
-            this.fetchOnlineSites();
-        });
-
-        map.setMinZoomLevel(3.0);
 
         location_manager = (LocationManager) HomeFragment.this.getContext().getSystemService(Context.LOCATION_SERVICE);
         location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
@@ -119,87 +207,357 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        boolean location_enabled = false;
-        try {
-            location_enabled = location_manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            if (!location_enabled) {
-                new AlertDialog.Builder(HomeFragment.this.getContext())
-                        .setTitle("Location")
-                        .setMessage("Your location services seems to be turned off. Please turn on your location services to continue.")
-                        .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
+    public void onMapReady(@NonNull MapboxMap mapboxMap) {
+        this.mapboxMap = mapboxMap;
 
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_map)
-                        .show();
-                return;
-            }
-        } catch(Exception e) {
-            System.out.println("Could not determine if location services are enabled.");
-        }
+        // Setup map event listeners
+        setupMapEventListeners();
 
-        /* Deprecated in API 26 */
-        Configuration.getInstance().setUserAgentValue(BuildConfig.APPLICATION_ID);
-        map.setTileSource(TileSourceFactory.MAPNIK);
-        map.setMultiTouchControls(true);
-        map.post(() -> {
-            GeoPoint geoPoint = new GeoPoint(-24.00, 24.029957);
-            IMapController iMapController = map.getController();
-            iMapController.setCenter(geoPoint);
-            iMapController.setZoom(6.0);
-        });
-
-        this.addSiteMarkers(getSiteLocations(), "offline");
-
+        // Load the map style
         if (isOnline) {
-            this.fetchOnlineSites();
+//            // Create a style with OpenStreetMap raster tiles and MiniSASS vector tiles
+//            String osmStyleJson = "{\n" +
+//                    "  \"version\": 8,\n" +
+//                    "  \"sources\": {\n" +
+//                    "    \"osm\": {\n" +
+//                    "      \"type\": \"raster\",\n" +
+//                    "      \"tiles\": [\"https://a.tile.openstreetmap.org/{z}/{x}/{y}.png\"],\n" +
+//                    "      \"tileSize\": 256,\n" +
+//                    "      \"attribution\": \"&copy; OpenStreetMap Contributors\",\n" +
+//                    "      \"maxzoom\": 19\n" +
+//                    "    }\n" +
+//                    "  },\n" +
+//                    "  \"layers\": [\n" +
+//                    "    {\n" +
+//                    "      \"id\": \"osm\",\n" +
+//                    "      \"type\": \"raster\",\n" +
+//                    "      \"source\": \"osm\"\n" +
+//                    "    }\n" +
+//                    "  ]\n" +
+//                    "}";
+            loadMapStyle();
+
+        } else {
+            // Load a basic style for offline mode
+            mapboxMap.setStyle(new Style.Builder().fromUri("https://demotiles.maplibre.org/style.json"), style -> {
+                addOfflineSites(style);
+            });
         }
 
+        // Set camera position to current location if available
+        setMapCameraToCurrentLocation();
     }
 
-    private void fetchOnlineSites() {
-        ApiService service = new ApiService(this.getActivity().getApplicationContext());
-
-        // Get online sites and add markers to the map
+    private void loadMapStyle() {
         try {
-            service.getSites(result -> {
+            // Hide loading indicator and message
+            view.findViewById(R.id.idPBLoadingSites).setVisibility(View.GONE);
+            view.findViewById(R.id.mapMessageView).setVisibility(View.GONE);
+
+            // Create a simplified style JSON that doesn't include the layers
+            String simplifiedStyleJson = "{\n" +
+                    "  \"version\": 8,\n" +
+                    "  \"name\": \"miniSASS\",\n" +
+                    "  \"metadata\": {\"maputnik:renderer\": \"mbgljs\"},\n" +
+                    "  \"center\": [25.2, -28.15],\n" +
+                    "  \"zoom\": 5,\n" +
+                    "  \"sources\": {\n" +
+                    "    \"OSM tiles\": {\n" +
+                    "      \"type\": \"raster\",\n" +
+                    "      \"tiles\": [\"https://tile.openstreetmap.org/{z}/{x}/{y}.png\"],\n" +
+                    "      \"minzoom\": 0,\n" +
+                    "      \"maxzoom\": 24\n" +
+                    "    },\n" +
+                    "    \"MiniSASS Observations\": {\n" +
+                    "      \"type\": \"vector\",\n" +
+                    "      \"tiles\": [\n" +
+                    "        \"http://192.168.1.7:7800/tiles/public.minisass_observations/{z}/{x}/{y}.pbf\"\n" +
+                    "      ],\n" +
+                    "      \"minZoom\": 0,\n" +
+                    "      \"maxZoom\": 14\n" +
+                    "    }\n" +
+                    "  },\n" +
+                    "  \"sprite\": \"https://raw.githubusercontent.com/kartoza/miniSASS/main/django_project/webmapping/styles/icons/minisass_sprites_larger\",\n" +
+                    "  \"glyphs\": \"https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=cc4PpmmWZP73LjU1nsw3\",\n" +
+                    "  \"layers\": [\n" +
+                    "    {\n" +
+                    "      \"id\": \"OSM Background\",\n" +
+                    "      \"type\": \"raster\",\n" +
+                    "      \"source\": \"OSM tiles\",\n" +
+                    "      \"layout\": {\"visibility\": \"visible\"},\n" +
+                    "      \"paint\": {\"raster-resampling\": \"linear\"}\n" +
+                    "    }\n" +
+                    "  ]\n" +
+                    "}";
+
+            // Load the simplified style
+            mapboxMap.setStyle(new Style.Builder().fromJson(simplifiedStyleJson), style -> {
+                // Style loaded successfully
+                Log.i("MapStyle", "Map style loaded successfully");
+
+                // Now add the vector tile layers with our custom implementation
+                debugVectorTiles();
+
+                // Debug the vector tile source
+                debugVectorTileSource(style);
+
+                // Debug vector tile data
+                debugVectorTileData(style);
+
+                // Add the debug icons to verify icon rendering
+                debugIcons(style);
+
+                // Setup click listener for features
+                setupFeatureClickListener();
+
+                // Add offline sites if needed
+                addOfflineSites(style);
+            });
+        } catch (Exception e) {
+            Log.e("MapStyle", "Error loading map style: " + e.getMessage());
+            mapMessage.setText("Could not load map style. Please try again.");
+            view.findViewById(R.id.onlineSitesRetry).setVisibility(View.VISIBLE);
+        }
+    }
+
+    // Helper method to convert drawable to bitmap
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
+    private void setupFeatureClickListener() {
+        mapboxMap.addOnMapClickListener(point -> {
+            // Query features at the clicked point
+            PointF screenPoint = mapboxMap.getProjection().toScreenLocation(point);
+
+            // Create a small rectangle around the clicked point to make selection easier
+            RectF clickRect = new RectF(
+                    screenPoint.x - 20, screenPoint.y - 20,
+                    screenPoint.x + 20, screenPoint.y + 20);
+
+            String[] layerIds = {
+                    "No invertebrates found - clean", "No invertebrates found - dirty",
+                    "Seriously/critically modified (sandy) - clean", "Seriously/critically modified (sandy) - dirty",
+                    "Seriously/critically modified (rocky) - clean", "Seriously/critically modified (rocky) - dirty",
+                    "Largely modified (sandy) - clean", "Largely modified (sandy) - dirty",
+                    "Largely modified(rocky) - clean", "Largely modified(rocky) - dirty",
+                    "Moderately modified (sandy) - clean", "Moderately modified (sandy) - dirty",
+                    "Moderately modified (rocky) - clean", "Moderately modified (rocky) - dirty",
+                    "Largely natural/few modifications (sandy) - clean", "Largely natural/few modifications (sandy) - dirty",
+                    "Largely natural/few modifications (rocky) - clean", "Largely natural/few modifications (rocky) - dirty",
+                    "Unmodified (sandy) - clean", "Unmodified (sandy) - dirty",
+                    "Unmodified (rocky) - clean", "Unmodified (rocky) - dirty",
+                    "fallback-layer"
+            };
+
+            // Query all layers
+            List<Feature> features = new ArrayList<>();
+            for (String layerId : layerIds) {
+                List<Feature> layerFeatures = mapboxMap.queryRenderedFeatures(clickRect, layerId);
+                features.addAll(layerFeatures);
+            }
+
+            Log.d("FeatureClick", "Clicked at point: " + point.getLatitude() + "," + point.getLongitude());
+            Log.d("FeatureClick", "Found " + features.size() + " features");
+
+            if (!features.isEmpty()) {
+                Feature feature = features.get(0);
+                Log.d("FeatureClick", "Selected feature properties: " + feature.properties().toString());
+
+                // Extract site ID from feature properties
+                String siteId = null;
+
+                // Try different property paths to find the site ID
                 try {
-                    JSONArray onlineSites = new JSONArray(result);
+                    // First try to get it directly from properties
+                    if (feature.hasProperty("gid")) {
+                        siteId = feature.getProperty("gid").getAsString();
+                        Log.d("FeatureClick", "Found gid property: " + siteId);
+                    }
+                    else if (feature.hasProperty("sites_gid")) {
+                        siteId = feature.getProperty("sites_gid").getAsString();
+                        Log.d("FeatureClick", "Found sites_gid property: " + siteId);
+                    }
+                    else if (feature.hasProperty("id")) {
+                        siteId = feature.getProperty("id").getAsString();
+                        Log.d("FeatureClick", "Found id property: " + siteId);
+                    }
+                    // If we couldn't find it directly, try parsing the properties as JSON
+                    else if (feature.hasProperty("properties")) {
+                        String propertiesJson = feature.getProperty("properties").getAsString();
+                        Log.d("FeatureClick", "Properties JSON: " + propertiesJson);
 
-                    ArrayList<LocationPinModel> onlineMarkers = new ArrayList<>();
-
-                    for (int i=0; i < onlineSites.length(); i++) {
-                        String geom = onlineSites.getJSONObject(i).getString("the_geom");
-                        Pattern pattern = Pattern.compile("\\((.*?)\\)");
-                        Matcher matcher = pattern.matcher(geom);
-                        if (matcher.find())
-                        {
-                            String[] point = matcher.group(1).split(" ");
-
-                            onlineMarkers.add(new LocationPinModel(
-                                    Double.parseDouble(point[1]),
-                                    Double.parseDouble(point[0]),
-                                    Utils.getStatusColor(0, "Sandy"),
-                                    Integer.parseInt(onlineSites.getJSONObject(i).getString("gid"))));
+                        try {
+                            JSONObject jsonObject = new JSONObject(propertiesJson);
+                            if (jsonObject.has("gid")) {
+                                siteId = jsonObject.getString("gid");
+                                Log.d("FeatureClick", "Found gid in properties JSON: " + siteId);
+                            } else if (jsonObject.has("sites_gid")) {
+                                siteId = jsonObject.getString("sites_gid");
+                                Log.d("FeatureClick", "Found sites_gid in properties JSON: " + siteId);
+                            } else if (jsonObject.has("id")) {
+                                siteId = jsonObject.getString("id");
+                                Log.d("FeatureClick", "Found id in properties JSON: " + siteId);
+                            }
+                        } catch (JSONException e) {
+                            Log.e("FeatureClick", "Error parsing properties JSON", e);
                         }
                     }
 
-
-                    this.addSiteMarkers(onlineMarkers, "online");
-                    view.findViewById(R.id.mapMessageView).setVisibility(View.GONE);
-                } catch (JSONException e) {
-                    mapMessage = view.findViewById(R.id.mapMessageText);
-                    mapMessage.setText("Could not fetch online sites");
-                    view.findViewById(R.id.onlineSitesRetry).setVisibility(View.VISIBLE);
-                    e.printStackTrace();
+                    // If we still don't have a site ID, log all properties to help debug
+                    if (siteId == null) {
+                        Log.d("FeatureClick", "Could not find site ID. All properties:");
+                        for (String key : feature.properties().keySet()) {
+                            Log.d("FeatureClick", "  " + key + ": " + feature.getProperty(key).getAsString());
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.e("FeatureClick", "Error extracting site ID", e);
                 }
-            });
+
+                // If we found a site ID, open the site detail activity
+                if (siteId != null) {
+                    Log.d("FeatureClick", "Opening site detail for ID: " + siteId);
+
+                    Intent intent = new Intent(HomeFragment.this.getContext(), SiteDetailActivity.class);
+                    intent.putExtra("siteId", siteId);
+                    intent.putExtra("type", "online");
+                    HomeFragment.this.getContext().startActivity(intent);
+
+                    return true;
+                }
+
+                return true; // Return true even if we couldn't find a site ID, to indicate we handled the click
+            }
+
+            return false; // No features found at the clicked location
+        });
+    }
+
+    private void addOfflineSites(Style style) {
+        ArrayList<LocationPinModel> offlineSites = getSiteLocations();
+
+        if (offlineSites.isEmpty()) {
+            return;
+        }
+
+        // Create features from offline sites
+        List<Feature> features = new ArrayList<>();
+        for (LocationPinModel site : offlineSites) {
+            Feature feature = Feature.fromGeometry(
+                    Point.fromLngLat(site.getLongitude(), site.getLatitude()));
+            feature.addStringProperty("id", String.valueOf(site.getPinId()));
+            feature.addStringProperty("color", site.getPinColor());
+            features.add(feature);
+        }
+
+        // Add source for offline sites
+        GeoJsonSource offlineSource = new GeoJsonSource("offline-sites",
+                FeatureCollection.fromFeatures(features));
+        style.addSource(offlineSource);
+
+        // Add layer for offline sites
+        SymbolLayer offlineLayer = new SymbolLayer("offline-sites-layer", "offline-sites");
+        offlineLayer.setProperties(
+                PropertyFactory.iconImage("crab_u"), // Use a default icon
+                PropertyFactory.iconSize(1.5f),
+                PropertyFactory.iconAllowOverlap(true)
+        );
+
+        style.addLayer(offlineLayer);
+
+        // Add click listener for offline sites
+        mapboxMap.addOnMapClickListener(point -> {
+            PointF screenPoint = mapboxMap.getProjection().toScreenLocation(point);
+            List<Feature> clickedFeatures = mapboxMap.queryRenderedFeatures(
+                    screenPoint, "offline-sites-layer");
+
+            if (!clickedFeatures.isEmpty()) {
+                Feature clickedFeature = clickedFeatures.get(0);
+                String siteId = clickedFeature.getStringProperty("id");
+
+                Intent intent = new Intent(HomeFragment.this.getContext(), SiteDetailActivity.class);
+                intent.putExtra("siteId", siteId);
+                intent.putExtra("type", "offline");
+                HomeFragment.this.getContext().startActivity(intent);
+
+                return true;
+            }
+            return false;
+        });
+    }
+
+    @SuppressLint("MissingPermission")
+    private void setMapCameraToCurrentLocation() {
+        // Try to get last known location
+        Location lastKnownLocation = null;
+        try {
+            lastKnownLocation = location_manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (lastKnownLocation == null) {
+                lastKnownLocation = location_manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            }
         } catch (Exception e) {
-            System.out.println("ERR: " + e);
+            Log.e("Location", "Error getting last known location", e);
+        }
+
+        if (lastKnownLocation != null) {
+            // Use the last known location
+            final LatLng currentLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+
+            mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                    .target(currentLocation)
+                    .zoom(12)  // Closer zoom for user's location
+                    .build());
+            Log.i("Location", "Set camera to current location: " +
+                    lastKnownLocation.getLatitude() + ", " + lastKnownLocation.getLongitude());
+
+            // Add a blue circle to mark the current location
+            Style style = mapboxMap.getStyle();
+            if (style != null) {
+                // Remove existing location marker if any
+                if (style.getSource("current-location-source") != null) {
+                    style.removeLayer("current-location-circle");
+                    style.removeSource("current-location-source");
+                }
+
+                // Create a GeoJSON source with the current location
+                GeoJsonSource locationSource = new GeoJsonSource("current-location-source",
+                        Feature.fromGeometry(Point.fromLngLat(
+                                currentLocation.getLongitude(),
+                                currentLocation.getLatitude())));
+                style.addSource(locationSource);
+
+                // Add a circle layer to represent the location
+                CircleLayer locationCircle = new CircleLayer("current-location-circle", "current-location-source");
+                locationCircle.withProperties(
+                        PropertyFactory.circleColor(Color.BLUE),
+                        PropertyFactory.circleRadius(8f),
+                        PropertyFactory.circleStrokeWidth(2f),
+                        PropertyFactory.circleStrokeColor(Color.WHITE),
+                        PropertyFactory.circleOpacity(0.8f)
+                );
+                style.addLayer(locationCircle);
+            }
+        } else {
+            // Fall back to South Africa if no location is available
+            mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                    .target(new LatLng(-28.15, 25.2))
+                    .zoom(5)
+                    .build());
+            Log.i("Location", "No location available, using default position");
         }
     }
+
 
     private ArrayList<LocationPinModel> getSiteLocations() {
         ArrayList<LocationPinModel> siteLocations = new ArrayList<>();
@@ -253,97 +611,599 @@ public class HomeFragment extends Fragment {
         return siteLocations;
     }
 
-    private void addSiteMarkers(ArrayList<LocationPinModel> siteLocations, String type) {
-        RadiusMarkerClusterer clusterer = new RadiusMarkerClusterer(this.getContext());
-        Drawable d = getResources().getDrawable(R.drawable.ic_map_cluster_40);
-        clusterer.setIcon(drawableToBitmap(d));
-        clusterer.getTextPaint().setColor(getResources().getColor(R.color.white));
-        //clusterer.getTextPaint().setTextSize(20.0f);
-
-
-        for (int i = 0; i < siteLocations.size(); i++) {
-
-            LocationPinModel siteLocation = siteLocations.get(i);
-
-            GeoPoint startPoint = new GeoPoint(siteLocation.getLatitude(), siteLocation.getLongitude());
-            Marker startMarker = new Marker(map);
-
-            Drawable unwrappedDrawable = AppCompatResources.getDrawable(this.getContext(), R.drawable.ic_crab_24);
-            Drawable wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable);
-            DrawableCompat.setTint(wrappedDrawable, Color.parseColor(siteLocation.getPinColor()));
-
-            startMarker.setIcon(wrappedDrawable);
-            startMarker.setPosition(startPoint);
-            startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-            clusterer.add(startMarker);
-
-            dbHandler = new DBHandler(HomeFragment.this.getActivity());
-            SitesModel currentSite = dbHandler.getSiteById(siteLocation.getPinId());
-
-            if (type == "offline") {
-                startMarker.setOnMarkerClickListener((marker, mapView) -> {
-                    Log.i("INFO", "SiteID: " + currentSite.getSiteId());
-                    Intent intent = new Intent(HomeFragment.this.getContext(), SiteDetailActivity.class);
-                    intent.putExtra("siteId", currentSite.getSiteId().toString());
-                    intent.putExtra("type", type);
-
-                    HomeFragment.this.getContext().startActivity(intent);
-                    return false;
-                });
-            } else if (type == "online") {
-                startMarker.setOnMarkerClickListener((marker, mapView) -> {
-                    /*Bundle args = new Bundle();
-                    args.putString("siteId", siteLocation.getPinId().toString());
-                    OnlineSiteDialog dialog = new OnlineSiteDialog();
-                    dialog.setArguments(args);
-                    dialog.show(getFragmentManager(), "online_site_dialog");
-                    return false;*/
-                    Intent intent = new Intent(HomeFragment.this.getContext(), SiteDetailActivity.class);
-                    intent.putExtra("siteId", siteLocation.getPinId().toString());
-                    intent.putExtra("type", type);
-
-                    HomeFragment.this.getContext().startActivity(intent);
-                    return false;
-                });
-            }
-        }
-        map.getOverlays().add(clusterer);
-        IGeoPoint center = map.getMapCenter();
-        map.getController().setCenter(center);
+    @Override
+    public void onStart() {
+        super.onStart();
+        mapView.onStart();
     }
-
-    public static Bitmap drawableToBitmap (Drawable drawable) {
-
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable)drawable).getBitmap();
-        }
-
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.setTint(Color.parseColor("#539987"));
-        drawable.draw(canvas);
-
-        return bitmap;
-    }
-
 
     @Override
     public void onResume() {
         super.onResume();
         isOnline = Utils.isNetworkAvailable(getContext());
-        map.onResume();
+        mapView.onResume();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        map.onPause();
+        mapView.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mapView.onStop();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mapView.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        mapView.onLowMemory();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        mapView.onDestroy();
         binding = null;
+    }
+
+    private void debugVectorTiles() {
+        Style style = mapboxMap.getStyle();
+        if (style == null) {
+            Log.e("VectorTileDebug", "Style is null, cannot add layers");
+            return;
+        }
+
+        // First, check if layers already exist and remove them
+        removeExistingLayers(style);
+
+        // Add all the crab icons to the style
+        addCrabIcons(style);
+
+        // Add all the different crab layers based on river category, score, and flag
+
+        // 1. No invertebrates found (score = 0)
+        addSymbolLayer(style, "No invertebrates found - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("score"), Expression.literal("0")),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_u");
+
+        addSymbolLayer(style, "No invertebrates found - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("score"), Expression.literal("0")),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_u_dirty");
+
+        // 2. Seriously/critically modified (sandy) - score <= 4.8
+        addSymbolLayer(style, "Seriously/critically modified (sandy) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(4.8)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_sm");
+
+        addSymbolLayer(style, "Seriously/critically modified (sandy) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(4.8)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_sm_dirty");
+
+        // 3. Seriously/critically modified (rocky) - score <= 5.3
+        addSymbolLayer(style, "Seriously/critically modified (rocky) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(5.3)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_sm");
+
+        addSymbolLayer(style, "Seriously/critically modified (rocky) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(5.3)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_sm_dirty");
+
+        // 4. Largely modified (sandy) - score between 4.8 and 5.3
+        addSymbolLayer(style, "Largely modified (sandy) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(5.3)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(4.8)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_p");
+
+        addSymbolLayer(style, "Largely modified (sandy) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(5.3)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(4.8)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_p_dirty");
+
+        // 5. Largely modified (rocky) - score between 5.3 and 5.6
+        addSymbolLayer(style, "Largely modified(rocky) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(5.6)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.3)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_p");
+
+        addSymbolLayer(style, "Largely modified(rocky) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(5.6)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.3)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_p_dirty");
+
+        // 6. Moderately modified (sandy) - score between 5.3 and 5.8
+        addSymbolLayer(style, "Moderately modified (sandy) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(5.8)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.3)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_f");
+
+        addSymbolLayer(style, "Moderately modified (sandy) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(5.8)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.3)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_f_dirty");
+
+        // 7. Moderately modified (rocky) - score between 5.6 and 6.1
+        addSymbolLayer(style, "Moderately modified (rocky) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(6.1)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.6)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_f");
+
+        addSymbolLayer(style, "Moderately modified (rocky) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(6.1)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.6)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_f_dirty");
+
+        // 8. Largely natural/few modifications (sandy) - score between 5.8 and 6.8
+        addSymbolLayer(style, "Largely natural/few modifications (sandy) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(6.8)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.8)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_g");
+
+        addSymbolLayer(style, "Largely natural/few modifications (sandy) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(6.8)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.8)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_g_dirty");
+
+        // 9. Largely natural/few modifications (rocky) - score between 6.1 and 7.2
+        addSymbolLayer(style, "Largely natural/few modifications (rocky) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(7.2)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(6.1)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_g");
+
+        addSymbolLayer(style, "Largely natural/few modifications (rocky) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(7.2)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(6.1)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_g_dirty");
+
+        // 10. Unmodified (sandy) - score > 6.8
+        addSymbolLayer(style, "Unmodified (sandy) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(6.8)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_n");
+
+        addSymbolLayer(style, "Unmodified (sandy) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(6.8)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_n_dirty");
+
+        // 11. Unmodified (rocky) - score > 7.2
+        addSymbolLayer(style, "Unmodified (rocky) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(7.2)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_n");
+
+        addSymbolLayer(style, "Unmodified (rocky) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(7.2)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_n_dirty");
+
+        // Add a fallback layer to catch any observations that don't match the filters
+        addSymbolLayer(style, "fallback-layer", "MiniSASS Observations",
+                Expression.literal(true), "crab_u");
+
+        Log.d("VectorTileDebug", "Added all MiniSASS observation layers");
+
+//        debugIcons(style);
+    }
+
+    // Helper method to remove existing layers
+    private void removeExistingLayers(Style style) {
+        // List of layer IDs to check and remove
+        String[] layerIds = {
+                "No invertebrates found - clean", "No invertebrates found - dirty",
+                "Seriously/critically modified (sandy) - clean", "Seriously/critically modified (sandy) - dirty",
+                "Seriously/critically modified (rocky) - clean", "Seriously/critically modified (rocky) - dirty",
+                "Largely modified (sandy) - clean", "Largely modified (sandy) - dirty",
+                "Largely modified(rocky) - clean", "Largely modified(rocky) - dirty",
+                "Moderately modified (sandy) - clean", "Moderately modified (sandy) - dirty",
+                "Moderately modified (rocky) - clean", "Moderately modified (rocky) - dirty",
+                "Largely natural/few modifications (sandy) - clean", "Largely natural/few modifications (sandy) - dirty",
+                "Largely natural/few modifications (rocky) - clean", "Largely natural/few modifications (rocky) - dirty",
+                "Unmodified (sandy) - clean", "Unmodified (sandy) - dirty",
+                "Unmodified (rocky) - clean", "Unmodified (rocky) - dirty",
+                "fallback-layer"
+        };
+
+        for (String layerId : layerIds) {
+            if (style.getLayer(layerId) != null) {
+                style.removeLayer(layerId);
+                Log.d("VectorTileDebug", "Removed existing layer: " + layerId);
+            }
+        }
+    }
+
+    // Helper method to add a symbol layer with the given filter and icon
+    private void addSymbolLayer(Style style, String layerId, String sourceId, Expression filter, String iconImage) {
+        try {
+            // Log the filter expression to help debug
+            Log.d("VectorTileDebug", "Adding layer: " + layerId + " with filter: " + filter.toString());
+
+            // Create the layer
+            SymbolLayer layer = new SymbolLayer(layerId, sourceId);
+            layer.setSourceLayer("public.minisass_observations");
+
+            // Set properties exactly like the working debugIcons method
+            layer.withProperties(
+                    PropertyFactory.iconImage(iconImage),
+                    PropertyFactory.iconSize(1.5f),
+                    PropertyFactory.iconAllowOverlap(true),
+                    PropertyFactory.iconIgnorePlacement(true)
+            );
+
+            // Apply the filter
+            layer.setFilter(filter);
+
+            // Add the layer to the style
+            style.addLayer(layer);
+            Log.d("VectorTileDebug", "Added layer: " + layerId + " with icon: " + iconImage);
+        } catch (Exception e) {
+            Log.e("VectorTileDebug", "Error adding layer " + layerId + ": " + e.getMessage(), e);
+        }
+    }
+
+    // Helper method to add all the crab icons to the style
+    private void addCrabIcons(Style style) {
+        // Create and add all the crab icons
+        addCrabIcon(style, "crab_u", R.drawable.ic_crab_24, Color.GRAY);
+        addCrabIcon(style, "crab_u_dirty", R.drawable.ic_crab_24, Color.DKGRAY);
+        addCrabIcon(style, "crab_sm", R.drawable.ic_crab_24, Color.RED);
+        addCrabIcon(style, "crab_sm_dirty", R.drawable.ic_crab_24, Color.rgb(139, 0, 0)); // Dark red
+        addCrabIcon(style, "crab_p", R.drawable.ic_crab_24, Color.rgb(255, 165, 0)); // Orange
+        addCrabIcon(style, "crab_p_dirty", R.drawable.ic_crab_24, Color.rgb(205, 133, 0)); // Dark orange
+        addCrabIcon(style, "crab_f", R.drawable.ic_crab_24, Color.YELLOW);
+        addCrabIcon(style, "crab_f_dirty", R.drawable.ic_crab_24, Color.rgb(205, 205, 0)); // Dark yellow
+        addCrabIcon(style, "crab_g", R.drawable.ic_crab_24, Color.GREEN);
+        addCrabIcon(style, "crab_g_dirty", R.drawable.ic_crab_24, Color.rgb(0, 100, 0)); // Dark green
+        addCrabIcon(style, "crab_n", R.drawable.ic_crab_24, Color.BLUE);
+        addCrabIcon(style, "crab_n_dirty", R.drawable.ic_crab_24, Color.rgb(0, 0, 139)); // Dark blue
+    }
+
+    // Helper method to create a crab icon with the given color
+    private void addCrabIcon(Style style, String iconName, int drawableId, int color) {
+        Drawable drawable = AppCompatResources.getDrawable(requireContext(), drawableId);
+        if (drawable != null) {
+            Drawable wrappedDrawable = DrawableCompat.wrap(drawable.mutate());
+            DrawableCompat.setTint(wrappedDrawable, color);
+            Bitmap bitmap = drawableToBitmap(wrappedDrawable);
+            style.addImage(iconName, bitmap);
+            Log.d("VectorTileDebug", "Added icon: " + iconName);
+        } else {
+            Log.e("VectorTileDebug", "Could not load drawable for icon: " + iconName);
+        }
+    }
+
+    // Add this after adding all the icons
+    private void debugIcons(Style style) {
+        // Create a test layer for each icon to verify they're loaded correctly
+        for (String iconName : new String[] {
+                "crab_u", "crab_u_dirty", "crab_sm", "crab_sm_dirty",
+                "crab_p", "crab_p_dirty", "crab_f", "crab_f_dirty",
+                "crab_g", "crab_g_dirty", "crab_n", "crab_n_dirty"}) {
+
+            // Create a simple point feature at a visible location
+            double lat = -28.15 + (Math.random() * 2 - 1);
+            double lng = 25.2 + (Math.random() * 2 - 1);
+
+            // Add a source for this test point
+            GeoJsonSource source = new GeoJsonSource(
+                    "test-source-" + iconName,
+                    Feature.fromGeometry(Point.fromLngLat(lng, lat))
+            );
+            style.addSource(source);
+
+            // Add a layer using this icon
+            SymbolLayer layer = new SymbolLayer("test-layer-" + iconName, "test-source-" + iconName);
+            layer.withProperties(
+                    PropertyFactory.iconImage(iconName),
+                    PropertyFactory.iconSize(1.5f),
+                    PropertyFactory.iconAllowOverlap(true)
+            );
+            style.addLayer(layer);
+
+            Log.d("IconDebug", "Added test layer for icon: " + iconName);
+        }
+    }
+
+//    private void debugVectorTileData() {
+//        try {
+//            // Query all features in the current viewport
+//            RectF screenRect = new RectF(0, 0, mapView.getWidth(), mapView.getHeight());
+//            List<Feature> features = mapboxMap.queryRenderedFeatures(screenRect);
+//
+//            Log.d("VectorTileDebug", "Found " + features.size() + " features in viewport");
+//
+//            // Log the properties of the first few features
+//            int count = Math.min(features.size(), 5);
+//            for (int i = 0; i < count; i++) {
+//                Feature feature = features.get(i);
+//                Log.d("VectorTileDebug", "Feature " + i + " properties:");
+//
+//                for (String key : feature.properties().keySet()) {
+//                    Log.d("VectorTileDebug", "  " + key + ": " + feature.getProperty(key).getAsString());
+//                }
+//            }
+//
+//            // Check if we have the expected properties
+//            if (count > 0) {
+//                Feature feature = features.get(0);
+//                boolean hasScore = feature.hasProperty("score");
+//                boolean hasRiverCat = feature.hasProperty("river_cat");
+//                boolean hasFlag = feature.hasProperty("flag");
+//
+//                Log.d("VectorTileDebug", "Has score: " + hasScore +
+//                        ", Has river_cat: " + hasRiverCat +
+//                        ", Has flag: " + hasFlag);
+//
+//                // If properties are missing, suggest a fix
+//                if (!hasScore || !hasRiverCat || !hasFlag) {
+//                    Log.d("VectorTileDebug", "Missing expected properties. Available properties:");
+//                    for (String key : feature.properties().keySet()) {
+//                        Log.d("VectorTileDebug", "  " + key);
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            Log.e("VectorTileDebug", "Error debugging vector tile data", e);
+//        }
+//    }
+
+    private void debugVectorTileSource(Style style) {
+        try {
+            // Check if the source exists in the style
+            if (style.getSource("MiniSASS Observations") != null) {
+                Log.d("VectorTileDebug", "MiniSASS Observations source exists in style");
+            } else {
+                Log.e("VectorTileDebug", "MiniSASS Observations source NOT found in style");
+
+                // Try to add the source manually
+                VectorSource miniSASSSource = new VectorSource(
+                        "MiniSASS Observations",
+                        "https://minisass.org/tiles/public.minisass_observations/{z}/{x}/{y}.pbf"
+                );
+                style.addSource(miniSASSSource);
+                Log.d("VectorTileDebug", "Added MiniSASS Observations source manually");
+            }
+
+            // List all sources in the style
+            Log.d("VectorTileDebug", "All sources in style:");
+            for (Source source : style.getSources()) {
+                Log.d("VectorTileDebug", "  Source: " + source.getId());
+            }
+        } catch (Exception e) {
+            Log.e("VectorTileDebug", "Error debugging vector tile source", e);
+        }
+    }
+
+
+    private void debugVectorTileData(Style style) {
+        try {
+            // Query all features in the current viewport
+            RectF screenRect = new RectF(0, 0, mapView.getWidth(), mapView.getHeight());
+
+            // Try querying with different parameters
+            List<Feature> allFeatures = mapboxMap.queryRenderedFeatures(screenRect);
+            Log.d("VectorTileDebug", "All features in viewport: " + allFeatures.size());
+
+            // Try querying with specific layer IDs
+            List<Feature> osmFeatures = mapboxMap.queryRenderedFeatures(screenRect, "OSM Background");
+            Log.d("VectorTileDebug", "OSM Background features: " + osmFeatures.size());
+
+            // Try querying with the specific source layer
+            String[] layerIds = {"No invertebrates found - clean", "No invertebrates found - dirty"};
+            List<Feature> specificFeatures = mapboxMap.queryRenderedFeatures(screenRect, layerIds);
+            Log.d("VectorTileDebug", "Specific layer features: " + specificFeatures.size());
+
+            // If we still don't have features, the issue might be with the source URL or data
+            if (allFeatures.isEmpty() && osmFeatures.isEmpty() && specificFeatures.isEmpty()) {
+                Log.d("VectorTileDebug", "No features found in any query. Possible issues:");
+                Log.d("VectorTileDebug", "1. The vector tile URL might be incorrect or inaccessible");
+                Log.d("VectorTileDebug", "2. The vector tile data might not be available at current zoom level");
+                Log.d("VectorTileDebug", "3. The source layer name might be incorrect");
+
+                // Try adding a simple GeoJSON source and layer to verify basic functionality
+                addDebugMarker(style);
+            }
+        } catch (Exception e) {
+            Log.e("VectorTileDebug", "Error debugging vector tile data", e);
+        }
+    }
+
+    private void debugMapLayers(Style style) {
+        try {
+            // Add a timestamp to the log
+            Log.d("MapDebug", "Debugging map layers at " + System.currentTimeMillis());
+
+            // Log all layers in the style
+            Log.d("MapDebug", "All layers in style:");
+            for (Layer layer : style.getLayers()) {
+                Log.d("MapDebug", "  Layer: " + layer.getId() + ", Visibility: " +
+                        (layer.getVisibility().getValue().equals("visible") ? "visible" : "hidden"));
+            }
+
+            // Check if the OSM Background layer exists
+            Layer osmLayer = style.getLayer("OSM Background");
+            if (osmLayer != null) {
+                Log.d("MapDebug", "OSM Background layer exists and is " +
+                        (osmLayer.getVisibility().getValue().equals("visible") ? "visible" : "hidden"));
+            } else {
+                Log.e("MapDebug", "OSM Background layer NOT found in style");
+
+                // Check for other raster layers
+                for (Layer layer : style.getLayers()) {
+                    if (layer.getClass().getSimpleName().contains("RasterLayer")) {
+                        Log.d("MapDebug", "Found raster layer: " + layer.getId());
+                    }
+                }
+            }
+
+            // Try to query features in different ways
+            RectF screenRect = new RectF(0, 0, mapView.getWidth(), mapView.getHeight());
+
+            // Query all features without specifying a layer
+            List<Feature> allFeatures = mapboxMap.queryRenderedFeatures(screenRect);
+            Log.d("MapDebug", "All features in viewport: " + allFeatures.size());
+
+            if (!allFeatures.isEmpty()) {
+                Log.d("MapDebug", "First feature properties:");
+                for (String key : allFeatures.get(0).properties().keySet()) {
+                    Log.d("MapDebug", "  " + key + ": " + allFeatures.get(0).getProperty(key).getAsString());
+                }
+            }
+
+            // Try querying with a specific point instead of a rectangle
+            PointF centerPoint = new PointF(mapView.getWidth()/2, mapView.getHeight()/2);
+            List<Feature> centerFeatures = mapboxMap.queryRenderedFeatures(centerPoint);
+            Log.d("MapDebug", "Features at center point: " + centerFeatures.size());
+
+            // We can't check if the map is fully loaded with isFullyLoaded()
+            Log.d("MapDebug", "Map loading status cannot be determined");
+
+        } catch (Exception e) {
+            Log.e("MapDebug", "Error in debugMapLayers", e);
+        }
+    }
+
+    private void addDebugMarker(Style style) {
+        try {
+            // Create a point at the center of the map
+            LatLng center = mapboxMap.getCameraPosition().target;
+            Point point = Point.fromLngLat(center.getLongitude(), center.getLatitude());
+
+            // Create a feature with this point
+            Feature feature = Feature.fromGeometry(point);
+            feature.addStringProperty("name", "Debug Marker");
+
+            // Add a GeoJSON source with this feature
+            GeoJsonSource debugSource = new GeoJsonSource("debug-source", feature);
+            style.addSource(debugSource);
+
+            // Add a symbol layer using this source
+            SymbolLayer debugLayer = new SymbolLayer("debug-layer", "debug-source");
+            debugLayer.withProperties(
+                    PropertyFactory.iconImage("crab_u"),
+                    PropertyFactory.iconSize(1.5f),
+                    PropertyFactory.iconAllowOverlap(true)
+            );
+            style.addLayer(debugLayer);
+
+            Log.d("VectorTileDebug", "Added debug marker at " + center.getLatitude() + ", " + center.getLongitude());
+
+            // Try querying for this feature
+            new android.os.Handler().postDelayed(() -> {
+                RectF screenRect = new RectF(0, 0, mapView.getWidth(), mapView.getHeight());
+                List<Feature> debugFeatures = mapboxMap.queryRenderedFeatures(screenRect, "debug-layer");
+                Log.d("VectorTileDebug", "Debug layer features: " + debugFeatures.size());
+            }, 1000); // Wait a second for the layer to render
+        } catch (Exception e) {
+            Log.e("VectorTileDebug", "Error adding debug marker", e);
+        }
+    }
+
+    private void setupMapEventListeners() {
+        try {
+            // Add a listener for map clicks to manually trigger debugging
+            mapboxMap.addOnMapClickListener(point -> {
+                Log.d("MapDebug", "Map clicked at: " + point.getLatitude() + ", " + point.getLongitude());
+                Style style = mapboxMap.getStyle();
+                if (style != null) {
+                    debugMapLayers(style);
+                }
+                return false; // Return false to allow other click listeners to process the click
+            });
+
+            Log.d("MapDebug", "Map click listener set up successfully");
+        } catch (Exception e) {
+            Log.e("MapDebug", "Error setting up map event listeners: " + e.getMessage(), e);
+        }
     }
 }

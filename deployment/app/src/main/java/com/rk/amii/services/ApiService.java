@@ -33,7 +33,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
+import android.util.Log;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -41,7 +41,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ApiService {
 
     private final Context context;
-    private final String domain = "https://minisass.sta.do.kartoza.com/";
+//    private final String domain = "https://minisass.sta.do.kartoza.com/";
+    private final String domain = "http://192.168.1.7:5000/";
+
 
     public ApiService(Context context) {
         this.context = context;
@@ -630,5 +632,22 @@ public class ApiService {
             e.printStackTrace();
         }
         return "";
+    }
+
+    // Add this method to your ApiService class
+    public void getVectorTileData(String url, final VolleyCallback callback) {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    callback.onSuccess(response);
+                },
+                error -> {
+                    Log.e("ApiService", "Error fetching vector tile data: " + error.toString());
+                    callback.onSuccess("[]"); // Return empty array on error
+                });
+
+        // Add the request to the RequestQueue
+        requestQueue.add(stringRequest);
     }
 }
