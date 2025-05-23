@@ -342,21 +342,19 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                     screenPoint.x - 20, screenPoint.y - 20,
                     screenPoint.x + 20, screenPoint.y + 20);
 
-            // Create a list of all layer IDs to query
             String[] layerIds = {
-                    "no_invertebrates_clean", "no_invertebrates_dirty",
-                    "seriously_modified_sandy_clean", "seriously_modified_sandy_dirty",
-                    "seriously_modified_rocky_clean", "seriously_modified_rocky_dirty",
-                    "largely_modified_sandy_clean", "largely_modified_sandy_dirty",
-                    "largely_modified_rocky_clean", "largely_modified_rocky_dirty",
-                    "moderately_modified_sandy_clean", "moderately_modified_sandy_dirty",
-                    "moderately_modified_rocky_clean", "moderately_modified_rocky_dirty",
-                    "largely_natural_sandy_clean", "largely_natural_sandy_dirty",
-                    "largely_natural_rocky_clean", "largely_natural_rocky_dirty",
-                    "unmodified_sandy_clean", "unmodified_sandy_dirty",
-                    "unmodified_rocky_clean", "unmodified_rocky_dirty",
-                    "fallback_layer"
-                    // Include all layer IDs you've created in debugVectorTiles
+                    "No invertebrates found - clean", "No invertebrates found - dirty",
+                    "Seriously/critically modified (sandy) - clean", "Seriously/critically modified (sandy) - dirty",
+                    "Seriously/critically modified (rocky) - clean", "Seriously/critically modified (rocky) - dirty",
+                    "Largely modified (sandy) - clean", "Largely modified (sandy) - dirty",
+                    "Largely modified(rocky) - clean", "Largely modified(rocky) - dirty",
+                    "Moderately modified (sandy) - clean", "Moderately modified (sandy) - dirty",
+                    "Moderately modified (rocky) - clean", "Moderately modified (rocky) - dirty",
+                    "Largely natural/few modifications (sandy) - clean", "Largely natural/few modifications (sandy) - dirty",
+                    "Largely natural/few modifications (rocky) - clean", "Largely natural/few modifications (rocky) - dirty",
+                    "Unmodified (sandy) - clean", "Unmodified (sandy) - dirty",
+                    "Unmodified (rocky) - clean", "Unmodified (rocky) - dirty",
+                    "fallback-layer"
             };
 
             // Query all layers
@@ -661,13 +659,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             return;
         }
 
-        // First, add all the crab icons to the style
-        addCrabIcons(style);
+        // First, check if layers already exist and remove them
+        removeExistingLayers(style);
 
-        // Remove any existing debug layer
-        if (style.getLayer("debug-layer") != null) {
-            style.removeLayer("debug-layer");
-        }
+        // Add all the crab icons to the style
+        addCrabIcons(style);
 
         // Add all the different crab layers based on river category, score, and flag
 
@@ -739,11 +735,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 ),
                 "crab_p_dirty");
 
-        // Continue with all other categories...
-        // (I'm including just a few more for brevity, but you would add all categories)
-
         // 5. Largely modified (rocky) - score between 5.3 and 5.6
-        addSymbolLayer(style, "Largely modified (rocky) - clean", "MiniSASS Observations",
+        addSymbolLayer(style, "Largely modified(rocky) - clean", "MiniSASS Observations",
                 Expression.all(
                         Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
                         Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(5.6)),
@@ -752,26 +745,156 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 ),
                 "crab_p");
 
+        addSymbolLayer(style, "Largely modified(rocky) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(5.6)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.3)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_p_dirty");
+
+        // 6. Moderately modified (sandy) - score between 5.3 and 5.8
+        addSymbolLayer(style, "Moderately modified (sandy) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(5.8)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.3)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_f");
+
+        addSymbolLayer(style, "Moderately modified (sandy) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(5.8)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.3)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_f_dirty");
+
+        // 7. Moderately modified (rocky) - score between 5.6 and 6.1
+        addSymbolLayer(style, "Moderately modified (rocky) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(6.1)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.6)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_f");
+
+        addSymbolLayer(style, "Moderately modified (rocky) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(6.1)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.6)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_f_dirty");
+
+        // 8. Largely natural/few modifications (sandy) - score between 5.8 and 6.8
+        addSymbolLayer(style, "Largely natural/few modifications (sandy) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(6.8)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.8)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_g");
+
+        addSymbolLayer(style, "Largely natural/few modifications (sandy) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(6.8)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(5.8)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_g_dirty");
+
+        // 9. Largely natural/few modifications (rocky) - score between 6.1 and 7.2
+        addSymbolLayer(style, "Largely natural/few modifications (rocky) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(7.2)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(6.1)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_g");
+
+        addSymbolLayer(style, "Largely natural/few modifications (rocky) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.lte(Expression.toNumber(Expression.get("score")), Expression.literal(7.2)),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(6.1)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_g_dirty");
+
+        // 10. Unmodified (sandy) - score > 6.8
+        addSymbolLayer(style, "Unmodified (sandy) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(6.8)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_n");
+
+        addSymbolLayer(style, "Unmodified (sandy) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("sandy")),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(6.8)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_n_dirty");
+
+        // 11. Unmodified (rocky) - score > 7.2
+        addSymbolLayer(style, "Unmodified (rocky) - clean", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(7.2)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("clean"))
+                ),
+                "crab_n");
+
+        addSymbolLayer(style, "Unmodified (rocky) - dirty", "MiniSASS Observations",
+                Expression.all(
+                        Expression.eq(Expression.get("river_cat"), Expression.literal("rocky")),
+                        Expression.gt(Expression.toNumber(Expression.get("score")), Expression.literal(7.2)),
+                        Expression.eq(Expression.get("flag"), Expression.literal("dirty"))
+                ),
+                "crab_n_dirty");
+
         // Add a fallback layer to catch any observations that don't match the filters
         addSymbolLayer(style, "fallback-layer", "MiniSASS Observations",
                 Expression.literal(true), "crab_u");
 
-        // Log when the map is idle to check if tiles are loaded
-        mapboxMap.addOnCameraIdleListener(() -> {
-            Log.d("VectorTileDebug", "Camera idle, checking for features");
-            List<Feature> features = mapboxMap.queryRenderedFeatures(
-                    new RectF(0, 0, mapView.getWidth(), mapView.getHeight())
-            );
-            Log.d("VectorTileDebug", "Found " + features.size() + " features in the current view");
+        Log.d("VectorTileDebug", "Added all MiniSASS observation layers");
+    }
 
-            if (!features.isEmpty()) {
-                Feature feature = features.get(0);
-                Log.d("VectorTileDebug", "Sample feature properties:");
-                for (String key : feature.properties().keySet()) {
-                    Log.d("VectorTileDebug", "  " + key + ": " + feature.getProperty(key).getAsString());
-                }
+    // Helper method to remove existing layers
+    private void removeExistingLayers(Style style) {
+        // List of layer IDs to check and remove
+        String[] layerIds = {
+                "No invertebrates found - clean", "No invertebrates found - dirty",
+                "Seriously/critically modified (sandy) - clean", "Seriously/critically modified (sandy) - dirty",
+                "Seriously/critically modified (rocky) - clean", "Seriously/critically modified (rocky) - dirty",
+                "Largely modified (sandy) - clean", "Largely modified (sandy) - dirty",
+                "Largely modified(rocky) - clean", "Largely modified(rocky) - dirty",
+                "Moderately modified (sandy) - clean", "Moderately modified (sandy) - dirty",
+                "Moderately modified (rocky) - clean", "Moderately modified (rocky) - dirty",
+                "Largely natural/few modifications (sandy) - clean", "Largely natural/few modifications (sandy) - dirty",
+                "Largely natural/few modifications (rocky) - clean", "Largely natural/few modifications (rocky) - dirty",
+                "Unmodified (sandy) - clean", "Unmodified (sandy) - dirty",
+                "Unmodified (rocky) - clean", "Unmodified (rocky) - dirty",
+                "fallback-layer"
+        };
+
+        for (String layerId : layerIds) {
+            if (style.getLayer(layerId) != null) {
+                style.removeLayer(layerId);
+                Log.d("VectorTileDebug", "Removed existing layer: " + layerId);
             }
-        });
+        }
     }
 
     // Helper method to add a symbol layer with the given filter and icon
