@@ -39,7 +39,10 @@ import com.mapbox.mapboxsdk.style.expressions.Expression;
 import com.mapbox.mapboxsdk.style.layers.CircleLayer;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.layers.Layer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
+import com.mapbox.mapboxsdk.style.sources.VectorSource;
+import com.mapbox.mapboxsdk.style.sources.Source;
 import com.rk.amii.R;
 import com.rk.amii.activities.SiteDetailActivity;
 import com.rk.amii.database.DBHandler;
@@ -207,48 +210,39 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
 
+        // Setup map event listeners
+        setupMapEventListeners();
+
         // Load the map style
         if (isOnline) {
-            // Create a style with OpenStreetMap raster tiles and MiniSASS vector tiles
-            String osmStyleJson = "{\n" +
-                    "  \"version\": 8,\n" +
-                    "  \"sources\": {\n" +
-                    "    \"osm\": {\n" +
-                    "      \"type\": \"raster\",\n" +
-                    "      \"tiles\": [\"https://a.tile.openstreetmap.org/{z}/{x}/{y}.png\"],\n" +
-                    "      \"tileSize\": 256,\n" +
-                    "      \"attribution\": \"&copy; OpenStreetMap Contributors\",\n" +
-                    "      \"maxzoom\": 19\n" +
-                    "    }\n" +
-                    "  },\n" +
-                    "  \"layers\": [\n" +
-                    "    {\n" +
-                    "      \"id\": \"osm\",\n" +
-                    "      \"type\": \"raster\",\n" +
-                    "      \"source\": \"osm\"\n" +
-                    "    }\n" +
-                    "  ]\n" +
-                    "}";
+//            // Create a style with OpenStreetMap raster tiles and MiniSASS vector tiles
+//            String osmStyleJson = "{\n" +
+//                    "  \"version\": 8,\n" +
+//                    "  \"sources\": {\n" +
+//                    "    \"osm\": {\n" +
+//                    "      \"type\": \"raster\",\n" +
+//                    "      \"tiles\": [\"https://a.tile.openstreetmap.org/{z}/{x}/{y}.png\"],\n" +
+//                    "      \"tileSize\": 256,\n" +
+//                    "      \"attribution\": \"&copy; OpenStreetMap Contributors\",\n" +
+//                    "      \"maxzoom\": 19\n" +
+//                    "    }\n" +
+//                    "  },\n" +
+//                    "  \"layers\": [\n" +
+//                    "    {\n" +
+//                    "      \"id\": \"osm\",\n" +
+//                    "      \"type\": \"raster\",\n" +
+//                    "      \"source\": \"osm\"\n" +
+//                    "    }\n" +
+//                    "  ]\n" +
+//                    "}";
+            loadMapStyle();
 
-//            mapboxMap.setStyle(new Style.Builder().fromJson(osmStyleJson), style -> {
-//                // Style loaded successfully
-//                Log.i("MapStyle", "OSM base map loaded successfully");
-//
-//                // Setup click listener for features
-//                setupFeatureClickListener();
-//
-//                // Add offline sites
-//                addOfflineSites(style);
-//            });
         } else {
             // Load a basic style for offline mode
             mapboxMap.setStyle(new Style.Builder().fromUri("https://demotiles.maplibre.org/style.json"), style -> {
                 addOfflineSites(style);
             });
         }
-
-        // laod map
-        loadMapStyle();
 
         // Set camera position to current location if available
         setMapCameraToCurrentLocation();
@@ -303,6 +297,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
                 // Now add the vector tile layers with our custom implementation
                 debugVectorTiles();
+
+                // Debug the vector tile source
+                debugVectorTileSource(style);
+
+                // Debug vector tile data
+                debugVectorTileData(style);
+
+                // Add the debug icons to verify icon rendering
+                debugIcons(style);
 
                 // Setup click listener for features
                 setupFeatureClickListener();
@@ -869,6 +872,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 Expression.literal(true), "crab_u");
 
         Log.d("VectorTileDebug", "Added all MiniSASS observation layers");
+
+//        debugIcons(style);
     }
 
     // Helper method to remove existing layers
@@ -899,23 +904,31 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     // Helper method to add a symbol layer with the given filter and icon
     private void addSymbolLayer(Style style, String layerId, String sourceId, Expression filter, String iconImage) {
-        SymbolLayer layer = new SymbolLayer(layerId, sourceId);
-        layer.setSourceLayer("public.minisass_observations");
-        layer.setFilter(filter);
-        layer.withProperties(
-                PropertyFactory.iconImage(iconImage),
-                PropertyFactory.iconSize(
-                        Expression.interpolate(
-                                Expression.linear(),
-                                Expression.zoom(),
-                                Expression.stop(5, 0.5f),
-                                Expression.stop(17, 2.0f)
-                        )
-                ),
-                PropertyFactory.iconAllowOverlap(true)
-        );
-        style.addLayer(layer);
-        Log.d("VectorTileDebug", "Added layer: " + layerId);
+        try {
+            // Log the filter expression to help debug
+            Log.d("VectorTileDebug", "Adding layer: " + layerId + " with filter: " + filter.toString());
+
+            // Create the layer
+            SymbolLayer layer = new SymbolLayer(layerId, sourceId);
+            layer.setSourceLayer("public.minisass_observations");
+
+            // Set properties exactly like the working debugIcons method
+            layer.withProperties(
+                    PropertyFactory.iconImage(iconImage),
+                    PropertyFactory.iconSize(1.5f),
+                    PropertyFactory.iconAllowOverlap(true),
+                    PropertyFactory.iconIgnorePlacement(true)
+            );
+
+            // Apply the filter
+            layer.setFilter(filter);
+
+            // Add the layer to the style
+            style.addLayer(layer);
+            Log.d("VectorTileDebug", "Added layer: " + layerId + " with icon: " + iconImage);
+        } catch (Exception e) {
+            Log.e("VectorTileDebug", "Error adding layer " + layerId + ": " + e.getMessage(), e);
+        }
     }
 
     // Helper method to add all the crab icons to the style
@@ -946,6 +959,251 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             Log.d("VectorTileDebug", "Added icon: " + iconName);
         } else {
             Log.e("VectorTileDebug", "Could not load drawable for icon: " + iconName);
+        }
+    }
+
+    // Add this after adding all the icons
+    private void debugIcons(Style style) {
+        // Create a test layer for each icon to verify they're loaded correctly
+        for (String iconName : new String[] {
+                "crab_u", "crab_u_dirty", "crab_sm", "crab_sm_dirty",
+                "crab_p", "crab_p_dirty", "crab_f", "crab_f_dirty",
+                "crab_g", "crab_g_dirty", "crab_n", "crab_n_dirty"}) {
+
+            // Create a simple point feature at a visible location
+            double lat = -28.15 + (Math.random() * 2 - 1);
+            double lng = 25.2 + (Math.random() * 2 - 1);
+
+            // Add a source for this test point
+            GeoJsonSource source = new GeoJsonSource(
+                    "test-source-" + iconName,
+                    Feature.fromGeometry(Point.fromLngLat(lng, lat))
+            );
+            style.addSource(source);
+
+            // Add a layer using this icon
+            SymbolLayer layer = new SymbolLayer("test-layer-" + iconName, "test-source-" + iconName);
+            layer.withProperties(
+                    PropertyFactory.iconImage(iconName),
+                    PropertyFactory.iconSize(1.5f),
+                    PropertyFactory.iconAllowOverlap(true)
+            );
+            style.addLayer(layer);
+
+            Log.d("IconDebug", "Added test layer for icon: " + iconName);
+        }
+    }
+
+//    private void debugVectorTileData() {
+//        try {
+//            // Query all features in the current viewport
+//            RectF screenRect = new RectF(0, 0, mapView.getWidth(), mapView.getHeight());
+//            List<Feature> features = mapboxMap.queryRenderedFeatures(screenRect);
+//
+//            Log.d("VectorTileDebug", "Found " + features.size() + " features in viewport");
+//
+//            // Log the properties of the first few features
+//            int count = Math.min(features.size(), 5);
+//            for (int i = 0; i < count; i++) {
+//                Feature feature = features.get(i);
+//                Log.d("VectorTileDebug", "Feature " + i + " properties:");
+//
+//                for (String key : feature.properties().keySet()) {
+//                    Log.d("VectorTileDebug", "  " + key + ": " + feature.getProperty(key).getAsString());
+//                }
+//            }
+//
+//            // Check if we have the expected properties
+//            if (count > 0) {
+//                Feature feature = features.get(0);
+//                boolean hasScore = feature.hasProperty("score");
+//                boolean hasRiverCat = feature.hasProperty("river_cat");
+//                boolean hasFlag = feature.hasProperty("flag");
+//
+//                Log.d("VectorTileDebug", "Has score: " + hasScore +
+//                        ", Has river_cat: " + hasRiverCat +
+//                        ", Has flag: " + hasFlag);
+//
+//                // If properties are missing, suggest a fix
+//                if (!hasScore || !hasRiverCat || !hasFlag) {
+//                    Log.d("VectorTileDebug", "Missing expected properties. Available properties:");
+//                    for (String key : feature.properties().keySet()) {
+//                        Log.d("VectorTileDebug", "  " + key);
+//                    }
+//                }
+//            }
+//        } catch (Exception e) {
+//            Log.e("VectorTileDebug", "Error debugging vector tile data", e);
+//        }
+//    }
+
+    private void debugVectorTileSource(Style style) {
+        try {
+            // Check if the source exists in the style
+            if (style.getSource("MiniSASS Observations") != null) {
+                Log.d("VectorTileDebug", "MiniSASS Observations source exists in style");
+            } else {
+                Log.e("VectorTileDebug", "MiniSASS Observations source NOT found in style");
+
+                // Try to add the source manually
+                VectorSource miniSASSSource = new VectorSource(
+                        "MiniSASS Observations",
+                        "https://minisass.org/tiles/public.minisass_observations/{z}/{x}/{y}.pbf"
+                );
+                style.addSource(miniSASSSource);
+                Log.d("VectorTileDebug", "Added MiniSASS Observations source manually");
+            }
+
+            // List all sources in the style
+            Log.d("VectorTileDebug", "All sources in style:");
+            for (Source source : style.getSources()) {
+                Log.d("VectorTileDebug", "  Source: " + source.getId());
+            }
+        } catch (Exception e) {
+            Log.e("VectorTileDebug", "Error debugging vector tile source", e);
+        }
+    }
+
+
+    private void debugVectorTileData(Style style) {
+        try {
+            // Query all features in the current viewport
+            RectF screenRect = new RectF(0, 0, mapView.getWidth(), mapView.getHeight());
+
+            // Try querying with different parameters
+            List<Feature> allFeatures = mapboxMap.queryRenderedFeatures(screenRect);
+            Log.d("VectorTileDebug", "All features in viewport: " + allFeatures.size());
+
+            // Try querying with specific layer IDs
+            List<Feature> osmFeatures = mapboxMap.queryRenderedFeatures(screenRect, "OSM Background");
+            Log.d("VectorTileDebug", "OSM Background features: " + osmFeatures.size());
+
+            // Try querying with the specific source layer
+            String[] layerIds = {"No invertebrates found - clean", "No invertebrates found - dirty"};
+            List<Feature> specificFeatures = mapboxMap.queryRenderedFeatures(screenRect, layerIds);
+            Log.d("VectorTileDebug", "Specific layer features: " + specificFeatures.size());
+
+            // If we still don't have features, the issue might be with the source URL or data
+            if (allFeatures.isEmpty() && osmFeatures.isEmpty() && specificFeatures.isEmpty()) {
+                Log.d("VectorTileDebug", "No features found in any query. Possible issues:");
+                Log.d("VectorTileDebug", "1. The vector tile URL might be incorrect or inaccessible");
+                Log.d("VectorTileDebug", "2. The vector tile data might not be available at current zoom level");
+                Log.d("VectorTileDebug", "3. The source layer name might be incorrect");
+
+                // Try adding a simple GeoJSON source and layer to verify basic functionality
+                addDebugMarker(style);
+            }
+        } catch (Exception e) {
+            Log.e("VectorTileDebug", "Error debugging vector tile data", e);
+        }
+    }
+
+    private void debugMapLayers(Style style) {
+        try {
+            // Add a timestamp to the log
+            Log.d("MapDebug", "Debugging map layers at " + System.currentTimeMillis());
+
+            // Log all layers in the style
+            Log.d("MapDebug", "All layers in style:");
+            for (Layer layer : style.getLayers()) {
+                Log.d("MapDebug", "  Layer: " + layer.getId() + ", Visibility: " +
+                        (layer.getVisibility().getValue().equals("visible") ? "visible" : "hidden"));
+            }
+
+            // Check if the OSM Background layer exists
+            Layer osmLayer = style.getLayer("OSM Background");
+            if (osmLayer != null) {
+                Log.d("MapDebug", "OSM Background layer exists and is " +
+                        (osmLayer.getVisibility().getValue().equals("visible") ? "visible" : "hidden"));
+            } else {
+                Log.e("MapDebug", "OSM Background layer NOT found in style");
+
+                // Check for other raster layers
+                for (Layer layer : style.getLayers()) {
+                    if (layer.getClass().getSimpleName().contains("RasterLayer")) {
+                        Log.d("MapDebug", "Found raster layer: " + layer.getId());
+                    }
+                }
+            }
+
+            // Try to query features in different ways
+            RectF screenRect = new RectF(0, 0, mapView.getWidth(), mapView.getHeight());
+
+            // Query all features without specifying a layer
+            List<Feature> allFeatures = mapboxMap.queryRenderedFeatures(screenRect);
+            Log.d("MapDebug", "All features in viewport: " + allFeatures.size());
+
+            if (!allFeatures.isEmpty()) {
+                Log.d("MapDebug", "First feature properties:");
+                for (String key : allFeatures.get(0).properties().keySet()) {
+                    Log.d("MapDebug", "  " + key + ": " + allFeatures.get(0).getProperty(key).getAsString());
+                }
+            }
+
+            // Try querying with a specific point instead of a rectangle
+            PointF centerPoint = new PointF(mapView.getWidth()/2, mapView.getHeight()/2);
+            List<Feature> centerFeatures = mapboxMap.queryRenderedFeatures(centerPoint);
+            Log.d("MapDebug", "Features at center point: " + centerFeatures.size());
+
+            // We can't check if the map is fully loaded with isFullyLoaded()
+            Log.d("MapDebug", "Map loading status cannot be determined");
+
+        } catch (Exception e) {
+            Log.e("MapDebug", "Error in debugMapLayers", e);
+        }
+    }
+
+    private void addDebugMarker(Style style) {
+        try {
+            // Create a point at the center of the map
+            LatLng center = mapboxMap.getCameraPosition().target;
+            Point point = Point.fromLngLat(center.getLongitude(), center.getLatitude());
+
+            // Create a feature with this point
+            Feature feature = Feature.fromGeometry(point);
+            feature.addStringProperty("name", "Debug Marker");
+
+            // Add a GeoJSON source with this feature
+            GeoJsonSource debugSource = new GeoJsonSource("debug-source", feature);
+            style.addSource(debugSource);
+
+            // Add a symbol layer using this source
+            SymbolLayer debugLayer = new SymbolLayer("debug-layer", "debug-source");
+            debugLayer.withProperties(
+                    PropertyFactory.iconImage("crab_u"),
+                    PropertyFactory.iconSize(1.5f),
+                    PropertyFactory.iconAllowOverlap(true)
+            );
+            style.addLayer(debugLayer);
+
+            Log.d("VectorTileDebug", "Added debug marker at " + center.getLatitude() + ", " + center.getLongitude());
+
+            // Try querying for this feature
+            new android.os.Handler().postDelayed(() -> {
+                RectF screenRect = new RectF(0, 0, mapView.getWidth(), mapView.getHeight());
+                List<Feature> debugFeatures = mapboxMap.queryRenderedFeatures(screenRect, "debug-layer");
+                Log.d("VectorTileDebug", "Debug layer features: " + debugFeatures.size());
+            }, 1000); // Wait a second for the layer to render
+        } catch (Exception e) {
+            Log.e("VectorTileDebug", "Error adding debug marker", e);
+        }
+    }
+
+    private void setupMapEventListeners() {
+        try {
+            // Add a listener for map clicks to manually trigger debugging
+            mapboxMap.addOnMapClickListener(point -> {
+                Log.d("MapDebug", "Map clicked at: " + point.getLatitude() + ", " + point.getLongitude());
+                Style style = mapboxMap.getStyle();
+                if (style != null) {
+                    debugMapLayers(style);
+                }
+                return false; // Return false to allow other click listeners to process the click
+            });
+
+            Log.d("MapDebug", "Map click listener set up successfully");
+        } catch (Exception e) {
+            Log.e("MapDebug", "Error setting up map event listeners: " + e.getMessage(), e);
         }
     }
 }
