@@ -252,33 +252,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         setMapCameraToCurrentLocation();
     }
 
-    private void addMiniSASSLayer(Style style, String layerId, String sourceLayer, Expression[] filters,
-                                  String iconImage, float iconSize) {
-        // Check if layer already exists
-        if (style.getLayer(layerId) != null) {
-            Log.i("MapStyle", "Layer " + layerId + " already exists, skipping");
-            return;
-        }
-
-        // Create filter expression
-        Expression filterExpr = Expression.all(filters);
-
-        // Add a symbol layer for this category
-        SymbolLayer layer = new SymbolLayer(layerId, "MiniSASS Observations");
-        layer.setSourceLayer(sourceLayer);
-        layer.setFilter(filterExpr);
-
-        layer.withProperties(
-                PropertyFactory.iconImage(iconImage),
-                PropertyFactory.iconSize(iconSize),
-                PropertyFactory.iconAllowOverlap(true)
-        );
-
-        style.addLayer(layer);
-        Log.i("MapStyle", "Added layer: " + layerId);
-    }
-
-
     private void loadMapStyle() {
         try {
             // Hide loading indicator and message
@@ -291,23 +264,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 Log.i("MapStyle", "Map style loaded successfully");
 
                 debugVectorTiles();
-
-//                // Add default icons programmatically
-//                Drawable crabDrawable = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_crab_24);
-//                if (crabDrawable != null) {
-//                    Bitmap crabBitmap = drawableToBitmap(crabDrawable);
-//                    style.addImage("crab_u", crabBitmap);
-//
-//                    // Create a red version for "dirty" status
-//                    Drawable crabDirtyDrawable = DrawableCompat.wrap(crabDrawable.mutate());
-//                    DrawableCompat.setTint(crabDirtyDrawable, Color.RED);
-//                    Bitmap crabDirtyBitmap = drawableToBitmap(crabDirtyDrawable);
-//                    style.addImage("crab_u_dirty", crabDirtyBitmap);
-//
-//                    Log.d("MapStyle", "Added custom crab icons");
-//                } else {
-//                    Log.e("MapStyle", "Could not load crab drawable");
-//                }
 
 //                 Setup click listener for features
                 setupFeatureClickListener();
@@ -667,7 +623,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                     Log.d("VectorTileDebug", "  " + key + ": " + feature.getProperty(key).getAsString());
                 }
             }
-            // Remove the return statement
         });
     }
 }
