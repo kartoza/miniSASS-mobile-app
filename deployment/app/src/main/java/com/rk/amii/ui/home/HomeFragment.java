@@ -1,14 +1,13 @@
 package com.rk.amii.ui.home;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.Location;
@@ -21,14 +20,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.graphics.RectF;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
 
-import com.rk.amii.BuildConfig;
+import com.mapbox.geojson.Feature;
+import com.mapbox.geojson.FeatureCollection;
+import com.mapbox.geojson.Point;
+import com.mapbox.mapboxsdk.camera.CameraPosition;
+import com.mapbox.mapboxsdk.geometry.LatLng;
+import com.mapbox.mapboxsdk.maps.MapView;
+import com.mapbox.mapboxsdk.maps.MapboxMap;
+import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
+import com.mapbox.mapboxsdk.maps.Style;
+import com.mapbox.mapboxsdk.style.expressions.Expression;
+import com.mapbox.mapboxsdk.style.layers.CircleLayer;
+import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
+import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
+import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
 import com.rk.amii.R;
 import com.rk.amii.activities.SiteDetailActivity;
 import com.rk.amii.database.DBHandler;
@@ -38,45 +47,11 @@ import com.rk.amii.models.LocationPinModel;
 import com.rk.amii.models.SitesModel;
 import com.rk.amii.shared.Utils;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-//import org.maplibre.gl.MapLibre;
-//import org.maplibre.gl.camera.CameraPosition;
-//import org.maplibre.gl.geometry.LatLng;
-//import org.maplibre.gl.maps.MapView;
-//import org.maplibre.gl.maps.MapboxMap;
-//import org.maplibre.gl.maps.OnMapReadyCallback;
-//import org.maplibre.gl.maps.Style;
-//import org.maplibre.gl.style.layers.SymbolLayer;
-//import org.maplibre.gl.style.sources.GeoJsonSource;
-//import org.maplibre.gl.geojson.Feature;
-//import org.maplibre.gl.geojson.FeatureCollection;
-//import org.maplibre.gl.geojson.Point;
-
-
-//import com.mapbox.mapboxsdk.Mapbox;
-//import com.mapbox.mapboxsdk.camera.CameraPosition;
-//import com.mapbox.mapboxsdk.geometry.LatLng;
-//import com.mapbox.mapboxsdk.maps.MapView;
-
-import com.mapbox.mapboxsdk.Mapbox;
-import com.mapbox.mapboxsdk.camera.CameraPosition;
-import com.mapbox.mapboxsdk.geometry.LatLng;
-import com.mapbox.mapboxsdk.maps.MapView;
-import com.mapbox.mapboxsdk.maps.MapboxMap;
-import com.mapbox.mapboxsdk.maps.OnMapReadyCallback;
-import com.mapbox.mapboxsdk.maps.Style;
-import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
-import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
-import com.mapbox.mapboxsdk.style.sources.VectorSource;
-import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
-import com.mapbox.geojson.Feature;
-import com.mapbox.geojson.FeatureCollection;
-import com.mapbox.geojson.Point;
-import com.mapbox.mapboxsdk.style.expressions.Expression;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback {
@@ -96,72 +71,92 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     // Style constants
     private static final String STYLE_JSON = "{\n" +
-            "  \"version\": 8,\n" +
-            "  \"name\": \"miniSASS\",\n" +
-            "  \"metadata\": {\"maputnik:renderer\": \"mbgljs\"},\n" +
-            "  \"center\": [25.2, -28.15],\n" +
-            "  \"zoom\": 5,\n" +
-            "  \"sources\": {\n" +
-            "    \"OSM tiles\": {\n" +
-            "      \"type\": \"raster\",\n" +
-            "      \"tiles\": [\"https://tile.openstreetmap.org/{z}/{x}/{y}.png\"],\n" +
-            "      \"minzoom\": 0,\n" +
-            "      \"maxzoom\": 24\n" +
-            "    },\n" +
-            "    \"MiniSASS Observations\": {\n" +
-            "      \"type\": \"vector\",\n" +
-            "      \"tiles\": [\n" +
-            "        \"http://192.168.122.1:7800/tiles/public.minisass_observations/{z}/{x}/{y}.pbf\"\n" +
-            "      ],\n" +
-            "      \"minZoom\": 0,\n" +
-            "      \"maxZoom\": 14\n" +
-            "    }\n" +
-            "  },\n" +
-            "  \"sprite\": \"https://raw.githubusercontent.com/kartoza/miniSASS/main/django_project/webmapping/styles/icons/minisass_sprites_larger\",\n" +
-            "  \"glyphs\": \"https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=cc4PpmmWZP73LjU1nsw3\",\n" +
-            "  \"layers\": [\n" +
-            "    {\n" +
-            "      \"id\": \"OSM Background\",\n" +
-            "      \"type\": \"raster\",\n" +
-            "      \"source\": \"OSM tiles\",\n" +
-            "      \"layout\": {\"visibility\": \"visible\"},\n" +
-            "      \"paint\": {\"raster-resampling\": \"linear\"}\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"id\": \"No invertebrates found - dirty\",\n" +
-            "      \"type\": \"symbol\",\n" +
-            "      \"source\": \"MiniSASS Observations\",\n" +
-            "      \"source-layer\": \"public.minisass_observations\",\n" +
-            "      \"filter\": [\"all\", [\"==\", \"score\", \"0\"], [\"==\", \"flag\", \"dirty\"]],\n" +
-            "      \"layout\": {\n" +
-            "        \"text-field\": \"\",\n" +
-            "        \"icon-image\": \"crab_u_dirty\",\n" +
-            "        \"visibility\": \"visible\",\n" +
-            "        \"icon-size\": {\"stops\": [[5, 0.5], [17, 2]]}\n" +
-            "      }\n" +
-            "    },\n" +
-            "    {\n" +
-            "      \"id\": \"No invertebrates found - clean\",\n" +
-            "      \"type\": \"symbol\",\n" +
-            "      \"source\": \"MiniSASS Observations\",\n" +
-            "      \"source-layer\": \"public.minisass_observations\",\n" +
-            "      \"filter\": [\"all\", [\"==\", \"score\", \"0\"], [\"==\", \"flag\", \"clean\"]],\n" +
-            "      \"layout\": {\n" +
-            "        \"text-field\": \"\",\n" +
-            "        \"icon-image\": \"crab_u\",\n" +
-            "        \"visibility\": \"visible\",\n" +
-            "        \"icon-size\": {\"stops\": [[5, 0.5], [17, 2]]}\n" +
-            "      }\n" +
-            "    }\n" +
-            "    /* Additional layers omitted for brevity */\n" +
-            "  ]\n" +
-            "}";
+        "  \"version\": 8,\n" +
+        "  \"name\": \"miniSASS\",\n" +
+        "  \"metadata\": {\"maputnik:renderer\": \"mbgljs\"},\n" +
+        "  \"center\": [25.2, -28.15],\n" +
+        "  \"zoom\": 5,\n" +
+        "  \"sources\": {\n" +
+        "    \"OSM tiles\": {\n" +
+        "      \"type\": \"raster\",\n" +
+        "      \"tiles\": [\"https://tile.openstreetmap.org/{z}/{x}/{y}.png\"],\n" +
+        "      \"minzoom\": 0,\n" +
+        "      \"maxzoom\": 24\n" +
+        "    },\n" +
+        "    \"MiniSASS Observations\": {\n" +
+        "      \"type\": \"vector\",\n" +
+        "      \"tiles\": [\n" +
+        "        \"http://192.168.1.7:7800/tiles/public.minisass_observations/{z}/{x}/{y}.pbf\"\n" +
+        "      ],\n" +
+        "      \"minZoom\": 0,\n" +
+        "      \"maxZoom\": 14\n" +
+        "    }\n" +
+        "  },\n" +
+        "  \"sprite\": \"https://raw.githubusercontent.com/kartoza/miniSASS/main/django_project/webmapping/styles/icons/minisass_sprites_larger\",\n" +
+        "  \"glyphs\": \"https://api.maptiler.com/fonts/{fontstack}/{range}.pbf?key=cc4PpmmWZP73LjU1nsw3\",\n" +
+        "  \"layers\": [\n" +
+        "    {\n" +
+        "      \"id\": \"OSM Background\",\n" +
+        "      \"type\": \"raster\",\n" +
+        "      \"source\": \"OSM tiles\",\n" +
+        "      \"layout\": {\"visibility\": \"visible\"},\n" +
+        "      \"paint\": {\"raster-resampling\": \"linear\"}\n" +
+        "    },\n" +
+        "    {\n" +
+        "      \"id\": \"No invertebrates found - dirty\",\n" +
+        "      \"type\": \"symbol\",\n" +
+        "      \"source\": \"MiniSASS Observations\",\n" +
+        "      \"source-layer\": \"public.minisass_observations\",\n" +
+        "      \"filter\": [\"all\", [\"==\", \"score\", \"0\"], [\"==\", \"flag\", \"dirty\"]],\n" +
+        "      \"layout\": {\n" +
+        "        \"text-field\": \"\",\n" +
+        "        \"icon-image\": \"crab_u_dirty\",\n" +
+        "        \"visibility\": \"visible\",\n" +
+        "        \"icon-size\": {\"stops\": [[5, 0.5], [17, 2]]}\n" +
+        "      }\n" +
+        "    },\n" +
+        "    {\n" +
+        "      \"id\": \"No invertebrates found - clean\",\n" +
+        "      \"type\": \"symbol\",\n" +
+        "      \"source\": \"MiniSASS Observations\",\n" +
+        "      \"source-layer\": \"public.minisass_observations\",\n" +
+        "      \"filter\": [\"all\", [\"==\", \"score\", \"0\"], [\"==\", \"flag\", \"clean\"]],\n" +
+        "      \"layout\": {\n" +
+        "        \"text-field\": \"\",\n" +
+        "        \"icon-image\": \"crab_u\",\n" +
+        "        \"visibility\": \"visible\",\n" +
+        "        \"icon-size\": {\"stops\": [[5, 0.5], [17, 2]]}\n" +
+        "      }\n" +
+        "    }\n" +
+        "  ]\n" +
+        "}";
+
 
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(final Location location) {
             double lat = location.getLatitude();
             double lng = location.getLongitude();
+
+            // Update map camera and location marker if mapboxMap is initialized
+            if (mapboxMap != null) {
+                // Update camera position
+                mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                        .target(new LatLng(lat, lng))
+                        .zoom(mapboxMap.getCameraPosition().zoom)  // Maintain current zoom level
+                        .build());
+
+                // Update the location marker
+                Style style = mapboxMap.getStyle();
+                if (style != null && style.getSource("current-location-source") != null) {
+                    GeoJsonSource locationSource = (GeoJsonSource) style.getSource("current-location-source");
+                    if (locationSource != null) {
+                        locationSource.setGeoJson(Point.fromLngLat(lng, lat));
+                    }
+                }
+
+                Log.i("Location", "Updated camera and marker to new location: " + lat + ", " + lng);
+            }
         }
 
         @Override
@@ -199,12 +194,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             mapMessage.setText("Could not fetch online sites. Connect your device to the internet if you want to view the online sites on the map.");
         }
 
-        retryBtn.setOnClickListener(view -> {
-            if (mapboxMap != null) {
-                loadMapStyle();
-            }
-        });
-
         location_manager = (LocationManager) HomeFragment.this.getContext().getSystemService(Context.LOCATION_SERVICE);
         location_manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_REFRESH_TIME,
                 LOCATION_REFRESH_DISTANCE, mLocationListener);
@@ -216,15 +205,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(@NonNull MapboxMap mapboxMap) {
         this.mapboxMap = mapboxMap;
 
-        // Set initial camera position to South Africa
-        mapboxMap.setCameraPosition(new CameraPosition.Builder()
-                .target(new LatLng(-28.15, 25.2)) // Center from the style JSON
-                .zoom(5) // Zoom from the style JSON
-                .build());
-
         // Load the map style
         if (isOnline) {
-            // Create a style with OpenStreetMap raster tiles
+            // Create a style with OpenStreetMap raster tiles and MiniSASS vector tiles
             String osmStyleJson = "{\n" +
                     "  \"version\": 8,\n" +
                     "  \"sources\": {\n" +
@@ -234,14 +217,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                     "      \"tileSize\": 256,\n" +
                     "      \"attribution\": \"&copy; OpenStreetMap Contributors\",\n" +
                     "      \"maxzoom\": 19\n" +
-                    "    },\n" +
-                    "    \"MiniSASS Observations\": {\n" +
-                    "      \"type\": \"vector\",\n" +
-                    "      \"tiles\": [\n" +
-                    "        \"https://minisass.org/tiles/public.minisass_observations/{z}/{x}/{y}.pbf\"\n" +
-                    "      ],\n" +
-                    "      \"minZoom\": 0,\n" +
-                    "      \"maxZoom\": 14\n" +
                     "    }\n" +
                     "  },\n" +
                     "  \"layers\": [\n" +
@@ -257,11 +232,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 // Style loaded successfully
                 Log.i("MapStyle", "OSM base map loaded successfully");
 
-                // Add vector tile source and layers for miniSASS observations
-                loadMiniSASSLayers(style);
-
                 // Setup click listener for features
                 setupFeatureClickListener();
+
+                // Add offline sites
+                addOfflineSites(style);
             });
         } else {
             // Load a basic style for offline mode
@@ -270,44 +245,39 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             });
         }
 
-        // Check if location services are enabled
-        checkLocationServices();
+        // laod map
+        loadMapStyle();
+
+        // Set camera position to current location if available
+        setMapCameraToCurrentLocation();
     }
 
-    private void loadMiniSASSLayers(Style style) {
-        try {
-            // Add vector source for miniSASS observations
-            VectorSource miniSASSSource = new VectorSource(
-                    "MiniSASS Observations",
-                    "https://minisass.org/tiles/public.minisass_observations/{z}/{x}/{y}.pbf"
-            );
-            style.addSource(miniSASSSource);
-
-            // Add a simple symbol layer for the observations
-            SymbolLayer observationsLayer = new SymbolLayer("minisass-observations", "MiniSASS Observations");
-            observationsLayer.setSourceLayer("public.minisass_observations");
-
-            // Use a circle if you don't have the crab icon
-            observationsLayer.withProperties(
-                    PropertyFactory.iconImage("marker-15"),  // Use a default marker icon
-                    PropertyFactory.iconSize(1.5f),
-                    PropertyFactory.iconAllowOverlap(true)
-            );
-
-            style.addLayer(observationsLayer);
-
-            Log.i("MapStyle", "MiniSASS layers added successfully");
-
-            // Hide loading indicator and message
-            view.findViewById(R.id.idPBLoadingSites).setVisibility(View.GONE);
-            view.findViewById(R.id.mapMessageView).setVisibility(View.GONE);
-
-        } catch (Exception e) {
-            Log.e("MapStyle", "Error loading MiniSASS layers: " + e.getMessage());
-            mapMessage.setText("Could not load online sites. Please try again.");
-            view.findViewById(R.id.onlineSitesRetry).setVisibility(View.VISIBLE);
+    private void addMiniSASSLayer(Style style, String layerId, String sourceLayer, Expression[] filters,
+                                  String iconImage, float iconSize) {
+        // Check if layer already exists
+        if (style.getLayer(layerId) != null) {
+            Log.i("MapStyle", "Layer " + layerId + " already exists, skipping");
+            return;
         }
+
+        // Create filter expression
+        Expression filterExpr = Expression.all(filters);
+
+        // Add a symbol layer for this category
+        SymbolLayer layer = new SymbolLayer(layerId, "MiniSASS Observations");
+        layer.setSourceLayer(sourceLayer);
+        layer.setFilter(filterExpr);
+
+        layer.withProperties(
+                PropertyFactory.iconImage(iconImage),
+                PropertyFactory.iconSize(iconSize),
+                PropertyFactory.iconAllowOverlap(true)
+        );
+
+        style.addLayer(layer);
+        Log.i("MapStyle", "Added layer: " + layerId);
     }
+
 
     private void loadMapStyle() {
         try {
@@ -315,16 +285,34 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             view.findViewById(R.id.idPBLoadingSites).setVisibility(View.GONE);
             view.findViewById(R.id.mapMessageView).setVisibility(View.GONE);
 
-            // Load style from JSON string
             // Note: In a production app, you might want to load this from a file or URL
             mapboxMap.setStyle(new Style.Builder().fromJson(STYLE_JSON), style -> {
                 // Style loaded successfully
                 Log.i("MapStyle", "Map style loaded successfully");
 
-                // Setup click listener for features
+                debugVectorTiles();
+
+//                // Add default icons programmatically
+//                Drawable crabDrawable = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_crab_24);
+//                if (crabDrawable != null) {
+//                    Bitmap crabBitmap = drawableToBitmap(crabDrawable);
+//                    style.addImage("crab_u", crabBitmap);
+//
+//                    // Create a red version for "dirty" status
+//                    Drawable crabDirtyDrawable = DrawableCompat.wrap(crabDrawable.mutate());
+//                    DrawableCompat.setTint(crabDirtyDrawable, Color.RED);
+//                    Bitmap crabDirtyBitmap = drawableToBitmap(crabDirtyDrawable);
+//                    style.addImage("crab_u_dirty", crabDirtyBitmap);
+//
+//                    Log.d("MapStyle", "Added custom crab icons");
+//                } else {
+//                    Log.e("MapStyle", "Could not load crab drawable");
+//                }
+
+//                 Setup click listener for features
                 setupFeatureClickListener();
 
-                // Add offline sites if needed
+//                 Add offline sites if needed
                 addOfflineSites(style);
             });
         } catch (Exception e) {
@@ -334,6 +322,21 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         }
     }
 
+    // Helper method to convert drawable to bitmap
+    public static Bitmap drawableToBitmap(Drawable drawable) {
+        if (drawable instanceof BitmapDrawable) {
+            return ((BitmapDrawable)drawable).getBitmap();
+        }
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
+                drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
+    }
+
     private void setupFeatureClickListener() {
         mapboxMap.addOnMapClickListener(point -> {
             // Query features at the clicked point
@@ -341,36 +344,86 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
             // Create a small rectangle around the clicked point to make selection easier
             RectF clickRect = new RectF(
-                    screenPoint.x - 10, screenPoint.y - 10,
-                    screenPoint.x + 10, screenPoint.y + 10);
+                    screenPoint.x - 20, screenPoint.y - 20,
+                    screenPoint.x + 20, screenPoint.y + 20);
 
-            // Query all layers that start with our pattern
-            List<Feature> features = mapboxMap.queryRenderedFeatures(clickRect,
-                    (Expression.literal(true)));
+            // Query the specific debug layer you've created
+            List<Feature> features = mapboxMap.queryRenderedFeatures(clickRect, "debug-layer");
 
-            // Filter features to only include those from MiniSASS Observations source
-            List<Feature> minisassFeatures = new ArrayList<>();
-            for (Feature feature : features) {
-                if (feature.getStringProperty("source") != null &&
-                        feature.getStringProperty("source").equals("MiniSASS Observations")) {
-                    minisassFeatures.add(feature);
+            Log.d("FeatureClick", "Clicked at point: " + point.getLatitude() + "," + point.getLongitude());
+            Log.d("FeatureClick", "Found " + features.size() + " features");
+
+
+            if (!features.isEmpty()) {
+                Feature feature = features.get(0);
+                Log.d("FeatureClick", "Selected feature properties:");
+
+                // Log all properties to see what's available
+                for (String key : feature.properties().keySet()) {
+                    Log.d("FeatureClick", "  " + key + ": " + feature.getProperty(key).getAsString());
                 }
-            }
 
-            if (!minisassFeatures.isEmpty()) {
-                Feature feature = minisassFeatures.get(0);
+                // Get the properties as a string
+                String propertiesString = feature.getStringProperty("properties");
+                Log.d("FeatureClick", "Properties string: " + propertiesString);
 
-                // Extract site ID from feature properties
-                String siteId = feature.getStringProperty("gid");
+                String siteId = "";
+                if (propertiesString != null && !propertiesString.isEmpty()) {
+                    try {
+                        // Parse the properties string into a JSON object
+                        JSONObject propertiesJson = new JSONObject(propertiesString);
 
-                // Open site detail activity
-                Intent intent = new Intent(HomeFragment.this.getContext(), SiteDetailActivity.class);
-                intent.putExtra("siteId", siteId);
-                intent.putExtra("type", "online");
-                HomeFragment.this.getContext().startActivity(intent);
+                        // Try to get sites_id
+                        if (propertiesJson.has("sites_id")) {
+                            siteId = propertiesJson.getString("sites_id");
+                            Log.d("FeatureClick", "Found sites_id: " + siteId);
+                        } else if (propertiesJson.has("sites_gid")) {
+                            siteId = propertiesJson.getString("sites_gid");
+                            Log.d("FeatureClick", "Found sites_gid: " + siteId);
+                        } else if (propertiesJson.has("gid")) {
+                            siteId = propertiesJson.getString("gid");
+                            Log.d("FeatureClick", "Found gid: " + siteId);
+                        } else {
+                            // Log all available properties to help identify the correct one
+                            Log.d("FeatureClick", "Available properties in JSON:");
+                            Iterator<String> keys = propertiesJson.keys();
+                            while (keys.hasNext()) {
+                                String key = keys.next();
+                                Log.d("FeatureClick", "  " + key + ": " + propertiesJson.get(key));
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Log.e("FeatureClick", "Error parsing properties JSON", e);
+                    }
+                } else {
+                    // If properties is not available as a string, try other approaches
+                    Log.d("FeatureClick", "Properties string is null or empty");
+
+                    // Try direct property access
+                    if (feature.hasProperty("sites_id")) {
+                        siteId = feature.getStringProperty("sites_id");
+                    } else if (feature.hasProperty("sites_gid")) {
+                        siteId = feature.getStringProperty("sites_gid");
+                    } else if (feature.hasProperty("gid")) {
+                        siteId = feature.getStringProperty("gid");
+                    }
+                }
+
+                if (!siteId.isEmpty()) {
+                    Log.d("FeatureClick", "Opening site detail for ID: " + siteId);
+
+                    // Open site detail activity
+                    Intent intent = new Intent(HomeFragment.this.getContext(), SiteDetailActivity.class);
+                    intent.putExtra("siteId", siteId);
+                    intent.putExtra("type", "online");
+                    HomeFragment.this.getContext().startActivity(intent);
+
+                    return true;
+                }
 
                 return true;
             }
+
             return false;
         });
     }
@@ -428,25 +481,67 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         });
     }
 
-    private void checkLocationServices() {
-        boolean location_enabled = false;
+    @SuppressLint("MissingPermission")
+    private void setMapCameraToCurrentLocation() {
+        // Try to get last known location
+        Location lastKnownLocation = null;
         try {
-            location_enabled = location_manager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            if (!location_enabled) {
-                new AlertDialog.Builder(HomeFragment.this.getContext())
-                        .setTitle("Location")
-                        .setMessage("Your location services seems to be turned off. Please turn on your location services to continue.")
-                        .setNeutralButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        })
-                        .setIcon(android.R.drawable.ic_dialog_map)
-                        .show();
+            lastKnownLocation = location_manager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (lastKnownLocation == null) {
+                lastKnownLocation = location_manager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
             }
-        } catch(Exception e) {
-            System.out.println("Could not determine if location services are enabled.");
+        } catch (Exception e) {
+            Log.e("Location", "Error getting last known location", e);
+        }
+
+        if (lastKnownLocation != null) {
+            // Use the last known location
+            final LatLng currentLocation = new LatLng(lastKnownLocation.getLatitude(), lastKnownLocation.getLongitude());
+
+            mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                    .target(currentLocation)
+                    .zoom(12)  // Closer zoom for user's location
+                    .build());
+            Log.i("Location", "Set camera to current location: " +
+                    lastKnownLocation.getLatitude() + ", " + lastKnownLocation.getLongitude());
+
+            // Add a blue circle to mark the current location
+            Style style = mapboxMap.getStyle();
+            if (style != null) {
+                // Remove existing location marker if any
+                if (style.getSource("current-location-source") != null) {
+                    style.removeLayer("current-location-circle");
+                    style.removeSource("current-location-source");
+                }
+
+                // Create a GeoJSON source with the current location
+                GeoJsonSource locationSource = new GeoJsonSource("current-location-source",
+                        Feature.fromGeometry(Point.fromLngLat(
+                                currentLocation.getLongitude(),
+                                currentLocation.getLatitude())));
+                style.addSource(locationSource);
+
+                // Add a circle layer to represent the location
+                CircleLayer locationCircle = new CircleLayer("current-location-circle", "current-location-source");
+                locationCircle.withProperties(
+                        PropertyFactory.circleColor(Color.BLUE),
+                        PropertyFactory.circleRadius(8f),
+                        PropertyFactory.circleStrokeWidth(2f),
+                        PropertyFactory.circleStrokeColor(Color.WHITE),
+                        PropertyFactory.circleOpacity(0.8f)
+                );
+                style.addLayer(locationCircle);
+            }
+        } else {
+            // Fall back to South Africa if no location is available
+            mapboxMap.setCameraPosition(new CameraPosition.Builder()
+                    .target(new LatLng(-28.15, 25.2))
+                    .zoom(5)
+                    .build());
+            Log.i("Location", "No location available, using default position");
         }
     }
+
 
     private ArrayList<LocationPinModel> getSiteLocations() {
         ArrayList<LocationPinModel> siteLocations = new ArrayList<>();
@@ -542,5 +637,37 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         super.onDestroyView();
         mapView.onDestroy();
         binding = null;
+    }
+
+    private void debugVectorTiles() {
+        // Add a debug layer that shows all features from the vector source
+        CircleLayer debugLayer = new CircleLayer("debug-layer", "MiniSASS Observations");
+        debugLayer.setSourceLayer("public.minisass_observations");
+        debugLayer.withProperties(
+                PropertyFactory.circleColor(Color.RED),
+                PropertyFactory.circleRadius(10f),
+                PropertyFactory.circleOpacity(0.7f)
+        );
+
+        // Add the debug layer to the style
+        mapboxMap.getStyle().addLayer(debugLayer);
+
+        mapboxMap.addOnCameraIdleListener(() -> {
+            Log.d("VectorTileDebug", "Camera idle, checking for features");
+            List<Feature> features = mapboxMap.queryRenderedFeatures(
+                    new RectF(0, 0, mapView.getWidth(), mapView.getHeight()),
+                    "debug-layer"
+            );
+            Log.d("VectorTileDebug", "Found " + features.size() + " features in the current view");
+
+            if (!features.isEmpty()) {
+                Feature feature = features.get(0);
+                Log.d("VectorTileDebug", "Sample feature properties:");
+                for (String key : feature.properties().keySet()) {
+                    Log.d("VectorTileDebug", "  " + key + ": " + feature.getProperty(key).getAsString());
+                }
+            }
+            // Remove the return statement
+        });
     }
 }
