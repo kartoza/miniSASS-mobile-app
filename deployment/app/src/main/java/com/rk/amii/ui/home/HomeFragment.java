@@ -867,9 +867,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 ),
                 "crab_n_dirty");
 
-        // Add a fallback layer to catch any observations that don't match the filters
-        addSymbolLayer(style, "fallback-layer", "MiniSASS Observations",
-                Expression.literal(true), "crab_u");
+//        // Add a fallback layer to catch any observations that don't match the filters
+//        addSymbolLayer(style, "fallback-layer", "MiniSASS Observations",
+//                Expression.literal(true), "crab_u");
 
         Log.d("VectorTileDebug", "Added all MiniSASS observation layers");
 
@@ -891,7 +891,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 "Largely natural/few modifications (rocky) - clean", "Largely natural/few modifications (rocky) - dirty",
                 "Unmodified (sandy) - clean", "Unmodified (sandy) - dirty",
                 "Unmodified (rocky) - clean", "Unmodified (rocky) - dirty",
-                "fallback-layer"
         };
 
         for (String layerId : layerIds) {
@@ -934,26 +933,25 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     // Helper method to add all the crab icons to the style
     private void addCrabIcons(Style style) {
         // Create and add all the crab icons
-        addCrabIcon(style, "crab_u", R.drawable.ic_crab_24, Color.GRAY);
-        addCrabIcon(style, "crab_u_dirty", R.drawable.ic_crab_24, Color.DKGRAY);
-        addCrabIcon(style, "crab_sm", R.drawable.ic_crab_24, Color.RED);
-        addCrabIcon(style, "crab_sm_dirty", R.drawable.ic_crab_24, Color.rgb(139, 0, 0)); // Dark red
-        addCrabIcon(style, "crab_p", R.drawable.ic_crab_24, Color.rgb(255, 165, 0)); // Orange
-        addCrabIcon(style, "crab_p_dirty", R.drawable.ic_crab_24, Color.rgb(205, 133, 0)); // Dark orange
-        addCrabIcon(style, "crab_f", R.drawable.ic_crab_24, Color.YELLOW);
-        addCrabIcon(style, "crab_f_dirty", R.drawable.ic_crab_24, Color.rgb(205, 205, 0)); // Dark yellow
-        addCrabIcon(style, "crab_g", R.drawable.ic_crab_24, Color.GREEN);
-        addCrabIcon(style, "crab_g_dirty", R.drawable.ic_crab_24, Color.rgb(0, 100, 0)); // Dark green
-        addCrabIcon(style, "crab_n", R.drawable.ic_crab_24, Color.BLUE);
-        addCrabIcon(style, "crab_n_dirty", R.drawable.ic_crab_24, Color.rgb(0, 0, 139)); // Dark blue
+        addCrabIcon(style, "crab_u", R.drawable.crab_u);
+        addCrabIcon(style, "crab_u_dirty", R.drawable.crab_u_dirty);
+        addCrabIcon(style, "crab_sm", R.drawable.crab_sm);
+        addCrabIcon(style, "crab_sm_dirty", R.drawable.crab_sm_dirty);
+        addCrabIcon(style, "crab_p", R.drawable.crab_p);
+        addCrabIcon(style, "crab_p_dirty", R.drawable.crab_p_dirty);
+        addCrabIcon(style, "crab_f", R.drawable.crab_f);
+        addCrabIcon(style, "crab_f_dirty", R.drawable.crab_f_dirty);
+        addCrabIcon(style, "crab_g", R.drawable.crab_g);
+        addCrabIcon(style, "crab_g_dirty", R.drawable.crab_g_dirty);
+        addCrabIcon(style, "crab_n", R.drawable.crab_n);
+        addCrabIcon(style, "crab_n_dirty", R.drawable.crab_n_dirty);
     }
 
-    // Helper method to create a crab icon with the given color
-    private void addCrabIcon(Style style, String iconName, int drawableId, int color) {
+    // Helper method to create a crab icon
+    private void addCrabIcon(Style style, String iconName, int drawableId) {
         Drawable drawable = AppCompatResources.getDrawable(requireContext(), drawableId);
         if (drawable != null) {
             Drawable wrappedDrawable = DrawableCompat.wrap(drawable.mutate());
-            DrawableCompat.setTint(wrappedDrawable, color);
             Bitmap bitmap = drawableToBitmap(wrappedDrawable);
             style.addImage(iconName, bitmap);
             Log.d("VectorTileDebug", "Added icon: " + iconName);
