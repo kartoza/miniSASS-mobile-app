@@ -39,10 +39,7 @@ import com.mapbox.mapboxsdk.style.expressions.Expression;
 import com.mapbox.mapboxsdk.style.layers.CircleLayer;
 import com.mapbox.mapboxsdk.style.layers.PropertyFactory;
 import com.mapbox.mapboxsdk.style.layers.SymbolLayer;
-import com.mapbox.mapboxsdk.style.layers.Layer;
 import com.mapbox.mapboxsdk.style.sources.GeoJsonSource;
-import com.mapbox.mapboxsdk.style.sources.VectorSource;
-import com.mapbox.mapboxsdk.style.sources.Source;
 import com.rk.amii.R;
 import com.rk.amii.activities.SiteDetailActivity;
 import com.rk.amii.database.DBHandler;
@@ -186,7 +183,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                     "    \"MiniSASS Observations\": {\n" +
                     "      \"type\": \"vector\",\n" +
                     "      \"tiles\": [\n" +
-                    "        \"http://192.168.1.7:7800/tiles/public.minisass_observations/{z}/{x}/{y}.pbf\"\n" +
+                    "        \"https://minisass.sta.do.kartoza.com/tiles/public.minisass_observations/{z}/{x}/{y}.pbf\"\n" +
                     "      ],\n" +
                     "      \"minZoom\": 0,\n" +
                     "      \"maxZoom\": 14\n" +
@@ -802,27 +799,45 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     // Helper method to add a symbol layer with the given filter and icon
     private void addSymbolLayer(Style style, String layerId, String sourceId, Expression filter, String iconImage) {
         try {
-            // Log the filter expression to help debug
-            Log.d("VectorTileDebug", "Adding layer: " + layerId + " with filter: " + filter.toString());
-
-            // Create the layer
+            // Create the layer with clustering enabled
             SymbolLayer layer = new SymbolLayer(layerId, sourceId);
             layer.setSourceLayer("public.minisass_observations");
 
-            // Set properties exactly like the working debugIcons method
+            // Set properties with clustering considerations
             layer.withProperties(
                     PropertyFactory.iconImage(iconImage),
-                    PropertyFactory.iconSize(1.5f),
-                    PropertyFactory.iconAllowOverlap(true),
-                    PropertyFactory.iconIgnorePlacement(true)
+                    PropertyFactory.iconSize(
+                            // Scale icons based on zoom level to reduce crowding
+                            Expression.interpolate(
+                                    Expression.exponential(1.5f),
+                                    Expression.zoom(),
+                                    Expression.stop(5, 0.8f),   // Smaller at low zoom
+                                    Expression.stop(10, 1.2f),  // Medium at mid zoom
+                                    Expression.stop(15, 1.8f)   // Larger at high zoom
+                            )
+                    ),
+                    PropertyFactory.iconAllowOverlap(false), // Prevent overlap
+                    PropertyFactory.iconIgnorePlacement(false), // Respect placement
+                    PropertyFactory.iconOptional(true), // Allow icons to be hidden if crowded
+                    // Add collision detection
+                    PropertyFactory.iconPadding(2f),
+                    // Adjust opacity based on zoom
+                    PropertyFactory.iconOpacity(
+                            Expression.interpolate(
+                                    Expression.linear(),
+                                    Expression.zoom(),
+                                    Expression.stop(5, 0.7f),
+                                    Expression.stop(10, 0.9f),
+                                    Expression.stop(15, 1.0f)
+                            )
+                    )
             );
 
             // Apply the filter
             layer.setFilter(filter);
-
-            // Add the layer to the style
             style.addLayer(layer);
-            Log.d("VectorTileDebug", "Added layer: " + layerId + " with icon: " + iconImage);
+
+            Log.d("VectorTileDebug", "Added layer with clustering: " + layerId);
         } catch (Exception e) {
             Log.e("VectorTileDebug", "Error adding layer " + layerId + ": " + e.getMessage(), e);
         }

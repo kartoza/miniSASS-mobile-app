@@ -41,9 +41,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ApiService {
 
     private final Context context;
-//    private final String domain = "https://minisass.sta.do.kartoza.com/";
-    private final String domain = "http://192.168.1.7:5000/";
-
+    private final String domain = "https://minisass.sta.do.kartoza.com/";
 
     public ApiService(Context context) {
         this.context = context;
