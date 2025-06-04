@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -27,6 +26,7 @@ import com.rk.amii.utils.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
 
 
 public class ProfileFragment extends Fragment {
@@ -96,24 +96,33 @@ public class ProfileFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        AutoCompleteTextView autoCompleteCountry = view.findViewById(R.id.autoCompleteCountry);
+        // Setup spinner first
+        Spinner spinnerCountry = view.findViewById(R.id.spinnerCountry);
 
         // Create adapter
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
                 getContext(),
-                android.R.layout.simple_dropdown_item_1line,
+                android.R.layout.simple_spinner_item,
                 Constants.COUNTRIES
         );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // Set adapter to AutoCompleteTextView
-        autoCompleteCountry.setAdapter(adapter);
+        // Set adapter to spinner
+        spinnerCountry.setAdapter(adapter);
 
         // Handle selection - do nothing when selected
-        autoCompleteCountry.setOnItemClickListener((parent, view1, position, id) -> {
-            // Do nothing - as requested
+        spinnerCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                // Do nothing - as requested
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
         });
 
-        // Call loadProfile after setup
         loadProfile();
     }
 
@@ -128,22 +137,21 @@ public class ProfileFragment extends Fragment {
 //            editOrganisationType.setText(user.getOrganisationType());
             editOrganisationName.setText(user.getOrganisationName());
 
-            AutoCompleteTextView autoCompleteCountry = getView().findViewById(R.id.autoCompleteCountry);
+            Spinner spinnerCountry = getView().findViewById(R.id.spinnerCountry);
             String userCountryCode = user.getCountry();
+            int position = 0; // Default to first item
 
             if (userCountryCode != null && !userCountryCode.trim().isEmpty()) {
                 String[] countryCodes = Constants.COUNTRY_CODES;
-                String[] countries = Constants.COUNTRIES;
-
                 for (int i = 0; i < countryCodes.length; i++) {
                     if (countryCodes[i].equals(userCountryCode.trim())) {
-                        autoCompleteCountry.setText(countries[i], false); // false prevents filtering
+                        position = i;
                         break;
                     }
                 }
-            } else {
-                autoCompleteCountry.setText("", false); // Set empty if no country
             }
+
+            spinnerCountry.setSelection(position);
 
             // Set spinner selection
             String uploadPreferenceFromDb = user.getUploadPreference();
@@ -165,23 +173,15 @@ public class ProfileFragment extends Fragment {
         String surname = editSurname.getText().toString().trim();
 //        String organisationType = editOrganisationType.getText().toString().trim();
         String organisationName = editOrganisationName.getText().toString().trim();
-
-        AutoCompleteTextView autoCompleteCountry = getView().findViewById(R.id.autoCompleteCountry);
-        String selectedCountryTitle = autoCompleteCountry.getText().toString().trim();
-        String country = ""; // Default empty value
-
-        if (!selectedCountryTitle.isEmpty()) {
-            String[] countries = Constants.COUNTRIES;
+        Spinner spinnerCountry = getView().findViewById(R.id.spinnerCountry);
+        String country = "";
+        if (spinnerCountry.getSelectedItemPosition() != AdapterView.INVALID_POSITION) {
+            int selectedPosition = spinnerCountry.getSelectedItemPosition();
             String[] countryCodes = Constants.COUNTRY_CODES;
-
-            for (int i = 0; i < countries.length; i++) {
-                if (countries[i].equals(selectedCountryTitle)) {
-                    country = countryCodes[i]; // Gets the country code
-                    break;
-                }
+            if (selectedPosition < countryCodes.length) {
+                country = countryCodes[selectedPosition]; // Gets the country code (e.g., "AW", "AF")
             }
         }
-
         String uploadPreference = spinnerUploadPreference.getSelectedItem().toString();
 
         boolean isValid = true;
@@ -239,19 +239,13 @@ public class ProfileFragment extends Fragment {
 //        String organisationType = editOrganisationType.getText().toString();
         String organisationName = editOrganisationName.getText().toString();
 
-        AutoCompleteTextView autoCompleteCountry = getView().findViewById(R.id.autoCompleteCountry);
-        String selectedCountryTitle = autoCompleteCountry.getText().toString().trim();
-        String country = ""; // Default empty value
-
-        if (!selectedCountryTitle.isEmpty()) {
-            String[] countries = Constants.COUNTRIES;
+        Spinner spinnerCountry = getView().findViewById(R.id.spinnerCountry);
+        String country = "";
+        if (spinnerCountry.getSelectedItemPosition() != AdapterView.INVALID_POSITION) {
+            int selectedPosition = spinnerCountry.getSelectedItemPosition();
             String[] countryCodes = Constants.COUNTRY_CODES;
-
-            for (int i = 0; i < countries.length; i++) {
-                if (countries[i].equals(selectedCountryTitle)) {
-                    country = countryCodes[i]; // Gets the country code
-                    break;
-                }
+            if (selectedPosition < countryCodes.length) {
+                country = countryCodes[selectedPosition]; // Gets the country code (e.g., "AW", "AF")
             }
         }
 

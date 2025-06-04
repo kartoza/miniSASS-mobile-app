@@ -62,24 +62,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
+        <TextView
+            android:text="Country"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <Spinner
+            android:id="@+id/spinnerCountry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:hint="Country">
-
-            <AutoCompleteTextView
-                android:id="@+id/autoCompleteCountry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                android:layout_marginLeft="2dp"
-                android:paddingLeft="13dp"
-                />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
 
         <TextView
             android:text="Upload Preference"
