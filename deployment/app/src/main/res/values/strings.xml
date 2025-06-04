@@ -10,6 +10,9 @@
         You collect a sample of macroinvertebrates (small animals) from the water, and depending on which groups are found, you have a measure of the general river health and water quality in that river.
 
     </string>
+    <string name="how_to_use_minisass">
+        The miniSASS App walthrough video will take you through how to use the app.
+    </string>
 
     <string-array name="macroinvertebrates">
         <item>Select your identification</item>
