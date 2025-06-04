@@ -7,19 +7,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import android.widget.Spinner;
-import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.rk.amii.R;
 import com.rk.amii.database.DBHandler;
 import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
+import com.rk.amii.utils.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,7 +52,6 @@ public class ProfileFragment extends Fragment {
         editSurname = view.findViewById(R.id.editSurname);
 //        editOrganisationType = view.findViewById(R.id.editOrganisationType);
         editOrganisationName = view.findViewById(R.id.editOrganisationName);
-        editCountry = view.findViewById(R.id.editCountry);
         buttonSave = view.findViewById(R.id.buttonSave);
 
         // Get Spinner reference using view.findViewById
@@ -62,9 +65,6 @@ public class ProfileFragment extends Fragment {
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerUploadPreference.setAdapter(adapter);
-
-        // Load user data from DB
-        loadProfile();
 
         spinnerUploadPreference.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -92,6 +92,32 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        AutoCompleteTextView autoCompleteCountry = view.findViewById(R.id.autoCompleteCountry);
+
+        // Create adapter
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                Constants.COUNTRIES
+        );
+
+        // Set adapter to AutoCompleteTextView
+        autoCompleteCountry.setAdapter(adapter);
+
+        // Handle selection - do nothing when selected
+        autoCompleteCountry.setOnItemClickListener((parent, view1, position, id) -> {
+            // Do nothing - as requested
+        });
+
+        // Call loadProfile after setup
+        loadProfile();
+    }
+
+
     private void loadProfile() {
         UserModel user = dbHandler.getUserProfile();
         if (user != null) {
@@ -101,7 +127,23 @@ public class ProfileFragment extends Fragment {
             editSurname.setText(user.getSurname());
 //            editOrganisationType.setText(user.getOrganisationType());
             editOrganisationName.setText(user.getOrganisationName());
-            editCountry.setText(user.getCountry());
+
+            AutoCompleteTextView autoCompleteCountry = getView().findViewById(R.id.autoCompleteCountry);
+            String userCountryCode = user.getCountry();
+
+            if (userCountryCode != null && !userCountryCode.trim().isEmpty()) {
+                String[] countryCodes = Constants.COUNTRY_CODES;
+                String[] countries = Constants.COUNTRIES;
+
+                for (int i = 0; i < countryCodes.length; i++) {
+                    if (countryCodes[i].equals(userCountryCode.trim())) {
+                        autoCompleteCountry.setText(countries[i], false); // false prevents filtering
+                        break;
+                    }
+                }
+            } else {
+                autoCompleteCountry.setText("", false); // Set empty if no country
+            }
 
             // Set spinner selection
             String uploadPreferenceFromDb = user.getUploadPreference();
@@ -123,7 +165,23 @@ public class ProfileFragment extends Fragment {
         String surname = editSurname.getText().toString().trim();
 //        String organisationType = editOrganisationType.getText().toString().trim();
         String organisationName = editOrganisationName.getText().toString().trim();
-        String country = editCountry.getText().toString().trim(); // Not required
+
+        AutoCompleteTextView autoCompleteCountry = getView().findViewById(R.id.autoCompleteCountry);
+        String selectedCountryTitle = autoCompleteCountry.getText().toString().trim();
+        String country = ""; // Default empty value
+
+        if (!selectedCountryTitle.isEmpty()) {
+            String[] countries = Constants.COUNTRIES;
+            String[] countryCodes = Constants.COUNTRY_CODES;
+
+            for (int i = 0; i < countries.length; i++) {
+                if (countries[i].equals(selectedCountryTitle)) {
+                    country = countryCodes[i]; // Gets the country code
+                    break;
+                }
+            }
+        }
+
         String uploadPreference = spinnerUploadPreference.getSelectedItem().toString();
 
         boolean isValid = true;
@@ -180,14 +238,28 @@ public class ProfileFragment extends Fragment {
         String surname = editSurname.getText().toString();
 //        String organisationType = editOrganisationType.getText().toString();
         String organisationName = editOrganisationName.getText().toString();
-        String country = editCountry.getText().toString();
+
+        AutoCompleteTextView autoCompleteCountry = getView().findViewById(R.id.autoCompleteCountry);
+        String selectedCountryTitle = autoCompleteCountry.getText().toString().trim();
+        String country = ""; // Default empty value
+
+        if (!selectedCountryTitle.isEmpty()) {
+            String[] countries = Constants.COUNTRIES;
+            String[] countryCodes = Constants.COUNTRY_CODES;
+
+            for (int i = 0; i < countries.length; i++) {
+                if (countries[i].equals(selectedCountryTitle)) {
+                    country = countryCodes[i]; // Gets the country code
+                    break;
+                }
+            }
+        }
+
         int selectedPosition = spinnerUploadPreference.getSelectedItemPosition();
         String[] uploadPreferenceValues = getResources().getStringArray(R.array.upload_preference_values);
         String selectedUploadPreference = uploadPreferenceValues[selectedPosition];
 
         if (isFormValid()) {
-            dbHandler.updateUserProfile(username, email, name, surname, "", organisationName, country, selectedUploadPreference);
-
             ApiService service = new ApiService(getContext());
 
             JSONObject payload = new JSONObject();
@@ -200,7 +272,16 @@ public class ProfileFragment extends Fragment {
                 payload.put("organisation_name", organisationName);
                 payload.put("country", country);
                 payload.put("upload_preference", selectedUploadPreference);
-                service.updateUserProfile(payload);
+                JSONObject result = service.updateUserProfile(payload);
+                if (result.length() > 0) {
+                    Toast.makeText(getContext(), "Profile updated", Toast.LENGTH_SHORT).show();
+                    dbHandler.updateUserProfile(
+                        username, email, name, surname, "",
+                        organisationName, country, selectedUploadPreference
+                    );
+                } else {
+                    Toast.makeText(getContext(), "Profile update failed", Toast.LENGTH_SHORT).show();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
