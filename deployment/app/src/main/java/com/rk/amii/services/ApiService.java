@@ -240,7 +240,7 @@ public class ApiService {
 
     public boolean register(JSONObject details) {
         System.out.println(details);
-        JSONObject response = sendPostRequest(this.domain+"authentication/api/register/",details);
+        JSONObject response = sendPostRequest(this.domain+"authentication/api/register/", details);
         try {
             if (response.get("status").toString().trim().equals("201")) {
                 return true;
