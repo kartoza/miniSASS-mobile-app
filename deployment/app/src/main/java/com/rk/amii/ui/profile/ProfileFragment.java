@@ -153,7 +153,7 @@ public class ProfileFragment extends Fragment {
 
             spinnerOrganisationType = getView().findViewById(R.id.spinnerOrganisationType);
             String userOrganisationType = user.getOrganisationType();
-            int position = 0; // Default to first item
+            position = 0; // Default to first item
 
             if (userOrganisationType != null && !userOrganisationType.trim().isEmpty()) {
                 for (int i = 0; i < Constants.ORGANISATION_TYPES.length; i++) {
