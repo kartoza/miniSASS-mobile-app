@@ -31,7 +31,7 @@ public class ProfileFragment extends Fragment {
     private static final String PREFS = "profile_prefs";
     private static final String KEY_UPLOAD_PREF = "upload_pref";
     private SharedPreferences prefs;
-    private TextInputEditText editUsername, editEmail, editName, editSurname, editOrganisationName;
+    private TextInputEditText editEmail, editName, editSurname, editOrganisationName;
     private Button buttonSave;
     private DBHandler dbHandler;
     private AutoCompleteTextView spinnerUploadPreference, spinnerOrganisationType, autoCompleteCountry;
@@ -43,7 +43,6 @@ public class ProfileFragment extends Fragment {
 
         dbHandler = new DBHandler(getContext());
 
-        editUsername = view.findViewById(R.id.editUsername);
         editEmail = view.findViewById(R.id.editEmail);
         editName = view.findViewById(R.id.editName);
         editSurname = view.findViewById(R.id.editSurname);
@@ -108,7 +107,6 @@ public class ProfileFragment extends Fragment {
     private void loadProfile() {
         UserModel user = dbHandler.getUserProfile();
         if (user != null) {
-            editUsername.setText(user.getUsername());
             editEmail.setText(user.getEmail());
             editName.setText(user.getName());
             editSurname.setText(user.getSurname());
@@ -156,19 +154,12 @@ public class ProfileFragment extends Fragment {
     }
 
     public boolean isFormValid() {
-        String username = editUsername.getText().toString().trim();
         String email = editEmail.getText().toString().trim();
         String name = editName.getText().toString().trim();
         String surname = editSurname.getText().toString().trim();
         String organisationName = editOrganisationName.getText().toString().trim();
 
         boolean isValid = true;
-
-        // Validate username
-        if (username.isEmpty()) {
-            editUsername.setError("This field is required");
-            isValid = false;
-        }
 
         // Validate email
         if (email.isEmpty()) {
@@ -198,7 +189,6 @@ public class ProfileFragment extends Fragment {
     }
 
     private void saveProfile() {
-        String username = editUsername.getText().toString();
         String email = editEmail.getText().toString();
         String name = editName.getText().toString();
         String surname = editSurname.getText().toString();
@@ -242,7 +232,6 @@ public class ProfileFragment extends Fragment {
 
             JSONObject payload = new JSONObject();
             try {
-                payload.put("username", username);
                 payload.put("email", email);
                 payload.put("name", name);
                 payload.put("surname", surname);
@@ -255,7 +244,7 @@ public class ProfileFragment extends Fragment {
                 if (result.length() > 0) {
                     Toast.makeText(getContext(), "Profile updated", Toast.LENGTH_SHORT).show();
                     dbHandler.updateUserProfile(
-                            username, email, name, surname, organisationType,
+                            email, name, surname, organisationType,
                             organisationName, country, selectedUploadPreference
                     );
                 } else {
