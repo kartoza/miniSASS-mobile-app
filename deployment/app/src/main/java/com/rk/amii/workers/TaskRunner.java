@@ -3,6 +3,7 @@ package com.rk.amii.workers;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -29,8 +30,6 @@ import java.util.Map;
 
 
 public class TaskRunner extends Worker {
-
-    private String response = "Could not upload information";
 
     public TaskRunner(@NonNull Context context, @NonNull WorkerParameters params) {
         super(context, params);
@@ -154,16 +153,45 @@ public class TaskRunner extends Worker {
         // Do your background syncing logic here
         boolean isOnline = Utils.isNetworkAvailable(getApplicationContext());
 
-        new Handler(Looper.getMainLooper()).post(() ->
-                Toast.makeText(
-                        getApplicationContext(),
-                        "Syncing Sites and Observations!",
-                        Toast.LENGTH_SHORT
-                ).show());
         DBHandler dbHandler = new DBHandler(getApplicationContext());
         if (isOnline) {
+            // Check if there's any data that needs syncing
+            boolean hasUnuploadedData = false;
             try {
-                ArrayList<SitesModel>sites = dbHandler.getSites();
+                // Check for sites that need uploading
+                ArrayList<SitesModel> sites = dbHandler.getSites();
+                for (int i = 0; i < sites.size(); i++) {
+                    SitesModel site = sites.get(i);
+                    String onlineSiteId = site.getOnlineSiteId();
+                    if (onlineSiteId.equals("0")) {
+                        hasUnuploadedData = true;
+                        break; // Found at least one, no need to check more
+                    }
+                }
+
+                // Check for assessments that need uploading (only if no sites found yet)
+                if (!hasUnuploadedData) {
+                    ArrayList<AssessmentModel> assessments = dbHandler.getAssessments();
+                    for (int j = 0; j < assessments.size(); j++) {
+                        AssessmentModel assessment = assessments.get(j);
+                        if (assessment.getOnlineAssessmentId().equals(0)) {
+                            hasUnuploadedData = true;
+                            break; // Found at least one, no need to check more
+                        }
+                    }
+                }
+
+                // Show toast only if there's data to sync
+                if (hasUnuploadedData) {
+                    new Handler(Looper.getMainLooper()).post(() ->
+                            Toast.makeText(
+                                    getApplicationContext(),
+                                    "Syncing Sites and Observations!",
+                                    Toast.LENGTH_SHORT
+                            ).show());
+                }
+
+                // Now do the actual syncing
                 for (int i = 0; i < sites.size(); i++) {
                     Integer _onlineSiteId = 0;
                     SitesModel site = sites.get(i);
@@ -193,11 +221,16 @@ public class TaskRunner extends Worker {
                     submitAssessment(site, assessment, dbHandler);
                 }
             }
-            response = "Uploaded";
-        }
 
-        new Handler(Looper.getMainLooper()).post(() ->
-                Toast.makeText(getApplicationContext(), "Sites synced!", Toast.LENGTH_SHORT).show());
+            if (hasUnuploadedData) {
+                new Handler(Looper.getMainLooper()).post(() ->
+                        Toast.makeText(
+                                getApplicationContext(),
+                                "Data synced successfully!",
+                                Toast.LENGTH_SHORT
+                        ).show());
+            }
+        }
 
         return Result.success();
     }
