@@ -18,6 +18,7 @@ import android.widget.CheckBox;
 import com.rk.amii.R;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
+import com.rk.amii.utils.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -60,7 +61,20 @@ public class RegistrationActivity extends AppCompatActivity {
             String passwordValue = password.getText().toString();
             String organisationTypeValue = organisationType.getText().toString();
             String organisationNameValue = organisationName.getText().toString();
-            String countryValue = country.getText().toString();
+
+            // Get selected country code
+            String countryValue = "";
+            String selectedCountryName = country.getText().toString();
+            if (!selectedCountryName.isEmpty()) {
+                for (int i = 0; i < Constants.COUNTRIES.length; i++) {
+                    if (Constants.COUNTRIES[i].equals(selectedCountryName)) {
+                        if (i < Constants.COUNTRY_CODES.length) {
+                            countryValue = Constants.COUNTRY_CODES[i];
+                        }
+                        break;
+                    }
+                }
+            }
 
             if (!privacyPolicyCheckbox.isChecked()) {
                 Toast.makeText(RegistrationActivity.this,
