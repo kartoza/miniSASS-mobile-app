@@ -48,10 +48,12 @@
             android:text="Organisation Type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/editOrganisationType"
+        <Spinner
+            android:id="@+id/spinnerOrganisationType"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
 
         <TextView
             android:text="Organisation Name"

@@ -34,10 +34,10 @@ public class ProfileFragment extends Fragment {
     private static final String PREFS = "profile_prefs";
     private static final String KEY_UPLOAD_PREF = "upload_pref";
     private SharedPreferences prefs;
-    private EditText editUsername, editEmail, editName, editSurname, editOrganisationName, editCountry;
+    private EditText editUsername, editEmail, editName, editSurname, editOrganisationName;
     private Button buttonSave;
     private DBHandler dbHandler;
-    private Spinner spinnerUploadPreference;
+    private Spinner spinnerUploadPreference, spinnerOrganisationType, spinnerCountry;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,7 +50,6 @@ public class ProfileFragment extends Fragment {
         editEmail = view.findViewById(R.id.editEmail);
         editName = view.findViewById(R.id.editName);
         editSurname = view.findViewById(R.id.editSurname);
-//        editOrganisationType = view.findViewById(R.id.editOrganisationType);
         editOrganisationName = view.findViewById(R.id.editOrganisationName);
         buttonSave = view.findViewById(R.id.buttonSave);
 
@@ -97,31 +96,31 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Setup spinner first
-        Spinner spinnerCountry = view.findViewById(R.id.spinnerCountry);
+        spinnerOrganisationType = view.findViewById(R.id.spinnerOrganisationType);
 
         // Create adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+        ArrayAdapter<String> orgTypeAdapter = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_spinner_item,
+                Constants.ORGANISATION_TYPES
+        );
+        orgTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        // Set adapter to spinner
+        spinnerOrganisationType.setAdapter(orgTypeAdapter);
+
+        spinnerCountry = view.findViewById(R.id.spinnerCountry);
+
+        // Create adapter
+        ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(
                 getContext(),
                 android.R.layout.simple_spinner_item,
                 Constants.COUNTRIES
         );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        countryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         // Set adapter to spinner
-        spinnerCountry.setAdapter(adapter);
-
-        // Handle selection - do nothing when selected
-        spinnerCountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Do nothing - as requested
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
-            }
-        });
+        spinnerCountry.setAdapter(countryAdapter);
 
         loadProfile();
     }
@@ -134,10 +133,9 @@ public class ProfileFragment extends Fragment {
             editEmail.setText(user.getEmail());
             editName.setText(user.getName());
             editSurname.setText(user.getSurname());
-//            editOrganisationType.setText(user.getOrganisationType());
             editOrganisationName.setText(user.getOrganisationName());
 
-            Spinner spinnerCountry = getView().findViewById(R.id.spinnerCountry);
+            spinnerCountry = getView().findViewById(R.id.spinnerCountry);
             String userCountryCode = user.getCountry();
             int position = 0; // Default to first item
 
@@ -152,6 +150,21 @@ public class ProfileFragment extends Fragment {
             }
 
             spinnerCountry.setSelection(position);
+
+            spinnerOrganisationType = getView().findViewById(R.id.spinnerOrganisationType);
+            String userOrganisationType = user.getOrganisationType();
+            int position = 0; // Default to first item
+
+            if (userOrganisationType != null && !userOrganisationType.trim().isEmpty()) {
+                for (int i = 0; i < Constants.ORGANISATION_TYPES.length; i++) {
+                    if (Constants.ORGANISATION_TYPES[i].equals(userOrganisationType.trim())) {
+                        position = i;
+                        break;
+                    }
+                }
+            }
+
+            spinnerOrganisationType.setSelection(position);
 
             // Set spinner selection
             String uploadPreferenceFromDb = user.getUploadPreference();
@@ -171,9 +184,18 @@ public class ProfileFragment extends Fragment {
         String email = editEmail.getText().toString().trim();
         String name = editName.getText().toString().trim();
         String surname = editSurname.getText().toString().trim();
-//        String organisationType = editOrganisationType.getText().toString().trim();
         String organisationName = editOrganisationName.getText().toString().trim();
-        Spinner spinnerCountry = getView().findViewById(R.id.spinnerCountry);
+
+        spinnerOrganisationType = getView().findViewById(R.id.spinnerOrganisationType);
+        String organisationType = "";
+        if (spinnerOrganisationType.getSelectedItemPosition() != AdapterView.INVALID_POSITION) {
+            int selectedPosition = spinnerOrganisationType.getSelectedItemPosition();
+            if (selectedPosition < Constants.ORGANISATION_TYPES.length) {
+                organisationType = Constants.ORGANISATION_TYPES[selectedPosition];
+            }
+        }
+        
+        spinnerCountry = getView().findViewById(R.id.spinnerCountry);
         String country = "";
         if (spinnerCountry.getSelectedItemPosition() != AdapterView.INVALID_POSITION) {
             int selectedPosition = spinnerCountry.getSelectedItemPosition();
@@ -210,11 +232,17 @@ public class ProfileFragment extends Fragment {
             isValid = false;
         }
 
-//        // Validate organisation type
-//        if (organisationType.isEmpty()) {
-//            editOrganisationType.setError("This field is required");
-//            isValid = false;
-//        }
+        // Validate organisation type
+        if (organisationType.isEmpty()) {
+            spinnerOrganisationType.setError("This field is required");
+            isValid = false;
+        }
+
+        // Validate country
+        if (country.isEmpty()) {
+            spinnerCountry.setError("This field is required");
+            isValid = false;
+        }
 
         // Validate organisation name
         if (organisationName.isEmpty()) {
@@ -236,10 +264,10 @@ public class ProfileFragment extends Fragment {
         String email = editEmail.getText().toString();
         String name = editName.getText().toString();
         String surname = editSurname.getText().toString();
-//        String organisationType = editOrganisationType.getText().toString();
+        String organisationType = editOrganisationType.getText().toString();
         String organisationName = editOrganisationName.getText().toString();
 
-        Spinner spinnerCountry = getView().findViewById(R.id.spinnerCountry);
+        spinnerCountry = getView().findViewById(R.id.spinnerCountry);
         String country = "";
         if (spinnerCountry.getSelectedItemPosition() != AdapterView.INVALID_POSITION) {
             int selectedPosition = spinnerCountry.getSelectedItemPosition();
