@@ -3,11 +3,10 @@ package com.rk.amii.workers;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.work.ListenableWorker.Result;  // Add this import for Result
+import androidx.work.ListenableWorker.Result;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 
@@ -150,7 +149,6 @@ public class TaskRunner extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        // Do your background syncing logic here
         boolean isOnline = Utils.isNetworkAvailable(getApplicationContext());
 
         DBHandler dbHandler = new DBHandler(getApplicationContext());
@@ -222,6 +220,7 @@ public class TaskRunner extends Worker {
                 }
             }
 
+            // Show success notification
             if (hasUnuploadedData) {
                 new Handler(Looper.getMainLooper()).post(() ->
                         Toast.makeText(
