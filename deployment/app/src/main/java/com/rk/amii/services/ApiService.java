@@ -33,7 +33,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicBoolean;
+import android.util.Log;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -630,5 +630,22 @@ public class ApiService {
             e.printStackTrace();
         }
         return "";
+    }
+
+    // Add this method to your ApiService class
+    public void getVectorTileData(String url, final VolleyCallback callback) {
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                response -> {
+                    callback.onSuccess(response);
+                },
+                error -> {
+                    Log.e("ApiService", "Error fetching vector tile data: " + error.toString());
+                    callback.onSuccess("[]"); // Return empty array on error
+                });
+
+        // Add the request to the RequestQueue
+        requestQueue.add(stringRequest);
     }
 }
