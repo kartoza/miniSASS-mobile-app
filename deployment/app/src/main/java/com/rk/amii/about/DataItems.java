@@ -13,12 +13,12 @@ public class DataItems {
         HashMap<String, List<String>> expandableDetailList = new HashMap<>();
 
         List<String> list1 = new ArrayList<>();
-        list1.add("Aquatic macroinvertebrates are small animals that live in water systems and have no internal skeleton. They are visible to the naked eye, hence the term ‘macro’ meaning ‘large’.\n" +
-                "Different kinds of aquatic macroinvertebrates have different tolerance levels or sensitivities to disturbance in their environment. This means that one can look at the community of macroinvertebrates present in a stream or river and infer something about the water quality and health of the system. \n" +
-                "Basically in disturbed systems, for example where there is pollution or abundant alien invasive species, the most sensitive and least tolerant species can be expected to disappear, while the tolerant and least sensitive species will remain present or increase in numbers.\n" +
-                "MiniSASS puts all the aquatic macroinvertebrate types into 13 relatively easy to identify groups, and gives those groups scores based on the known general, average tolerance and sensitivity levels of the types in those groups. Low scores are assigned to groups generally made up of very tolerant species (which can survive pollution and disturbance), while high scores are assigned to groups generally made up of very sensitive species (which can’t live and survive if there is pollution or disturbance).\n" +
-                "In the miniSASS app, you capture images of the aquatic macroinvertebrates you have sampled. You assign an identification to these images. At the same time, a machine-learning (ML) artificial intelligence (AI) identification algorithm runs on the image, identifying it as well. The app then generates a user score, and a ML score. These can be compared as a guide to the user if they are identifying correctly or perhaps need to revisit their identifications.\n" +
-                "A miniSASS survey samples a stream or river for these aquatic macroinvertebrates, and generates score based on the average sensitivity and tolerance of the community present. The score then relates to an ecological category, indicating the stream or river health and water quality.\n");
+        list1.add("Aquatic macroinvertebrates are small animals that live in water systems and have no internal skeleton. They are visible to the naked eye, hence the term ‘macro’ meaning ‘large’.\n\n" +
+                "Different kinds of aquatic macroinvertebrates have different tolerance levels or sensitivities to disturbance in their environment. This means that one can look at the community of macroinvertebrates present in a stream or river and infer something about the water quality and health of the system. \n\n" +
+                "Basically in disturbed systems, for example where there is pollution or abundant alien invasive species, the most sensitive and least tolerant species can be expected to disappear, while the tolerant and least sensitive species will remain present or increase in numbers.\n\n" +
+                "MiniSASS puts all the aquatic macroinvertebrate types into 13 relatively easy to identify groups, and gives those groups scores based on the known general, average tolerance and sensitivity levels of the types in those groups. Low scores are assigned to groups generally made up of very tolerant species (which can survive pollution and disturbance), while high scores are assigned to groups generally made up of very sensitive species (which can’t live and survive if there is pollution or disturbance).\n\n" +
+                "In the miniSASS app, you capture images of the aquatic macroinvertebrates you have sampled. You assign an identification to these images. At the same time, a machine-learning (ML) artificial intelligence (AI) identification algorithm runs on the image, identifying it as well. The app then generates a user score, and a ML score. These can be compared as a guide to the user if they are identifying correctly or perhaps need to revisit their identifications.\n\n" +
+                "A miniSASS survey samples a stream or river for these aquatic macroinvertebrates, and generates score based on the average sensitivity and tolerance of the community present. The score then relates to an ecological category, indicating the stream or river health and water quality.\n\n");
 
         List<String> list2 = new ArrayList<>();
         list2.add("Fresh water is essential for biodiversity and humans. It sustains rich " +
@@ -41,8 +41,8 @@ public class DataItems {
                 "recent SASS5.");
 
         List<String> list4 = new ArrayList<>();
-        list4.add("Always remember, safety first! When thinking of doing a miniSASS survey, please check your surroundings and make sure the stream or river and the area are safe. Don’t enter streams or rivers that are deep or that have powerful, fast-flowing currents, or any dangerous animals in them or nearby. \n" +
-                "Protect yourself with sunscreen and appropriate clothing (gumboots and hats), and remember to wash your hands with sanitizer or soap regularly. Be especially careful with polluted rivers and streams, taking extra precautions to keep yourself safe and healthy. MiniSASS is more fun and safer with others! \n");
+        list4.add("Always remember, safety first! When thinking of doing a miniSASS survey, please check your surroundings and make sure the stream or river and the area are safe. Don’t enter streams or rivers that are deep or that have powerful, fast-flowing currents, or any dangerous animals in them or nearby. \n\n" +
+                "Protect yourself with sunscreen and appropriate clothing (gumboots and hats), and remember to wash your hands with sanitizer or soap regularly. Be especially careful with polluted rivers and streams, taking extra precautions to keep yourself safe and healthy. MiniSASS is more fun and safer with others! \n\n");
 
         List<String> list5 = new ArrayList<>();
         list5.add("- Aquatic macroinvertebrates: Small, but visible to the naked eye, animals" +
@@ -71,10 +71,10 @@ public class DataItems {
                 " miniSASS groups.");
 
         List<String> list6 = new ArrayList<>();
-        list6.add("We can all play a part in monitoring freshwater resources, helping gather the data needed to manage them. By participating in citizen science, anyone can become an important contributor to research and conservation! \n" +
-                "Conducting a miniSASS survey helps us learn about freshwater systems and the importance of biodiversity and healthy freshwater ecosystems, and gets us engaged with nature and our communities. It is a tool that lets us take action to help monitor and conserve our freshwater systems. \n" +
-                "The results of a miniSASS survey give a good indication of the water quality and health of a stream or river, serving to flag possible pollution, or healthy and functioning systems. Continuous monitoring of the same stream or river can give amazing insight into changes over time.\n" +
-                "Once you get your miniSASS score, you can even follow up with relevant local authorities to get them to follow up on suspected problems using your data as an indicator!\n");
+        list6.add("We can all play a part in monitoring freshwater resources, helping gather the data needed to manage them. By participating in citizen science, anyone can become an important contributor to research and conservation! \n\n" +
+                "Conducting a miniSASS survey helps us learn about freshwater systems and the importance of biodiversity and healthy freshwater ecosystems, and gets us engaged with nature and our communities. It is a tool that lets us take action to help monitor and conserve our freshwater systems. \n\n" +
+                "The results of a miniSASS survey give a good indication of the water quality and health of a stream or river, serving to flag possible pollution, or healthy and functioning systems. Continuous monitoring of the same stream or river can give amazing insight into changes over time.\n\n" +
+                "Once you get your miniSASS score, you can even follow up with relevant local authorities to get them to follow up on suspected problems using your data as an indicator!\n\n");
 
         List<String> list7 = new ArrayList<>();
         list7.add("- Shell: " + context.getString(R.string.shell_description));
