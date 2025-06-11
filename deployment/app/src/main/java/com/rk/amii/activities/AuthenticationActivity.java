@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
@@ -32,10 +33,18 @@ public class AuthenticationActivity extends AppCompatActivity {
         ApiService service = new ApiService(this);
 
         // Auto login, can remove
-        //if(service.autoLogin()) {
-        //    Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
-        //    startActivityForResult(intent, 100);
-        //}
+        Map<String, Object> result = service.autoLogin();
+        if(Objects.equals(result.get("is_authenticated"), true)) {
+            Intent intent = new Intent(
+                AuthenticationActivity.this,
+                MainActivity.class
+            );
+            intent.putExtra(
+                    "is_agreed_to_privacy_policy",
+                    (Boolean) result.getOrDefault("is_agreed_to_privacy_policy", false)
+            );
+            startActivityForResult(intent, 100);
+        }
 
         // Get view elements
         Button loginBtn = findViewById(R.id.loginButton);
