@@ -11,7 +11,7 @@
         android:id="@+id/idSiteDetails"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="4.5"
         android:background="@color/white">
 
         <LinearLayout
@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="20dp"
-
             >
 
             <LinearLayout
@@ -47,26 +46,26 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp">
 
                 <TextView
                     android:id="@+id/idRiverName"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:text="River Name" />
+                    android:text="River Name"/>
 
                 <TextView
                     android:id="@+id/idCountry"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
                     android:text="Country"
                     android:textAlignment="viewEnd" />
-
             </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -87,11 +86,11 @@
                 <TextView
                     android:id="@+id/idDescription"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="5dp"
                     android:ellipsize="end"
                     android:maxLength="100"
-                    android:maxLines="3"
+                    android:maxLines="2"
                     android:text="Description" />
 
             </LinearLayout>
@@ -104,7 +103,7 @@
                 android:paddingRight="20dp">
 
                 <TextView
-                    android:id="@+id/idRiverCategoryHeading"
+                    android:id="@+id/idLocationHeading"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -115,17 +114,14 @@
                 <TextView
                     android:id="@+id/idLocation"
                     android:layout_width="wrap_content"
-                    android:layout_height="50dp"
-                    android:layout_marginBottom="10dp"
-                    android:ellipsize="end"
-                    android:maxLength="100"
-                    android:maxLines="3" />
+                    android:layout_height="20dp"
+                    android:layout_marginBottom="5dp"
+                    android:ellipsize="end"/>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp">
@@ -161,7 +157,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_below="@+id/idSiteDetails"
-        android:layout_weight="6"
+        android:layout_weight="5.5"
         android:backgroundTint="#E6EEF8"
         card_view:cardUseCompatPadding="true"
         card_view:contentPadding="0dp">
@@ -211,7 +207,7 @@
                     android:layout_marginTop="50dp"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:text="You have successfully added your site and you are ready to begin sampling! Sample as many habitats as possible (rocky, sandy, and gravel, sand, and mud (GSM) following the guidelines) and then sort the aquatic macroinvertebrates you found into trays so you can take a photo of each different one. When ready, click on the ‘ADD MINISASS SURVEY’ button to start taking photos of each different one and identifying them."
+                    android:text="You have successfully added your site and you are ready to begin sampling! Sample as many habitats as possible (rocky, sandy, and gravel, sand, and mud (GSM) following the guidelines) and then sort the aquatic macroinvertebrates you found into trays so you can take a photo of each different one. When ready, click on the ‘ADD ASSESSMENT’ button to start taking photos of each different one and identifying them."
                     android:textAlignment="center"
                     android:textSize="18sp" />
 
