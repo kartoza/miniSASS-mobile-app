@@ -93,6 +93,7 @@ public class EditSiteActivity extends AppCompatActivity {
             String descriptionValue = description.getText().toString();
             String dateValue = date.getText().toString();
             String riverTypeValue = riverType.getText().toString();
+            SitesModel site = dbHandler.getSiteById((int) siteId);
 
             // Validate the required fields
             if (TextUtils.isEmpty(siteNameValue) || TextUtils.isEmpty(siteLocationValue) ||
@@ -105,6 +106,7 @@ public class EditSiteActivity extends AppCompatActivity {
             findViewById(R.id.idUpdatingSiteView).setVisibility(View.VISIBLE);
 
             // Make sure the siteId exists, otherwise we can't update the site
+            // Site Country is not updateable by user.
             if (siteId != -1) {
                 dbHandler.updateSite(
                         Long.toString(siteId),
@@ -113,7 +115,8 @@ public class EditSiteActivity extends AppCompatActivity {
                         riverNameValue,
                         descriptionValue,
                         dateValue,
-                        riverTypeValue
+                        riverTypeValue,
+                        site.getCountry()
                 );
             }
 

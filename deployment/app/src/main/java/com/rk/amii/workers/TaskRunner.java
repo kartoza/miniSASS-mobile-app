@@ -138,7 +138,19 @@ public class TaskRunner extends Worker {
 
             siteObject.put("site_data", siteDetails);
 
-            Integer _onlineSiteId = service.createSite(imageFiles, siteObject);
+            JSONObject result = service.createSite(imageFiles, siteObject);
+            Integer _onlineSiteId = result.has("gid") ? result.getInt("gid") : 0;
+            dbHandler.updateSite(
+                    Integer.toString(site.getSiteId()),
+                    site.getSiteName(),
+                    site.getSiteLocation(),
+                    site.getRiverName(),
+                    site.getDescription(),
+                    site.getDate(),
+                    site.getRiverType(),
+                    result.has("country") ? result.getString("country") : ""
+            );
+
             return _onlineSiteId;
         } catch (JSONException e) {
             e.printStackTrace();

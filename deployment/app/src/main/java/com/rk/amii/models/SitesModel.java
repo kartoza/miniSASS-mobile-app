@@ -9,6 +9,7 @@ public class SitesModel {
     private final String description;
     private final String date;
     private final String riverType;
+    private final String country;
     private final String onlineSiteId;
 
     /**
@@ -20,6 +21,7 @@ public class SitesModel {
      * @param description site description
      * @param date date created
      * @param riverType river type
+     * @param country Country
      * @param onlineSiteId online site id, 0 if not uploaded yet
      */
     public SitesModel(
@@ -30,6 +32,7 @@ public class SitesModel {
             String description,
             String date,
             String riverType,
+            String country,
             String onlineSiteId)
     {
         this.siteId = siteId;
@@ -39,6 +42,7 @@ public class SitesModel {
         this.description = description;
         this.date = date;
         this.riverType = riverType;
+        this.country = country;
         this.onlineSiteId = onlineSiteId;
     }
 
@@ -85,6 +89,12 @@ public class SitesModel {
      * @return river type
      */
     public  String getRiverType() {return riverType; }
+
+    /**
+     * Get the country
+     * @return country
+     */
+    public  String getCountry() {return country; }
 
     /**
      * Get the site's location (Lat,Long)

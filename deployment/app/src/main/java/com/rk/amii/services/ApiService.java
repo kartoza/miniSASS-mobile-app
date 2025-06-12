@@ -35,7 +35,7 @@ import java.util.Iterator;
 import java.util.Map;
 import android.util.Log;
 import java.util.concurrent.atomic.AtomicInteger;
-
+import java.util.concurrent.atomic.AtomicReference;
 
 
 public class ApiService {
@@ -434,24 +434,39 @@ public class ApiService {
         return result;
     }
 
-    public Integer createSite(Map<String, File> imageFiles, JSONObject details) {
-        AtomicInteger result = new AtomicInteger(0);
+    public JSONObject createSite(Map<String, File> imageFiles, JSONObject details) {
+        AtomicReference<JSONObject> result = new AtomicReference<>(new JSONObject());
         Thread thread = new Thread(() -> {
             try {
                 JSONObject response = uploadMultipleImages(this.domain+"monitor/sites/", imageFiles, details);
                 try {
                     if (response.get("status").toString().trim().equals("201")) {
                         JSONObject data = new JSONObject(response.get("data").toString());
-                        result.set(Integer.parseInt(data.getString("gid")));
+                        result.set(data);
                     } else {
-                        result.set(0);
+                        result.set(response);
                     }
                 } catch (Exception e) {
                     System.out.println("Create Site exception: " + e);
-                    result.set(0);
+                    try {
+                        JSONObject errorResponse = new JSONObject();
+                        errorResponse.put("error", e.getMessage());
+                        errorResponse.put("status", "error");
+                        result.set(errorResponse);
+                    } catch (Exception jsonException) {
+                        result.set(new JSONObject());
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                try {
+                    JSONObject errorResponse = new JSONObject();
+                    errorResponse.put("error", e.getMessage());
+                    errorResponse.put("status", "error");
+                    result.set(errorResponse);
+                } catch (Exception jsonException) {
+                    result.set(new JSONObject());
+                }
             }
         });
 
