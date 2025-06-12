@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
+import java.util.Objects;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
@@ -32,10 +33,18 @@ public class AuthenticationActivity extends AppCompatActivity {
         ApiService service = new ApiService(this);
 
         // Auto login, can remove
-        //if(service.autoLogin()) {
-        //    Intent intent = new Intent(AuthenticationActivity.this, MainActivity.class);
-        //    startActivityForResult(intent, 100);
-        //}
+        Map<String, Object> result = service.autoLogin();
+        if(Objects.equals(result.get("is_authenticated"), true)) {
+            Intent intent = new Intent(
+                AuthenticationActivity.this,
+                MainActivity.class
+            );
+            intent.putExtra(
+                    "is_agreed_to_privacy_policy",
+                    (Boolean) result.getOrDefault("is_agreed_to_privacy_policy", false)
+            );
+            startActivityForResult(intent, 100);
+        }
 
         // Get view elements
         Button loginBtn = findViewById(R.id.loginButton);
@@ -65,7 +74,6 @@ public class AuthenticationActivity extends AppCompatActivity {
                     JSONObject response = service.getUserProfile();
                     DBHandler dbHandler = new DBHandler(getApplicationContext());
                     try {
-                        String username = safeOptString(response, "username");
                         String email = safeOptString(response, "email");
                         String name = safeOptString(response, "name");
                         String surname = safeOptString(response, "surname");
@@ -74,7 +82,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                         String country = safeOptString(response, "country");
                         String uploadPreference = safeOptString(response, "upload_preference");
 
-                        dbHandler.addOrUpdateUserProfile(username, email, name, surname,
+                        dbHandler.addOrUpdateUserProfile(email, name, surname,
                                 organisationType, organisationName, country, uploadPreference);
                     } catch (Exception e) {
                         e.printStackTrace();

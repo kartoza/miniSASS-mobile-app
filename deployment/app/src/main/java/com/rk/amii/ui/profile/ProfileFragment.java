@@ -7,33 +7,34 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.rk.amii.R;
 import com.rk.amii.database.DBHandler;
 import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
+import com.rk.amii.utils.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 
 public class ProfileFragment extends Fragment {
 
     private static final String PREFS = "profile_prefs";
     private static final String KEY_UPLOAD_PREF = "upload_pref";
     private SharedPreferences prefs;
-    private EditText editUsername, editEmail, editName, editSurname, editOrganisationName, editCountry;
+    private TextInputEditText editEmail, editName, editSurname, editOrganisationName;
     private Button buttonSave;
     private DBHandler dbHandler;
-    private Spinner spinnerUploadPreference;
+    private AutoCompleteTextView spinnerUploadPreference, spinnerOrganisationType, autoCompleteCountry;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,49 +43,37 @@ public class ProfileFragment extends Fragment {
 
         dbHandler = new DBHandler(getContext());
 
-        editUsername = view.findViewById(R.id.editUsername);
         editEmail = view.findViewById(R.id.editEmail);
         editName = view.findViewById(R.id.editName);
         editSurname = view.findViewById(R.id.editSurname);
-//        editOrganisationType = view.findViewById(R.id.editOrganisationType);
         editOrganisationName = view.findViewById(R.id.editOrganisationName);
-        editCountry = view.findViewById(R.id.editCountry);
         buttonSave = view.findViewById(R.id.buttonSave);
 
-        // Get Spinner reference using view.findViewById
+        // Get AutoCompleteTextView references
         spinnerUploadPreference = view.findViewById(R.id.spinnerUploadPreference);
+        spinnerOrganisationType = view.findViewById(R.id.spinnerOrganisationType);
+        autoCompleteCountry = view.findViewById(R.id.autoCompleteCountry);
 
-        // Define the arrays for the dropdown
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
-                requireContext(),  // <-- use requireContext() instead of this
-                R.array.upload_preference_display_names,
-                android.R.layout.simple_spinner_item
+        // Setup upload preference dropdown
+        String[] uploadPreferenceDisplayNames = getResources().getStringArray(R.array.upload_preference_display_names);
+        ArrayAdapter<String> uploadAdapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                uploadPreferenceDisplayNames
         );
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerUploadPreference.setAdapter(adapter);
+        spinnerUploadPreference.setAdapter(uploadAdapter);
 
-        // Load user data from DB
-        loadProfile();
+        spinnerUploadPreference.setOnItemClickListener((parent, view1, position, id) -> {
+            String[] uploadPreferenceValues = getResources().getStringArray(R.array.upload_preference_values);
+            String selectedValue = uploadPreferenceValues[position];
+            String oldPref = prefs.getString(KEY_UPLOAD_PREF, "wifi");
 
-        spinnerUploadPreference.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String[] uploadPreferenceValues = getResources().getStringArray(R.array.upload_preference_values);
-                String selectedValue  = uploadPreferenceValues[position];
-                String oldPref = prefs.getString(KEY_UPLOAD_PREF, "wifi");
-
-                if (!selectedValue.equals(oldPref) &&
+            if (!selectedValue.equals(oldPref) &&
                     (selectedValue.equals("mobile") || selectedValue.equals("both"))) {
-                    showDataWarning();
-                }
-
-                prefs.edit().putString(KEY_UPLOAD_PREF, selectedValue).apply();
+                showDataWarning();
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Do nothing
-            }
+            prefs.edit().putString(KEY_UPLOAD_PREF, selectedValue).apply();
         });
 
         buttonSave.setOnClickListener(v -> saveProfile());
@@ -92,24 +81,72 @@ public class ProfileFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        // Setup organization type dropdown
+        ArrayAdapter<String> orgTypeAdapter = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                Constants.ORGANISATION_TYPES
+        );
+        spinnerOrganisationType.setAdapter(orgTypeAdapter);
+
+        // Setup country dropdown
+        ArrayAdapter<String> countryAdapter = new ArrayAdapter<>(
+                getContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                Constants.COUNTRIES
+        );
+        autoCompleteCountry.setAdapter(countryAdapter);
+
+        loadProfile();
+    }
+
     private void loadProfile() {
         UserModel user = dbHandler.getUserProfile();
         if (user != null) {
-            editUsername.setText(user.getUsername());
             editEmail.setText(user.getEmail());
             editName.setText(user.getName());
             editSurname.setText(user.getSurname());
-//            editOrganisationType.setText(user.getOrganisationType());
             editOrganisationName.setText(user.getOrganisationName());
-            editCountry.setText(user.getCountry());
 
-            // Set spinner selection
+            // Set country selection
+            String userCountryCode = user.getCountry();
+            if (userCountryCode != null && !userCountryCode.trim().isEmpty()) {
+                String[] countryCodes = Constants.COUNTRY_CODES;
+                for (int i = 0; i < countryCodes.length; i++) {
+                    if (countryCodes[i].equals(userCountryCode.trim())) {
+                        if (i < Constants.COUNTRIES.length) {
+                            autoCompleteCountry.setText(Constants.COUNTRIES[i], false);
+                        }
+                        break;
+                    }
+                }
+            }
+
+            // Set organization type selection
+            String userOrganisationType = user.getOrganisationType();
+            if (userOrganisationType != null && !userOrganisationType.trim().isEmpty()) {
+                for (int i = 0; i < Constants.ORGANISATION_TYPES.length; i++) {
+                    if (Constants.ORGANISATION_TYPES[i].equals(userOrganisationType.trim())) {
+                        spinnerOrganisationType.setText(Constants.ORGANISATION_TYPES[i], false);
+                        break;
+                    }
+                }
+            }
+
+            // Set upload preference selection
             String uploadPreferenceFromDb = user.getUploadPreference();
             String[] values = getResources().getStringArray(R.array.upload_preference_values);
+            String[] displayNames = getResources().getStringArray(R.array.upload_preference_display_names);
 
             for (int i = 0; i < values.length; i++) {
                 if (values[i].equals(uploadPreferenceFromDb)) {
-                    spinnerUploadPreference.setSelection(i);
+                    if (i < displayNames.length) {
+                        spinnerUploadPreference.setText(displayNames[i], false);
+                    }
                     break;
                 }
             }
@@ -117,22 +154,12 @@ public class ProfileFragment extends Fragment {
     }
 
     public boolean isFormValid() {
-        String username = editUsername.getText().toString().trim();
         String email = editEmail.getText().toString().trim();
         String name = editName.getText().toString().trim();
         String surname = editSurname.getText().toString().trim();
-//        String organisationType = editOrganisationType.getText().toString().trim();
         String organisationName = editOrganisationName.getText().toString().trim();
-        String country = editCountry.getText().toString().trim(); // Not required
-        String uploadPreference = spinnerUploadPreference.getSelectedItem().toString();
 
         boolean isValid = true;
-
-        // Validate username
-        if (username.isEmpty()) {
-            editUsername.setError("This field is required");
-            isValid = false;
-        }
 
         // Validate email
         if (email.isEmpty()) {
@@ -152,21 +179,9 @@ public class ProfileFragment extends Fragment {
             isValid = false;
         }
 
-//        // Validate organisation type
-//        if (organisationType.isEmpty()) {
-//            editOrganisationType.setError("This field is required");
-//            isValid = false;
-//        }
-
         // Validate organisation name
         if (organisationName.isEmpty()) {
             editOrganisationName.setError("This field is required");
-            isValid = false;
-        }
-
-        // Upload preference validation (if needed)
-        if (uploadPreference.isEmpty()) {
-            // Handle error
             isValid = false;
         }
 
@@ -174,37 +189,71 @@ public class ProfileFragment extends Fragment {
     }
 
     private void saveProfile() {
-        String username = editUsername.getText().toString();
         String email = editEmail.getText().toString();
         String name = editName.getText().toString();
         String surname = editSurname.getText().toString();
-//        String organisationType = editOrganisationType.getText().toString();
         String organisationName = editOrganisationName.getText().toString();
-        String country = editCountry.getText().toString();
-        int selectedPosition = spinnerUploadPreference.getSelectedItemPosition();
-        String[] uploadPreferenceValues = getResources().getStringArray(R.array.upload_preference_values);
-        String selectedUploadPreference = uploadPreferenceValues[selectedPosition];
+
+        // Get selected organization type
+        String organisationType = spinnerOrganisationType.getText().toString();
+
+        // Get selected country code
+        String country = "";
+        String selectedCountryName = autoCompleteCountry.getText().toString();
+        if (!selectedCountryName.isEmpty()) {
+            for (int i = 0; i < Constants.COUNTRIES.length; i++) {
+                if (Constants.COUNTRIES[i].equals(selectedCountryName)) {
+                    if (i < Constants.COUNTRY_CODES.length) {
+                        country = Constants.COUNTRY_CODES[i];
+                    }
+                    break;
+                }
+            }
+        }
+
+        // Get selected upload preference value
+        String selectedUploadPreference = "";
+        String selectedUploadDisplay = spinnerUploadPreference.getText().toString();
+        if (!selectedUploadDisplay.isEmpty()) {
+            String[] displayNames = getResources().getStringArray(R.array.upload_preference_display_names);
+            String[] values = getResources().getStringArray(R.array.upload_preference_values);
+            for (int i = 0; i < displayNames.length; i++) {
+                if (displayNames[i].equals(selectedUploadDisplay)) {
+                    if (i < values.length) {
+                        selectedUploadPreference = values[i];
+                    }
+                    break;
+                }
+            }
+        }
 
         if (isFormValid()) {
-            dbHandler.updateUserProfile(username, email, name, surname, "", organisationName, country, selectedUploadPreference);
-
             ApiService service = new ApiService(getContext());
 
             JSONObject payload = new JSONObject();
             try {
-                payload.put("username", username);
                 payload.put("email", email);
                 payload.put("name", name);
                 payload.put("surname", surname);
-//                payload.put("organisation_type", organisationType);
                 payload.put("organisation_name", organisationName);
+                payload.put("organisation_type", organisationType);
                 payload.put("country", country);
                 payload.put("upload_preference", selectedUploadPreference);
-                service.updateUserProfile(payload);
+
+                JSONObject result = service.updateUserProfile(payload);
+                if (result.length() > 0) {
+                    Toast.makeText(getContext(), "Profile updated", Toast.LENGTH_SHORT).show();
+                    dbHandler.updateUserProfile(
+                            email, name, surname, organisationType,
+                            organisationName, country, selectedUploadPreference
+                    );
+                } else {
+                    Toast.makeText(getContext(), "Profile update failed", Toast.LENGTH_SHORT).show();
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
+                Toast.makeText(getContext(), "Error updating profile", Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(getContext(), "Profile updated", Toast.LENGTH_SHORT).show();
         } else {
             new AlertDialog.Builder(getContext())
                     .setTitle("Profile Warning")
