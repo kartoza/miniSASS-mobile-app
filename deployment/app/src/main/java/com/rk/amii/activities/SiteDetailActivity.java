@@ -42,6 +42,8 @@ public class SiteDetailActivity extends AppCompatActivity {
     private TextView siteNameView;
     private TextView riverNameView;
     private TextView descriptionView;
+    private TextView country;
+    private TextView location;
     private TextView dateView;
     private boolean isOnline;
 
@@ -95,6 +97,8 @@ public class SiteDetailActivity extends AppCompatActivity {
         siteNameView = findViewById(R.id.idSiteName);
         riverNameView = findViewById(R.id.idRiverName);
         descriptionView = findViewById(R.id.idDescription);
+        country = findViewById(R.id.idCountry);
+        location = findViewById(R.id.idLocation);
         dateView = findViewById(R.id.idDate);
         siteImagesView = findViewById(R.id.rvSiteImagesDetails);
         assessmentsView = findViewById(R.id.rvAssessments);
@@ -109,9 +113,11 @@ public class SiteDetailActivity extends AppCompatActivity {
 
         Button addSampleButton = (Button) findViewById(R.id.idAddSample);
 
-        if (type.equals("online")) {
-            addSampleButton.setVisibility(View.GONE);
-        }
+//        TODO: Confirm to Nicholas wether user could upload to any site
+//        User could upload to any site in miniSASS website
+//        if (type.equals("online")) {
+//            addSampleButton.setVisibility(View.GONE);
+//        }
 
         addSampleButton.setOnClickListener(view -> {
             Intent intent = new Intent(SiteDetailActivity.this, CreateNewSampleActivity.class);
@@ -154,12 +160,13 @@ public class SiteDetailActivity extends AppCompatActivity {
                     )
             );
         }
-
-
-
         siteNameView.setText(site.getSiteName());
-        riverNameView.setText(site.getRiverName());
+        String riverName = site.getRiverName() + " (" + site.getRiverType() + ")";
+        riverNameView.setText(riverName);
         descriptionView.setText(site.getDescription());
+        country.setText(site.getCountry());
+        String locationText = "(" + site.getSiteLocation().replace(",", ", ") + ")";
+        location.setText(locationText);
         dateView.setText(site.getDate());
 
         prepareAssessments(assessments);
@@ -183,18 +190,23 @@ public class SiteDetailActivity extends AppCompatActivity {
                     site = new SitesModel(
                             Integer.parseInt(siteId),
                             onlineSite.getString("site_name"),
-                            onlineSite.getString("site_name"), //get location
+                            onlineSite.getString("the_geom").replace("SRID=4326;POINT (", "").replace(")", ""),
                             onlineSite.getString("river_name"),
                             onlineSite.getString("description"),
                             onlineSite.getString("time_stamp").split("T")[0],
-                            onlineSite.getString("site_name"), //get river type
+                            onlineSite.getString("river_cat"),
+                            onlineSite.getString("country"),
                             siteId
                             );
 
                     siteNameView.setText(site.getSiteName());
-                    riverNameView.setText(site.getRiverName());
+                    String riverName = site.getRiverName() + " (" + site.getRiverType() + ")";
+                    riverNameView.setText(riverName);
                     descriptionView.setText(site.getDescription());
                     dateView.setText(site.getDate());
+                    String locationText = "(" + site.getSiteLocation().replace(",", ", ") + ")";
+                    location.setText(locationText);
+                    country.setText(site.getCountry());
 
                 } catch (JSONException e) {
                     e.printStackTrace();

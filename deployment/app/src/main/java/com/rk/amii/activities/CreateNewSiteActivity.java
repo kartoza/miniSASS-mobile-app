@@ -133,7 +133,7 @@ public class CreateNewSiteActivity extends AppCompatActivity {
 
             // Add the site data to the device database
             long siteId = dbHandler.addNewSite(siteNameValue, siteLocationValue, riverNameValue,
-                    descriptionValue, dateValue, riverTypeValue, false);
+                    descriptionValue, dateValue, riverTypeValue, "", false);
 
             // Add the site images to the device database
             for(String imagePath : siteImages) {
@@ -169,11 +169,22 @@ public class CreateNewSiteActivity extends AppCompatActivity {
 
                     siteObject.put("site_data", siteDetails);
 
-                    Integer onlineSiteId = service.createSite(imageFiles, siteObject);
+                    JSONObject result = service.createSite(imageFiles, siteObject);
+                    Integer onlineSiteId = result.has("gid") ? result.getInt("gid") : 0;
                     if (onlineSiteId == 0) {
                         this.showCouldNotSaveSiteDialog(siteId);
                     } else {
                         dbHandler.updateSiteUploaded(String.valueOf(siteId), onlineSiteId);
+                        dbHandler.updateSite(
+                                Integer.toString((int) siteId),
+                                siteNameValue,
+                                siteLocationValue,
+                                riverNameValue,
+                                descriptionValue,
+                                dateValue,
+                                riverTypeValue,
+                                result.has("country") ? result.getString("country") : ""
+                        );
                         Intent intent = new Intent(CreateNewSiteActivity.this, SiteDetailActivity.class);
                         intent.putExtra("siteId", Long.toString(siteId));
                         intent.putExtra("type", "offline");
