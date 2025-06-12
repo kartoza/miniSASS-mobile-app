@@ -61,13 +61,19 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
         if (site != null) {
             holder.miniSassScore.setText("User score: " + String.format("%.2f", modal.getMiniSassScore()));
             holder.miniSassMLScore.setText("ML score: " + String.format("%.2f", modal.getMiniSassMLScore()));
-            holder.userCondition.setText("Condition: " + Utils.calculateCondition(modal.getMiniSassScore(), site.getRiverType()));
-            holder.mlCondition.setText("Condition: " + Utils.calculateCondition(modal.getMiniSassMLScore(), site.getRiverType()));
+            holder.userCondition.setText("User Condition: " + Utils.calculateCondition(modal.getMiniSassScore(), site.getRiverType()));
+            holder.mlCondition.setText("ML Condition: " + Utils.calculateCondition(modal.getMiniSassMLScore(), site.getRiverType()));
+            holder.collectorsName.setText("Collector's name: " + modal.getCollectorsName());
+            holder.organisationName.setText("Organisation: " + modal.getOrganisation());
+            holder.obsDate.setText("Observation Date: " + modal.getObservationDate());
         } else {
             holder.miniSassScore.setText("User score: " + String.format("%.2f", modal.getMiniSassScore()));
             holder.miniSassMLScore.setText("ML score: " + String.format("%.2f", modal.getMiniSassMLScore()));
-            holder.userCondition.setText("Condition: " + Utils.calculateCondition(modal.getMiniSassScore(), "sandy"));
-            holder.mlCondition.setText("Condition: " + Utils.calculateCondition(modal.getMiniSassMLScore(), "sandy"));
+            holder.userCondition.setText("User Condition: " + Utils.calculateCondition(modal.getMiniSassScore(), "sandy"));
+            holder.mlCondition.setText("ML Condition: " + Utils.calculateCondition(modal.getMiniSassMLScore(), "sandy"));
+            holder.collectorsName.setText("Collector's name: " + modal.getCollectorsName());
+            holder.organisationName.setText("Organisation: " + modal.getOrganisation());
+            holder.obsDate.setText("Observation Date: " + modal.getObservationDate());
         }
 
         if (!TextUtils.isEmpty(modal.getWaterTemp())) {
@@ -175,6 +181,9 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
         private final TextView miniSassMLScore;
         private final TextView userCondition;
         private final TextView mlCondition;
+        private final TextView collectorsName;
+        private final TextView organisationName;
+        private final TextView obsDate;
         private final RecyclerView photoView;
         private final ImageButton togglePhotos;
         private final LinearLayout togglePhotosContainer;
@@ -197,6 +206,9 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
             miniSassMLScore = itemView.findViewById(R.id.idMiniSassMLScore);
             userCondition = itemView.findViewById(R.id.idUserCondition);
             mlCondition = itemView.findViewById(R.id.idMLCondition);
+            collectorsName = itemView.findViewById(R.id.idCollectorsName);
+            organisationName = itemView.findViewById(R.id.idOrganisation);
+            obsDate = itemView.findViewById(R.id.idDate);
             photoView = itemView.findViewById(R.id.rvPhotos);
             togglePhotosContainer = itemView.findViewById(R.id.idShowPhotosContainer);
             photoContainer = itemView.findViewById(R.id.idPhotoContainer);

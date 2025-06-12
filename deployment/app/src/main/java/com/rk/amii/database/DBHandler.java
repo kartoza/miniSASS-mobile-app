@@ -32,6 +32,9 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String ASSESSMENT_ONLINE_ID = "online_id";
     private static final String ASSESSMENT_MINISASS_SCORE = "score";
     private static final String ASSESSMENT_ML_SCORE = "ml_score";
+    private static final String ASSESSMENT_COLLECTORS_NAME = "collectors_name";
+    private static final String ASSESSMENT_ORGANISATION = "organisation";
+    private static final String ASSESSMENT_OBS_DATE = "observation_date";
     private static final String ASSESSMENT_NOTES = "notes";
     private static final String ASSESSMENT_PH = "ph";
     private static final String ASSESSMENT_WATER_TEMP = "water_temp";
@@ -94,6 +97,9 @@ public class DBHandler extends SQLiteOpenHelper {
                 + ASSESSMENT_ONLINE_ID + " INTEGER, "
                 + ASSESSMENT_MINISASS_SCORE + " TEXT,"
                 + ASSESSMENT_ML_SCORE + " TEXT,"
+                + ASSESSMENT_COLLECTORS_NAME + " TEXT,"
+                + ASSESSMENT_ORGANISATION + " TEXT,"
+                + ASSESSMENT_OBS_DATE + " TEXT,"
                 + ASSESSMENT_NOTES + " TEXT,"
                 + ASSESSMENT_PH + " TEXT,"
                 + ASSESSMENT_WATER_TEMP + " TEXT,"
@@ -229,6 +235,9 @@ public class DBHandler extends SQLiteOpenHelper {
      * Add a new assessment to the database
      * @param miniSassScore The user score
      * @param mlScore The ml score
+     * @param collectorsName name of the person doing observation
+     * @param organisation organisation of the person doing observation
+     * @param observationDate date of the observation
      * @param notes The site notes
      * @param ph The water ph reading
      * @param waterTemp The water temp reading
@@ -239,14 +248,18 @@ public class DBHandler extends SQLiteOpenHelper {
      * @param waterClarity The water clarity reading
      * @return The newly added assessment's id
      */
-    public long addNewAssessment(String miniSassScore, String mlScore, String notes, String ph,
-                                 String waterTemp, String dissolvedOxygen, String dissolvedOxygenUnit,
+    public long addNewAssessment(String miniSassScore, String mlScore, String notes,
+                                 String collectorsName, String organisation, String observationDate,
+                                 String ph, String waterTemp, String dissolvedOxygen, String dissolvedOxygenUnit,
                                  String electricalConductivity, String electricalConductivityUnit,
                                  String waterClarity, Integer onlineAssessmentId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(ASSESSMENT_MINISASS_SCORE, miniSassScore);
         values.put(ASSESSMENT_ML_SCORE, mlScore);
+        values.put(ASSESSMENT_COLLECTORS_NAME, collectorsName);
+        values.put(ASSESSMENT_ORGANISATION, organisation);
+        values.put(ASSESSMENT_OBS_DATE, observationDate);
         values.put(ASSESSMENT_NOTES, notes);
         values.put(ASSESSMENT_PH, ph);
         values.put(ASSESSMENT_WATER_TEMP, waterTemp);
@@ -411,7 +424,10 @@ public class DBHandler extends SQLiteOpenHelper {
                         cursor.getString(8),
                         cursor.getString(9),
                         cursor.getString(10),
-                        cursor.getString(11)
+                        cursor.getString(11),
+                        cursor.getString(12),
+                        cursor.getString(13),
+                        cursor.getString(14)
                 ));
             } while (cursor.moveToNext());
         }
@@ -487,7 +503,10 @@ public class DBHandler extends SQLiteOpenHelper {
                     cursor.getString(8),
                     cursor.getString(9),
                     cursor.getString(10),
-                    cursor.getString(11)
+                    cursor.getString(11),
+                    cursor.getString(12),
+                    cursor.getString(13),
+                    cursor.getString(14)
             );
         }
         cursor.close();

@@ -6,6 +6,9 @@ public class AssessmentModel {
     private final Float miniSassMLScore;
     private final Integer assessmentId;
     private final Integer onlineAssessmentId;
+    private final String collectorsName;
+    private final String organisation;
+    private final String observationDate;
     private final String notes;
     private final String ph;
     private final String waterTemp;
@@ -21,6 +24,9 @@ public class AssessmentModel {
      * @param onlineAssessmentId assessment id
      * @param miniSassScore miniSASS score
      * @param miniSassMLScore machine learning model prediction score
+     * @param collectorsName name of the person doing observation
+     * @param organisation organisation of the person doing observation
+     * @param observationDate date of the observation
      * @param notes notes
      * @param ph ph
      * @param waterTemp water temperature
@@ -30,16 +36,20 @@ public class AssessmentModel {
      * @param electricalConductivityUnit electrical conductivity unit
      * @param waterClarity water clarity
      */
-    public AssessmentModel (Integer assessmentId, Integer onlneAssessmentId, Float miniSassScore, Float miniSassMLScore,
+    public AssessmentModel (Integer assessmentId, Integer onlineAssessmentId, Float miniSassScore, Float miniSassMLScore,
+                            String collectorsName, String organisation, String observationDate,
                             String notes, String ph, String waterTemp,
                             String dissolvedOxygen, String dissolvedOxygenUnit,
                             String electricalConductivity, String electricalConductivityUnit,
                             String waterClarity)
     {
         this.assessmentId = assessmentId;
-        this.onlineAssessmentId = onlneAssessmentId;
+        this.onlineAssessmentId = onlineAssessmentId;
         this.miniSassScore = miniSassScore;
         this.miniSassMLScore = miniSassMLScore;
+        this.collectorsName = collectorsName;
+        this.organisation = organisation;
+        this.observationDate = observationDate;
         this.notes = notes;
         this.ph = ph;
         this.waterTemp = waterTemp;
@@ -85,6 +95,31 @@ public class AssessmentModel {
     public String getNotes() {
         return notes;
     }
+
+    /**
+     * Get the collector's name
+     * @return collector's name
+     */
+    public String getCollectorsName() {
+        return collectorsName;
+    }
+
+    /**
+     * Get the organisation
+     * @return organisation
+     */
+    public String getOrganisation() {
+        return organisation;
+    }
+
+    /**
+     * Get the observation date
+     * @return observation date
+     */
+    public String getObservationDate() {
+        return observationDate;
+    }
+
 
     /**
      * Get the assessment water ph level measurement
