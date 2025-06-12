@@ -47,6 +47,7 @@ import com.rk.amii.models.PhotoModel;
 import com.rk.amii.models.SampleItemModel;
 import com.rk.amii.models.ScoreModel;
 import com.rk.amii.models.SitesModel;
+import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
 
@@ -68,6 +69,7 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 
@@ -93,6 +95,8 @@ public class CreateNewSampleActivity extends AppCompatActivity {
     private TextView placeholderText;
     private String invertType;
     private Spinner macroinvertebrates;
+    private EditText date;
+
     private EditText ph;
     private EditText waterTemp;
     private EditText dissolvedOxygen;
@@ -161,6 +165,9 @@ public class CreateNewSampleActivity extends AppCompatActivity {
 
         onlineInvertMapping = Utils.getOnlineInvertMapping();
 
+        date = findViewById(R.id.idDate);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        date.setText(LocalDate.now().toString());
         ph = findViewById(R.id.idPhAdd);
         waterTemp = findViewById(R.id.idWaterTempAdd);
         dissolvedOxygen = findViewById(R.id.idDissolvedOxygenAdd);
@@ -378,9 +385,13 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         Double miniSassScore = calculateScore();
         Double mlScore = calculateMLScore();
         SitesModel site = dbHandler.getSiteById((int)siteId);
+        UserModel user = dbHandler.getUserProfile();
         long assessmentId = dbHandler.addNewAssessment(
                 miniSassScore.toString(),
                 mlScore.toString(),
+                user.getName(),
+                user.getOrganisationName(),
+                date.getText().toString(),
                 notes.getText().toString(),
                 ph.getText().toString(),
                 waterTemp.getText().toString(),
@@ -423,8 +434,9 @@ public class CreateNewSampleActivity extends AppCompatActivity {
                 assessmentInputObject.put("siteName", site.getSiteName());
                 assessmentInputObject.put("siteDescription", site.getDescription());
                 assessmentInputObject.put("rivercategory", site.getRiverType());
-                assessmentInputObject.put("date", LocalDate.now().toString());
-                assessmentInputObject.put("collectorsname", "");
+//                assessmentInputObject.put("date", LocalDate.now().toString());
+                assessmentInputObject.put("date", date.getText().toString());
+                assessmentInputObject.put("collectorsname", user.getName());
                 assessmentInputObject.put("notes", notes.getText().toString());
                 assessmentInputObject.put("waterclaritycm", waterClarity.getText().toString());
                 assessmentInputObject.put("watertemperatureOne", waterTemp.getText().toString());
