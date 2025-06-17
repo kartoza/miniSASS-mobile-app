@@ -191,7 +191,7 @@ public class ApiService {
 
     public Map<String, Object> login(JSONObject details) {
         Map<String, Object> result = new HashMap<>();
-        JSONObject response = sendPostRequest(this.domain + "authentication/api/login/", details);
+        JSONObject response = sendPostRequest(this.domain + "authentication/api/login/?app=mobile", details);
 
         try {
             if (response.get("status").toString().trim().equals("200")) {
@@ -224,10 +224,98 @@ public class ApiService {
         }
     }
 
-    public boolean checkAuthStatus() {
-        JSONObject response = sendRequestWithHeaders(this.domain+"authentication/api/check-auth-status/", new JSONObject(), "POST");
+    public Map<String, Object> checkAuthStatus() {
+        Map<String, Object> result = new HashMap<>();
+        final Map<String, Object> finalResult = result; // For thread access
+
+        Thread thread = new Thread(() -> {
+            try {
+                URL endpointUrl = new URL(this.domain+"authentication/api/check-auth-status/");
+                HttpURLConnection conn = (HttpURLConnection) endpointUrl.openConnection();
+                conn.setRequestMethod("GET");
+                conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                conn.setRequestProperty("Accept", "application/json");
+
+                String token = readFromStorage("access_token.txt");
+                System.out.println("Access Token: " + token);
+                conn.setRequestProperty("Authorization", "Bearer " + token);
+
+                conn.setConnectTimeout(5000);
+                conn.setDoInput(true);
+
+                int statusCode = conn.getResponseCode();
+                InputStream stream = (statusCode >= 400) ? conn.getErrorStream() : conn.getInputStream();
+
+                BufferedReader br = new BufferedReader(new InputStreamReader(stream));
+                StringBuilder content = new StringBuilder();
+                String current;
+                while ((current = br.readLine()) != null) {
+                    content.append(current);
+                }
+
+                System.out.println("CheckAuthStatus - Status: " + statusCode);
+                System.out.println("CheckAuthStatus - Response: " + content.toString());
+
+                if (statusCode == 200) {
+                    JSONObject data = new JSONObject(content.toString());
+                    Boolean gaveConsent = null;
+                    Boolean isAuthenticated = null;
+                    if (data.has("is_agreed_to_privacy_policy")) {
+                        gaveConsent = data.optBoolean("is_agreed_to_privacy_policy", false);
+                    }
+                    if (data.has("is_authenticated")) {
+                        isAuthenticated = data.optBoolean("is_authenticated", false);
+                    }
+                    finalResult.put("is_agreed_to_privacy_policy", gaveConsent);
+                    finalResult.put("is_authenticated", isAuthenticated);
+                    finalResult.put("status", "success");
+                } else {
+                    finalResult.put("status", "error");
+                    finalResult.put("is_authenticated", false);
+                }
+
+                conn.disconnect();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                finalResult.put("status", "error");
+                finalResult.put("is_authenticated", false);
+                finalResult.put("error", e.getMessage());
+            }
+        });
+
+        thread.start();
+        try {
+            thread.join(); // Wait for completion
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            result.put("status", "error");
+            result.put("is_authenticated", false);
+        }
+
+        System.out.println("Final checkAuthStatus result: " + result);
+        return result;
+    }
+
+    public boolean refreshAccessToken() {
+        JSONObject details = new JSONObject();
+        try {
+            details.put("refresh", readFromStorage("refresh_token.txt"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        JSONObject response = sendPostRequest(
+            this.domain + "authentication/api/token/refresh/",
+                details
+        );
+
         try {
             if (response.get("status").toString().trim().equals("200")) {
+                JSONObject tokens = new JSONObject(response.get("data").toString());
+                String accessToken = tokens.optString("access_token", "").trim();
+                if (!TextUtils.isEmpty(accessToken)) {
+                    writeToStorage("access_token.txt", accessToken);
+                }
                 return true;
             }
             return false;
@@ -302,6 +390,8 @@ public class ApiService {
         JSONObject response = sendRequestWithHeaders(this.domain+"authentication/api/logout/", new JSONObject(), "POST");
         try {
             if (response.get("status").toString().trim().equals("200")) {
+                writeToStorage("refresh_token.txt", "");
+                writeToStorage("access_token.txt", "");
                 return true;
             }
             return false;
@@ -310,12 +400,37 @@ public class ApiService {
         }
     }
 
-    public boolean autoLogin() {
-        String refresh_token = readFromStorage("refresh_token.txt");
-        if (TextUtils.isEmpty(refresh_token)) {
-            return false;
+    public Map<String, Object> autoLogin() {
+        /**
+         * Check if the user is logged in
+         */
+        Map<String, Object> result = new HashMap<>();
+        try {
+            Map<String, Object> authStatus = checkAuthStatus();
+
+            if (authStatus != null && !authStatus.isEmpty()) {
+                Boolean isAuthenticated = (Boolean) authStatus.get("is_authenticated");
+                Boolean agreedToPolicy = (Boolean) authStatus.get("is_agreed_to_privacy_policy");
+
+                if (isAuthenticated != null && isAuthenticated) {
+                    result.put("success", true);
+                    result.put("is_authenticated", true);
+                    result.put("is_agreed_to_privacy_policy", agreedToPolicy);
+                } else {
+                    result.put("success", false);
+                    result.put("is_authenticated", false);
+                }
+            } else {
+                result.put("success", false);
+                result.put("is_authenticated", false);
+            }
+        } catch (Exception e) {
+            System.out.println("AutoLogin exception: " + e);
+            result.put("success", false);
+            result.put("is_authenticated", false);
         }
-        return true;
+
+        return result;
     }
 
     public Integer createSite(Map<String, File> imageFiles, JSONObject details) {
