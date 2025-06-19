@@ -21,7 +21,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.core.graphics.drawable.DrawableCompat;
 import androidx.fragment.app.Fragment;
@@ -67,8 +70,30 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     LocationManager location_manager;
     private ArrayList<SitesModel> sites;
     private Button retryBtn;
+    private ActivityResultLauncher<Intent> siteDetailLauncher;
+
+    private String currentSiteId;
+    private String currentSiteType;
+
     TextView mapMessage;
     private boolean isOnline = false;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Initialize the activity result launcher
+        siteDetailLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    Log.d("HomeFragment", "User returned from SiteDetailActivity");
+                    Log.d("HomeFragment", "Site ID: " + currentSiteId);
+
+                    // Handle the return with the site ID
+                    onReturnFromSiteDetail();
+                }
+        );
+    }
 
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
@@ -332,13 +357,20 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 if (siteId != null) {
                     Log.d("FeatureClick", "Opening site detail for ID: " + siteId);
 
+                    // Store the site ID
+                    currentSiteId = siteId;
+                    currentSiteType = "online";
+
                     Intent intent = new Intent(HomeFragment.this.getContext(), SiteDetailActivity.class);
                     intent.putExtra("siteId", siteId);
                     intent.putExtra("type", "online");
-                    HomeFragment.this.getContext().startActivity(intent);
+
+                    // Use the launcher
+                    siteDetailLauncher.launch(intent);
 
                     return true;
                 }
+
 
                 return true; // Return true even if we couldn't find a site ID, to indicate we handled the click
             }
@@ -888,6 +920,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             Log.d("MapDebug", "Map click listener set up successfully");
         } catch (Exception e) {
             Log.e("MapDebug", "Error setting up map event listeners: " + e.getMessage(), e);
+        }
+    }
+
+    private void onReturnFromSiteDetail() {
+        if (currentSiteType == "online") {
+            dbHandler.deleteSite(currentSiteId);
         }
     }
 }
