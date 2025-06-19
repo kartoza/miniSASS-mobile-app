@@ -74,6 +74,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                     JSONObject response = service.getUserProfile();
                     DBHandler dbHandler = new DBHandler(getApplicationContext());
                     try {
+                        String userId = safeOptString(response, "user_id");
                         String email = safeOptString(response, "email");
                         String name = safeOptString(response, "name");
                         String surname = safeOptString(response, "surname");
@@ -82,7 +83,7 @@ public class AuthenticationActivity extends AppCompatActivity {
                         String country = safeOptString(response, "country");
                         String uploadPreference = safeOptString(response, "upload_preference");
 
-                        dbHandler.addOrUpdateUserProfile(email, name, surname,
+                        dbHandler.addOrUpdateUserProfile(Integer.parseInt(userId), email, name, surname,
                                 organisationType, organisationName, country, uploadPreference);
                     } catch (Exception e) {
                         e.printStackTrace();

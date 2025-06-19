@@ -29,6 +29,7 @@ import com.rk.amii.R;
 import com.rk.amii.databinding.FragmentDashboardBinding;
 import com.rk.amii.adapters.SitesAdapter;
 import com.rk.amii.models.SitesModel;
+import com.rk.amii.models.UserModel;
 
 import java.util.ArrayList;
 
@@ -141,7 +142,11 @@ public class DashboardFragment extends Fragment {
     private void getSites() {
         dbHandler = new DBHandler(DashboardFragment.this.getActivity());
 
-        sites = dbHandler.getSites();
+        UserModel user = dbHandler.getUserProfile();
+        sites = dbHandler.getSites(
+                "user_id = ?",
+                new String[]{String.valueOf(user.getUserId())}
+        );
 
         noSites = view.findViewById(R.id.idNoSites);
 

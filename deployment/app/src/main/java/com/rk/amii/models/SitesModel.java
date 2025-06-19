@@ -11,6 +11,7 @@ public class SitesModel {
     private final String riverType;
     private final String country;
     private final String onlineSiteId;
+    private final Integer userId;
 
     /**
      * Create new site
@@ -23,6 +24,7 @@ public class SitesModel {
      * @param riverType river type
      * @param country Country
      * @param onlineSiteId online site id, 0 if not uploaded yet
+     * @param userId ID of the user who created the site
      */
     public SitesModel(
             Integer siteId,
@@ -33,7 +35,8 @@ public class SitesModel {
             String date,
             String riverType,
             String country,
-            String onlineSiteId)
+            String onlineSiteId,
+            Integer userId)
     {
         this.siteId = siteId;
         this.siteName = siteName;
@@ -44,6 +47,7 @@ public class SitesModel {
         this.riverType = riverType;
         this.country = country;
         this.onlineSiteId = onlineSiteId;
+        this.userId = userId;
     }
 
     /**
@@ -109,5 +113,11 @@ public class SitesModel {
      * @return online site id
      */
     public String getOnlineSiteId() {return onlineSiteId;}
+
+    /**
+     * Get user ID
+     * @return User ID
+     */
+    public Integer getUserId() {return userId;}
 
 }

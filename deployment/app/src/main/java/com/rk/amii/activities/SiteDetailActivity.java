@@ -23,6 +23,7 @@ import com.rk.amii.adapters.AssessmentsAdapter;
 import com.rk.amii.models.SitesModel;
 import com.rk.amii.database.DBHandler;
 import com.rk.amii.R;
+import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
 import com.rk.amii.database.DBHandler;
@@ -48,6 +49,7 @@ public class SiteDetailActivity extends AppCompatActivity {
     private TextView dateView;
     private boolean isOnline;
     private DBHandler dbHandler;
+    private long currentSiteId;
 
 
     @Override
@@ -73,21 +75,27 @@ public class SiteDetailActivity extends AppCompatActivity {
                     Manifest.permission.READ_EXTERNAL_STORAGE},300);
         }
 
-        this.onPrepareActivity(siteId, type);
+        if (siteId != currentSiteId) {
+            currentSiteId = siteId;
+            this.onPrepareActivity(siteId, type);
+        }
     }
 
-    /**
-     * Get the site's id and type and prepare the activity view again when the activity is resumed
-     */
-    @Override
-    public void onResume() {
-        super.onResume();
-        Intent intent = getIntent();
-        long siteId = Integer.parseInt(intent.getStringExtra("siteId"));
-        String type = intent.getStringExtra("type");
-        this.onPrepareActivity(siteId, type);
-        isOnline = Utils.isNetworkAvailable(getApplicationContext());
-    }
+//    /**
+//     * Get the site's id and type and prepare the activity view again when the activity is resumed
+//     */
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        Intent intent = getIntent();
+//        long siteId = Integer.parseInt(intent.getStringExtra("siteId"));
+//        if (siteId != currentSiteId) {
+//            currentSiteId = siteId;
+//            String type = intent.getStringExtra("type");
+//            this.onPrepareActivity(siteId, type);
+//            isOnline = Utils.isNetworkAvailable(getApplicationContext());
+//        }
+//    }
 
     /**
      * Add Assessment button
@@ -202,8 +210,10 @@ public class SiteDetailActivity extends AppCompatActivity {
                     String riverTypeValue = onlineSite.getString("river_cat");
                     String countryValue = onlineSite.getString("country");
 
+                    UserModel user = dbHandler.getUserProfile();
+
                     long savedSiteId = dbHandler.addNewSite(siteNameValue, locationValue, riverNameValue,
-                            descriptionValue, dateValue, riverTypeValue, countryValue, true);
+                            descriptionValue, dateValue, riverTypeValue, countryValue, user.getUserId());
 
                     site = dbHandler.getSiteById((int) savedSiteId);
                     dbHandler.updateSiteUploaded(

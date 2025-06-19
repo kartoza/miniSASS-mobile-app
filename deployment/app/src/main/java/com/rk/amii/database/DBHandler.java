@@ -26,6 +26,7 @@ public class DBHandler extends SQLiteOpenHelper {
     private static final String SITES_COUNTRY = "country";
     private static final String SITES_DATE = "date";
     private static final String SITES_SITE_ONLINE_ID = "online_id";
+    private static final String SITES_USER_ID = "user_id";
 
     private static final String ASSESSMENT_TABLE_NAME = "assessments";
     private static final String ASSESSMENT_ID = "id";
@@ -89,7 +90,8 @@ public class DBHandler extends SQLiteOpenHelper {
                 + SITES_RIVER_TYPE + " TEXT,"
                 + SITES_DATE + " TEXT,"
                 + SITES_COUNTRY + " TEXT,"
-                + SITES_SITE_ONLINE_ID + " INTEGER)";
+                + SITES_SITE_ONLINE_ID + " INTEGER,"
+                + SITES_USER_ID + " INTEGER)";
         db.execSQL(query);
 
         String assessmentQuery = "CREATE TABLE " + ASSESSMENT_TABLE_NAME + " ("
@@ -135,6 +137,7 @@ public class DBHandler extends SQLiteOpenHelper {
         db.execSQL(photo_query);
 
         String userQuery = "CREATE TABLE " + USER_TABLE_NAME + " ("
+                + USER_ID + " INTEGER, "
                 + USER_USERNAME + " TEXT, "
                 + USER_EMAIL + " TEXT,"
                 + USER_NAME + " TEXT,"
@@ -160,7 +163,7 @@ public class DBHandler extends SQLiteOpenHelper {
      */
     public long addNewSite(String siteName, String siteLocation, String riverName,
                            String description, String date, String riverType,
-                           String country, Boolean uploaded) {
+                           String country, Integer userId) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(SITES_SITE_NAME, siteName);
@@ -171,6 +174,7 @@ public class DBHandler extends SQLiteOpenHelper {
         values.put(SITES_RIVER_TYPE, riverType);
         values.put(SITES_COUNTRY, country);
         values.put(SITES_SITE_ONLINE_ID, 0);
+        values.put(SITES_USER_ID, userId);
         long id = db.insert(SITES_TABLE_NAME, null, values);
         db.close();
         return id;
@@ -387,7 +391,8 @@ public class DBHandler extends SQLiteOpenHelper {
                         cursor.getString(6),
                         cursor.getString(5),
                         cursor.getString(7),
-                        cursor.getString(8)
+                        cursor.getString(8),
+                        cursor.getInt(9)
                 ));
             } while (cursor.moveToNext());
         }
@@ -535,7 +540,8 @@ public class DBHandler extends SQLiteOpenHelper {
                     cursor.getString(6),
                     cursor.getString(5),
                     cursor.getString(7),
-                    cursor.getString(8)
+                    cursor.getString(8),
+                    cursor.getInt(9)
             );
         }
         cursor.close();
@@ -564,7 +570,8 @@ public class DBHandler extends SQLiteOpenHelper {
                     cursor.getString(6),
                     cursor.getString(5),
                     cursor.getString(7),
-                    cursor.getString(8)
+                    cursor.getString(8),
+                    cursor.getInt(9)
             );
         }
         cursor.close();
@@ -619,7 +626,7 @@ public class DBHandler extends SQLiteOpenHelper {
      * @param uploadPreference The user's upload preference (e.g., wifi)
      * @return The user id
      */
-    public long addOrUpdateUserProfile(String email, String name, String surname,
+    public long addOrUpdateUserProfile(Integer userId, String email, String name, String surname,
                                        String organisationType, String organisationName, String country,
                                        String uploadPreference) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -629,6 +636,7 @@ public class DBHandler extends SQLiteOpenHelper {
 
         // Insert new user
         ContentValues values = new ContentValues();
+        values.put(USER_ID, userId);
         values.put(USER_EMAIL, email);
         values.put(USER_NAME, name);
         values.put(USER_SURNAME, surname == null ? "" : surname);
@@ -653,6 +661,7 @@ public class DBHandler extends SQLiteOpenHelper {
         UserModel user = null;
 
         if (cursor.moveToFirst()) {
+            Integer userId = cursor.getInt(cursor.getColumnIndexOrThrow(USER_ID));
             String email = cursor.getString(cursor.getColumnIndexOrThrow(USER_EMAIL));
             String name = cursor.getString(cursor.getColumnIndexOrThrow(USER_NAME));
             String surname = cursor.getString(cursor.getColumnIndexOrThrow(USER_SURNAME));
@@ -661,7 +670,7 @@ public class DBHandler extends SQLiteOpenHelper {
             String country = cursor.getString(cursor.getColumnIndexOrThrow(USER_COUNTRY));
             String uploadPreference = cursor.getString(cursor.getColumnIndexOrThrow(USER_UPLOAD_PREFERENCE));
 
-            user = new UserModel(email, name, surname, organisationType, organisationName, country, uploadPreference);
+            user = new UserModel(userId, email, name, surname, organisationType, organisationName, country, uploadPreference);
         }
 
         cursor.close();

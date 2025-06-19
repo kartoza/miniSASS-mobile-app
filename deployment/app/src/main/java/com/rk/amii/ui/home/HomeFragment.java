@@ -50,6 +50,7 @@ import com.rk.amii.databinding.FragmentHomeBinding;
 import com.rk.amii.models.AssessmentModel;
 import com.rk.amii.models.LocationPinModel;
 import com.rk.amii.models.SitesModel;
+import com.rk.amii.models.UserModel;
 import com.rk.amii.shared.Utils;
 
 import org.json.JSONException;
@@ -925,7 +926,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     private void onReturnFromSiteDetail() {
         if (currentSiteType == "online") {
-            dbHandler.deleteSite(currentSiteId);
+            SitesModel site = dbHandler.getSiteByOnlineId(Integer.parseInt(currentSiteId));
+            dbHandler.deleteSite(String.valueOf(site.getSiteId()));
         }
     }
 }

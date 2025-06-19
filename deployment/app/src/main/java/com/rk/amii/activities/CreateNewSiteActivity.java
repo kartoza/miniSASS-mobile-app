@@ -28,6 +28,7 @@ import com.rk.amii.adapters.SiteImageAdapter;
 import com.rk.amii.camera.Camera;
 import com.rk.amii.database.DBHandler;
 import com.rk.amii.R;
+import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
 
@@ -131,9 +132,11 @@ public class CreateNewSiteActivity extends AppCompatActivity {
 
             findViewById(R.id.idSavingSiteView).setVisibility(View.VISIBLE);
 
+            UserModel user = dbHandler.getUserProfile();
+
             // Add the site data to the device database
             long siteId = dbHandler.addNewSite(siteNameValue, siteLocationValue, riverNameValue,
-                    descriptionValue, dateValue, riverTypeValue, "", false);
+                    descriptionValue, dateValue, riverTypeValue, "", user.getUserId());
 
             // Add the site images to the device database
             for(String imagePath : siteImages) {
