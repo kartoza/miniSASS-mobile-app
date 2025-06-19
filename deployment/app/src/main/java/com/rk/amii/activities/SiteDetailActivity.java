@@ -25,6 +25,7 @@ import com.rk.amii.database.DBHandler;
 import com.rk.amii.R;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
+import com.rk.amii.database.DBHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -46,11 +47,13 @@ public class SiteDetailActivity extends AppCompatActivity {
     private TextView location;
     private TextView dateView;
     private boolean isOnline;
+    private DBHandler dbHandler;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbHandler = new DBHandler(getApplicationContext());
         setContentView(R.layout.activity_site_detail);
         setTitle("Site Detail");
 
@@ -87,6 +90,21 @@ public class SiteDetailActivity extends AppCompatActivity {
     }
 
     /**
+     * Add Assessment button
+     */
+    private void setAddAssessment(String siteId) {
+        Button addSampleButton = (Button) findViewById(R.id.idAddSample);
+
+        addSampleButton.setOnClickListener(view -> {
+            Intent intent = new Intent(SiteDetailActivity.this, CreateNewSampleActivity.class);
+            intent.putExtra("siteId", siteId);
+            startActivity(intent);
+        });
+
+        loadSiteImagesInView();
+    }
+
+    /**
      * Prepare the activity, initialise the view elements and set their values, set the onclick
      * listener of the add assessment button, load the site's images into the view
      * @param siteId The site's id
@@ -110,22 +128,6 @@ public class SiteDetailActivity extends AppCompatActivity {
                 this.getOnlineSiteData(String.valueOf(siteId));
             }
         }
-
-        Button addSampleButton = (Button) findViewById(R.id.idAddSample);
-
-//        TODO: Confirm to Nicholas wether user could upload to any site
-//        User could upload to any site in miniSASS website
-//        if (type.equals("online")) {
-//            addSampleButton.setVisibility(View.GONE);
-//        }
-
-        addSampleButton.setOnClickListener(view -> {
-            Intent intent = new Intent(SiteDetailActivity.this, CreateNewSampleActivity.class);
-            intent.putExtra("siteId", Long.toString(siteId));
-            startActivity(intent);
-        });
-
-        loadSiteImagesInView();
     }
 
     /**
@@ -136,7 +138,7 @@ public class SiteDetailActivity extends AppCompatActivity {
         DBHandler dbHandler = new DBHandler(this);
 
         site = dbHandler.getSiteById(siteId);
-        ArrayList<Integer> assessmentIds = dbHandler.getAssessmentIdsBySiteId(siteId);
+        ArrayList<Integer> assessmentIds = dbHandler.getAssessmentIdsBySiteId(site.getSiteId());
         ArrayList<AssessmentModel> assessments = new ArrayList<>();
 
         siteImages = dbHandler.getSiteImagePathsBySiteId(site.getSiteId());
@@ -172,6 +174,8 @@ public class SiteDetailActivity extends AppCompatActivity {
         location.setText(locationText);
         dateView.setText(site.getDate());
 
+        setAddAssessment(Integer.toString(siteId));
+
         prepareAssessments(assessments);
     }
 
@@ -182,26 +186,29 @@ public class SiteDetailActivity extends AppCompatActivity {
     public void getOnlineSiteData(String siteId) {
 
         ApiService service = new ApiService(this);
-
         try {
             service.getSiteById(result -> {
                 try {
                     JSONObject onlineSite = new JSONObject(result);
 
-                    System.out.println(onlineSite);
+                    String siteNameValue = onlineSite.getString("site_name");
+                    String locationValue = onlineSite.getString("the_geom").
+                            replace("SRID=4326;POINT (", "").
+                            replace(")", "").
+                            replace(" ", ",");
+                    String riverNameValue = onlineSite.getString("river_name");
+                    String descriptionValue = onlineSite.getString("description");
+                    String dateValue = onlineSite.getString("time_stamp").split("T")[0];
+                    String riverTypeValue = onlineSite.getString("river_cat");
+                    String countryValue = onlineSite.getString("country");
 
-                    site = new SitesModel(
-                            Integer.parseInt(siteId),
-                            onlineSite.getString("site_name"),
-                            onlineSite.getString("the_geom").replace("SRID=4326;POINT (", "").replace(")", ""),
-                            onlineSite.getString("river_name"),
-                            onlineSite.getString("description"),
-                            onlineSite.getString("time_stamp").split("T")[0],
-                            onlineSite.getString("river_cat"),
-                            onlineSite.getString("country"),
-                            siteId
-                            );
+                    long savedSiteId = dbHandler.addNewSite(siteNameValue, locationValue, riverNameValue,
+                            descriptionValue, dateValue, riverTypeValue, countryValue, true);
 
+                    site = dbHandler.getSiteById((int) savedSiteId);
+                    dbHandler.updateSiteUploaded(
+                            Long.toString(savedSiteId), Integer.parseInt(siteId)
+                    );
                     siteNameView.setText(site.getSiteName());
                     String riverName = site.getRiverName() + " (" + site.getRiverType() + ")";
                     riverNameView.setText(riverName);
@@ -210,6 +217,8 @@ public class SiteDetailActivity extends AppCompatActivity {
                     String locationText = "(" + site.getSiteLocation().replace(",", ", ") + ")";
                     location.setText(locationText);
                     country.setText(site.getCountry());
+
+                    setAddAssessment(Long.toString(savedSiteId));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -230,13 +239,11 @@ public class SiteDetailActivity extends AppCompatActivity {
                     System.out.println(onlineAssessments);
 
                     if(onlineAssessments.length() > 0) {
-                        for (int i = 0; i < onlineAssessments.length(); i++) {
+                        ArrayList<AssessmentModel> assessments = new ArrayList<>();
+                        // Add reversed assessment
+                        for (int i = onlineAssessments.length() - 1; i >= 0; i--) {
 
                             JSONObject assessment = new JSONObject(onlineAssessments.get(i).toString());
-
-                            ArrayList<AssessmentModel> assessments = new ArrayList<>();
-                            System.out.println(assessment);
-
                             assessments.add(
                                     new AssessmentModel(
                                             Integer.parseInt(assessment.getString("gid")),
@@ -258,8 +265,8 @@ public class SiteDetailActivity extends AppCompatActivity {
                             );
 
                             System.out.println("ASSESSMENTS: " + assessments + " : " + assessments.size());
-                            prepareAssessments(assessments);
                         }
+                        prepareAssessments(assessments);
                     }
 
                 } catch (Exception e) {

@@ -544,6 +544,35 @@ public class DBHandler extends SQLiteOpenHelper {
     }
 
     /**
+     * Get a site from the database based on the online site ID provided
+     * @param onlineSiteId The site's id
+     * @return A site
+     */
+    public SitesModel getSiteByOnlineId(Integer onlineSiteId) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM "
+                + SITES_TABLE_NAME + " WHERE "
+                + SITES_SITE_ONLINE_ID + " = " + onlineSiteId, null);
+        SitesModel site = null;
+        if (cursor.moveToFirst()) {
+            site = new SitesModel(
+                    cursor.getInt(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    cursor.getString(3),
+                    cursor.getString(4),
+                    cursor.getString(6),
+                    cursor.getString(5),
+                    cursor.getString(7),
+                    cursor.getString(8)
+            );
+        }
+        cursor.close();
+        db.close();
+        return site;
+    }
+
+    /**
      * Get a list of photos from the database linked to an assessment based on the
      * assessment ID provided
      * @param assessmentId The assessment's id
