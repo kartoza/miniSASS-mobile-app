@@ -58,6 +58,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
@@ -925,7 +926,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     }
 
     private void onReturnFromSiteDetail() {
-        if (currentSiteType == "online") {
+        if (Objects.equals(currentSiteType, "online")) {
             SitesModel site = dbHandler.getSiteByOnlineId(Integer.parseInt(currentSiteId));
             dbHandler.deleteSite(String.valueOf(site.getSiteId()));
         }
