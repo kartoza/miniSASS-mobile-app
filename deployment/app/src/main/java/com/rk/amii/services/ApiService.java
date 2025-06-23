@@ -13,6 +13,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -33,6 +34,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.ArrayList;
 import android.util.Log;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
@@ -73,6 +75,68 @@ public class ApiService {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+    /**
+     * Get Sites in Paginated Results
+     * @param callback Volley Callback
+     * @param queryParams query parameter
+     */
+    public void getPaginatedSites(final VolleyCallback callback, String queryParams) {
+        getAllSitesRecursive(
+                this.domain + "monitor/sites/" + queryParams, new ArrayList<>(), callback
+        );
+    }
+
+    private void getAllSitesRecursive(String url, ArrayList<JSONObject> allSites, final VolleyCallback callback) {
+        RequestQueue queue = Volley.newRequestQueue(this.context);
+
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String res) {
+                        try {
+                            JSONObject response = new JSONObject(res);
+                            JSONArray results = response.getJSONArray("results");
+
+                            // Add current page results to the collection
+                            for (int i = 0; i < results.length(); i++) {
+                                allSites.add(results.getJSONObject(i));
+                            }
+
+                            // Check if there's a next page
+                            String nextUrl = response.optString("next", null);
+                            if (nextUrl != null && !nextUrl.equals("null")) {
+                                // Recursively fetch next page
+                                getAllSitesRecursive(nextUrl, allSites, callback);
+                            } else {
+                                // No more pages, return all collected sites
+                                JSONObject finalResponse = new JSONObject();
+                                finalResponse.put("count", allSites.size());
+                                finalResponse.put("results", new JSONArray(allSites));
+                                callback.onSuccess(finalResponse.toString());
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            // Just print error, no callback.onError since it doesn't exist
+                            System.out.println("JSON parsing error: " + e.getMessage());
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println(error.getMessage());
+                // Remove callback.onError call since it doesn't exist
+            }
+        });
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         queue.add(stringRequest);
     }
 
@@ -528,55 +592,96 @@ public class ApiService {
 
     public JSONObject sendPostRequest(String url, JSONObject jsonParam) {
         final JSONObject response = new JSONObject();
+
+        Log.d("ApiService", "=== POST REQUEST STARTED ===");
+        Log.d("ApiService", "POST URL: " + url);
+        Log.d("ApiService", "POST Payload: " + jsonParam.toString());
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
+                    Log.d("ApiService", "Creating connection...");
                     URL endpointUrl = new URL(url);
                     HttpURLConnection conn = (HttpURLConnection) endpointUrl.openConnection();
+
                     conn.setRequestMethod("POST");
                     conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
                     conn.setRequestProperty("Accept","application/json");
                     conn.setDoOutput(true);
                     conn.setDoInput(true);
 
-                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
+                    Log.d("ApiService", "Connection configured, sending data...");
 
+                    DataOutputStream os = new DataOutputStream(conn.getOutputStream());
                     os.writeBytes(jsonParam.toString());
                     os.flush();
                     os.close();
 
-                    System.out.println("STATUS " + conn.getResponseCode());
-                    System.out.println("MSG " + conn.getResponseMessage());
+                    Log.d("ApiService", "Data sent, getting response...");
 
-                    conn.disconnect();
+                    int statusCode = conn.getResponseCode();
+                    String responseMessage = conn.getResponseMessage();
 
-                    response.put("status", conn.getResponseCode());
-                    response.put("message", conn.getResponseMessage());
+                    Log.d("ApiService", "HTTP Status Code: " + statusCode);
+                    Log.d("ApiService", "HTTP Response Message: " + responseMessage);
 
-                    BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-                    String current;
+                    response.put("status", statusCode);
+                    response.put("message", responseMessage);
+
+                    BufferedReader br;
                     String content = "";
+
+                    if (statusCode >= 200 && statusCode < 300) {
+                        Log.d("ApiService", "Reading success response...");
+                        br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+                    } else {
+                        Log.e("ApiService", "Reading error response...");
+                        br = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+                    }
+
+                    String current;
                     while ((current = br.readLine()) != null) {
                         content += current;
                     }
+                    br.close();
+
                     response.put("data", content);
 
-                    System.out.println(response);
-                    System.out.println(content);
+                    Log.d("ApiService", "✅ Response received");
+                    Log.d("ApiService", "Response content: " + content);
+                    Log.d("ApiService", "Full response object: " + response.toString());
+
+                    conn.disconnect();
 
                 } catch (Exception e) {
+                    Log.e("ApiService", "❌ POST REQUEST EXCEPTION: " + e.toString());
+                    Log.e("ApiService", "Exception message: " + e.getMessage());
+                    Log.e("ApiService", "Exception cause: " + (e.getCause() != null ? e.getCause().toString() : "null"));
                     e.printStackTrace();
+
+                    try {
+                        response.put("status", 0);
+                        response.put("message", "Connection failed: " + e.getMessage());
+                        response.put("data", "");
+                    } catch (JSONException jsonE) {
+                        Log.e("ApiService", "Failed to create error response: " + jsonE.getMessage());
+                    }
                 }
             }
         });
 
         thread.start();
         try {
+            Log.d("ApiService", "Waiting for thread to complete...");
             thread.join();
+            Log.d("ApiService", "Thread completed");
         } catch (InterruptedException e) {
+            Log.e("ApiService", "Thread interrupted: " + e.getMessage());
             e.printStackTrace();
         }
+
+        Log.d("ApiService", "=== POST REQUEST COMPLETED ===");
         return response;
     }
 

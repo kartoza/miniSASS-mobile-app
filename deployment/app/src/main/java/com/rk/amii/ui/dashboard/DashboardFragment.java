@@ -25,6 +25,10 @@ import androidx.work.Data;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.IntentFilter;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -54,6 +58,18 @@ public class DashboardFragment extends Fragment {
     LocationManager location_manager;
     private boolean getLocationAndContinue;
     private androidx.appcompat.app.AlertDialog locationDialog;
+
+    // Add broadcast receiver
+    private BroadcastReceiver syncReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if ("SYNC_COMPLETED".equals(intent.getAction())) {
+                // Reload the fragment data
+                getSites();
+                prepareSites();
+            }
+        }
+    };
 
     private final LocationListener mLocationListener = new LocationListener() {
         @Override
@@ -193,12 +209,24 @@ public class DashboardFragment extends Fragment {
 
     @Override
     public void onResume() {
+        super.onResume();
         if (locationDialog != null) {
             locationDialog.dismiss();
         }
         getSites();
         prepareSites();
-        super.onResume();
+
+        // Register broadcast receiver
+        LocalBroadcastManager.getInstance(getContext())
+                .registerReceiver(syncReceiver, new IntentFilter("SYNC_COMPLETED"));
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        // Unregister broadcast receiver
+        LocalBroadcastManager.getInstance(getContext())
+                .unregisterReceiver(syncReceiver);
     }
 
     @Override

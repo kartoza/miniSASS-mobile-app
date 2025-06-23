@@ -386,13 +386,18 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         Double mlScore = calculateMLScore();
         SitesModel site = dbHandler.getSiteById((int)siteId);
         UserModel user = dbHandler.getUserProfile();
+//        String miniSassScore, String mlScore, String notes,
+//                                 String collectorsName, String organisation, String observationDate,
+//                                 String ph, String waterTemp, String dissolvedOxygen, String dissolvedOxygenUnit,
+//                                 String electricalConductivity, String electricalConductivityUnit,
+//                                 String waterClarity, Integer onlineAssessmentId
         long assessmentId = dbHandler.addNewAssessment(
                 miniSassScore.toString(),
                 mlScore.toString(),
+                notes.getText().toString(),
                 user.getName(),
                 user.getOrganisationName(),
                 date.getText().toString(),
-                notes.getText().toString(),
                 ph.getText().toString(),
                 waterTemp.getText().toString(),
                 dissolvedOxygen.getText().toString(),

@@ -78,9 +78,7 @@ public class DBHandler extends SQLiteOpenHelper {
         super(context, DB_NAME, null, DB_VERSION);
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-
+    public void createAssessmentRelatedTables(SQLiteDatabase db) {
         String query = "CREATE TABLE " + SITES_TABLE_NAME + " ("
                 + SITES_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + SITES_SITE_NAME + " TEXT,"
@@ -135,6 +133,20 @@ public class DBHandler extends SQLiteOpenHelper {
                 + PHOTO_ML_PREDICTIONS + " TEXT)";
 
         db.execSQL(photo_query);
+    }
+
+    public void dropAssessmentRelatedTables(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS " + SITES_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + ASSESSMENT_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SITE_ASSESSMENT_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + SITE_IMAGE_TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + PHOTO_TABLE_NAME);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+
+        createAssessmentRelatedTables(db);
 
         String userQuery = "CREATE TABLE " + USER_TABLE_NAME + " ("
                 + USER_ID + " INTEGER, "
@@ -188,6 +200,17 @@ public class DBHandler extends SQLiteOpenHelper {
     public long deleteSite(String siteId) {
         SQLiteDatabase db = this.getWritableDatabase();
         long id = db.delete(SITES_TABLE_NAME, "id = ?", new String[]{siteId});
+        db.close();
+        return id;
+    }
+
+    /**
+     * Remove all sites from the database
+     * @return Id of the site removed
+     */
+    public long deleteAllSites() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        long id = db.delete(SITES_TABLE_NAME, null, null);
         db.close();
         return id;
     }
@@ -375,6 +398,8 @@ public class DBHandler extends SQLiteOpenHelper {
         if (whereClause != null && !whereClause.trim().isEmpty()) {
             query += " WHERE " + whereClause;
         }
+
+        query += " ORDER BY " + SITES_SITE_NAME;
 
         Cursor cursor = db.rawQuery(query, whereArgs);
         ArrayList<SitesModel> sites = new ArrayList<>();

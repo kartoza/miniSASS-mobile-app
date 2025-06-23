@@ -1,11 +1,5 @@
 package com.rk.amii.activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,26 +7,35 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.rk.amii.adapters.SiteImageAdapter;
-import com.rk.amii.models.AssessmentModel;
-import com.rk.amii.adapters.AssessmentsAdapter;
-import com.rk.amii.models.SitesModel;
-import com.rk.amii.database.DBHandler;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.rk.amii.R;
+import com.rk.amii.adapters.AssessmentsAdapter;
+import com.rk.amii.adapters.SiteImageAdapter;
+import com.rk.amii.database.DBHandler;
+import com.rk.amii.models.AssessmentModel;
+import com.rk.amii.models.SitesModel;
 import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
-import com.rk.amii.database.DBHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.Locale;
 
 public class SiteDetailActivity extends AppCompatActivity {
 
@@ -50,6 +53,8 @@ public class SiteDetailActivity extends AppCompatActivity {
     private boolean isOnline;
     private DBHandler dbHandler;
     private long currentSiteId;
+    private boolean isDataInitialized = false;
+
 
 
     @Override
@@ -78,24 +83,25 @@ public class SiteDetailActivity extends AppCompatActivity {
         if (siteId != currentSiteId) {
             currentSiteId = siteId;
             this.onPrepareActivity(siteId, type);
+            isDataInitialized = true;
         }
     }
 
-//    /**
-//     * Get the site's id and type and prepare the activity view again when the activity is resumed
-//     */
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        Intent intent = getIntent();
-//        long siteId = Integer.parseInt(intent.getStringExtra("siteId"));
-//        if (siteId != currentSiteId) {
-//            currentSiteId = siteId;
-//            String type = intent.getStringExtra("type");
-//            this.onPrepareActivity(siteId, type);
-//            isOnline = Utils.isNetworkAvailable(getApplicationContext());
-//        }
-//    }
+
+    /**
+     * Get the site's id and type and prepare the activity view again when the activity is resumed
+     */
+    @Override
+    public void onResume() {
+        super.onResume();
+        Intent intent = getIntent();
+        long siteId = Integer.parseInt(intent.getStringExtra("siteId"));
+        String type = intent.getStringExtra("type");
+        if (!isDataInitialized && type.equals("offline")) {
+            this.onPrepareActivity(siteId, type);
+            isOnline = Utils.isNetworkAvailable(getApplicationContext());
+        }
+    }
 
     /**
      * Add Assessment button
@@ -183,6 +189,19 @@ public class SiteDetailActivity extends AppCompatActivity {
         dateView.setText(site.getDate());
 
         setAddAssessment(Integer.toString(siteId));
+
+
+        // Sort using lambda (more concise)
+        Collections.sort(assessments, (a1, a2) -> {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                Date date1 = sdf.parse(a1.getObservationDate());
+                Date date2 = sdf.parse(a2.getObservationDate());
+                return date2.compareTo(date1); // Descending order
+            } catch (ParseException e) {
+                return 0;
+            }
+        });
 
         prepareAssessments(assessments);
     }

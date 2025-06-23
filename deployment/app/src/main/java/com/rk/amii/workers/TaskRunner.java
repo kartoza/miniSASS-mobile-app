@@ -1,6 +1,7 @@
 package com.rk.amii.workers;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
@@ -10,14 +11,19 @@ import androidx.work.ListenableWorker.Result;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 import androidx.work.Data;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import android.content.Intent;
+
 
 import com.rk.amii.database.DBHandler;
 import com.rk.amii.models.AssessmentModel;
 import com.rk.amii.models.SitesModel;
 import com.rk.amii.models.PhotoModel;
+import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -237,8 +243,119 @@ public class TaskRunner extends Worker {
         }
     }
 
-    private void downloadData() {
+    private void downloadData(DBHandler dbHandler) {
+        new Handler(Looper.getMainLooper()).post(() ->
+                Toast.makeText(
+                        getApplicationContext(),
+                        "Syncing Sites and Observations!",
+                        Toast.LENGTH_SHORT
+                ).show());
+        SQLiteDatabase db = dbHandler.getWritableDatabase();
+        dbHandler.dropAssessmentRelatedTables(db);
+        dbHandler.createAssessmentRelatedTables(db);
 
+        ApiService service = new ApiService(getApplicationContext());
+        service.getPaginatedSites(result -> {
+            try {
+                JSONObject sites = new JSONObject(result);
+                JSONArray sitesArray = sites.getJSONArray("results");
+                for (int i = 0; i < sitesArray.length(); i++) {
+                    JSONObject onlineSite = sitesArray.getJSONObject(i);
+
+                    String siteNameValue = onlineSite.getString("site_name");
+                    String locationValue = onlineSite.getString("the_geom").
+                            replace("SRID=4326;POINT (", "").
+                            replace(")", "").
+                            replace(" ", ",");
+                    String riverNameValue = onlineSite.getString("river_name");
+                    String descriptionValue = onlineSite.getString("description");
+                    String dateValue = onlineSite.getString("time_stamp").split("T")[0];
+                    String riverTypeValue = onlineSite.getString("river_cat");
+                    String countryValue = onlineSite.getString("country");
+                    Integer userValue = onlineSite.getInt("user");
+                    Integer onlineSiteId = onlineSite.getInt("gid");
+
+                    long savedSiteId = dbHandler.addNewSite(siteNameValue, locationValue, riverNameValue,
+                            descriptionValue, dateValue, riverTypeValue, countryValue, userValue);
+                    dbHandler.updateSiteUploaded(String.valueOf(savedSiteId), onlineSiteId);
+
+                    try {
+
+                        service.getAssessmentsBySiteById(assesments -> {
+                            try {
+                                JSONObject data = new JSONObject(assesments);
+                                JSONArray onlineAssessments = new JSONArray(data.getString("observations"));
+
+                                System.out.println(data);
+                                System.out.println(onlineAssessments);
+
+                                if(onlineAssessments.length() > 0) {
+                                    ArrayList<AssessmentModel> assessments = new ArrayList<>();
+                                    // Add reversed assessment
+                                    for (int j = onlineAssessments.length() - 1; j >= 0; j--) {
+
+                                        JSONObject assessmentJSON = new JSONObject(onlineAssessments.get(j).toString());
+                                        AssessmentModel assessment = new AssessmentModel(
+                                                Integer.parseInt(assessmentJSON.getString("gid")),
+                                                Integer.parseInt(assessmentJSON.getString("gid")),
+                                                Float.parseFloat(assessmentJSON.getString("score")),
+                                                Float.parseFloat("0.00"),
+                                                assessmentJSON.getString("collector_name"),
+                                                assessmentJSON.getString("organisationname"),
+                                                assessmentJSON.getString("obs_date"),
+                                                assessmentJSON.getString("comment"),
+                                                assessmentJSON.getString("ph"),
+                                                assessmentJSON.getString("water_temp"),
+                                                assessmentJSON.getString("diss_oxygen"),
+                                                assessmentJSON.getString("diss_oxygen_unit"),
+                                                assessmentJSON.getString("elec_cond"),
+                                                assessmentJSON.getString("elec_cond_unit"),
+                                                assessmentJSON.getString("water_clarity")
+                                        );
+                                        dbHandler.addNewAssessment(
+                                                assessment.getMiniSassScore().toString(),
+                                                assessment.getMiniSassMLScore().toString(),
+                                                assessment.getNotes(),
+                                                assessment.getCollectorsName(),
+                                                assessment.getOrganisation(),
+                                                assessment.getObservationDate(),
+                                                assessment.getPh(),
+                                                assessment.getWaterTemp(),
+                                                assessment.getDissolvedOxygen(),
+                                                assessment.getDissolvedOxygenUnit(),
+                                                assessment.getElectricalConductivity(),
+                                                assessment.getElectricalConductivityUnit(),
+                                                assessment.getWaterClarity(),
+                                                assessmentJSON.getInt("gid")
+                                        );
+                                        dbHandler.addNewSiteAssessment((int) savedSiteId, assessment.getAssessmentId());
+                                    }
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }, String.valueOf(onlineSiteId));
+                    } catch (Exception e) {
+                        System.out.println("ERR: " + e);
+                    }
+                }
+
+                new Handler(Looper.getMainLooper()).post(() ->
+                        Toast.makeText(
+                                getApplicationContext(),
+                                "Synced sucessfully!",
+                                Toast.LENGTH_SHORT
+                        ).show());
+
+                // Send broadcast to refresh dashboard
+                Intent intent = new Intent("SYNC_COMPLETED");
+                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }, "?my_sites=true&paginated=true");
     }
 
     @NonNull
@@ -252,7 +369,7 @@ public class TaskRunner extends Worker {
         if (isOnline) {
             uploadData(dbHandler);
             if (!uploadOnly) {
-                downloadData();
+                downloadData(dbHandler);
             }
         }
 
