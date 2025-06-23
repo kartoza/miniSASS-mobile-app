@@ -60,7 +60,7 @@ public class LandingFragment extends Fragment {
         // Use unique work to ensure it only runs once
         WorkManager.getInstance(requireContext())
                 .enqueueUniqueWork(
-                        "task_runner_unique_work",  // Unique name for this work
+                        "sync_data",  // Unique name for this work
                         ExistingWorkPolicy.KEEP,    // KEEP means if it's already running, don't start a new one
                         uploadRequest
                 );

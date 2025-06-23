@@ -21,15 +21,21 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.work.Data;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.rk.amii.activities.CreateNewSiteActivity;
-import com.rk.amii.database.DBHandler;
 import com.rk.amii.R;
-import com.rk.amii.databinding.FragmentDashboardBinding;
+import com.rk.amii.activities.CreateNewSiteActivity;
 import com.rk.amii.adapters.SitesAdapter;
+import com.rk.amii.database.DBHandler;
+import com.rk.amii.databinding.FragmentDashboardBinding;
 import com.rk.amii.models.SitesModel;
 import com.rk.amii.models.UserModel;
+import com.rk.amii.workers.TaskRunner;
 
 import java.util.ArrayList;
 
@@ -96,8 +102,28 @@ public class DashboardFragment extends Fragment {
 
         siteView = view.findViewById(R.id.rvSites);
         FloatingActionButton addNewSiteFAB = view.findViewById(R.id.idFABadd);
+        FloatingActionButton syncFAB = view.findViewById(R.id.idFABsync);
 
         prepareSites();
+
+        syncFAB.setOnClickListener( v -> {
+            // Then in your method:
+            Data inputData = new Data.Builder()
+                    .putBoolean("uploadOnly", false)
+                    .build();
+
+            OneTimeWorkRequest uploadRequest = new OneTimeWorkRequest.Builder(TaskRunner.class)
+                    .setInputData(inputData)
+                    .build();
+
+            // Use unique work to ensure it only runs once
+            WorkManager.getInstance(requireContext())
+                    .enqueueUniqueWork(
+                            "sync_data",  // Unique name for this work
+                            ExistingWorkPolicy.KEEP,    // KEEP means if it's already running, don't start a new one
+                            uploadRequest
+                    );
+        });
 
         addNewSiteFAB.setOnClickListener(v -> {
 
