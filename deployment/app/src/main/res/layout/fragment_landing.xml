@@ -56,12 +56,12 @@
                     android:text="What is miniSASS?"
                     android:layout_marginTop="16dp"
                     android:paddingLeft="15dp"/>
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/what_is_minisass"
-                    android:padding="15dp"/>
-            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/what_is_minisass"
+                android:padding="15dp"/>
+        </LinearLayout>
         </androidx.cardview.widget.CardView>
         <androidx.cardview.widget.CardView
             xmlns:android="http://schemas.android.com/apk/res/android"
@@ -129,6 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:orientation="horizontal"
+            android:background="#E6EEF8"
             android:gravity="center">
 
             <!-- GroundTruth, CGIAR, IWMI stacked horizontally -->
@@ -140,7 +141,6 @@
             </ImageView>
 
         </LinearLayout>
-
 
     </LinearLayout>
 
