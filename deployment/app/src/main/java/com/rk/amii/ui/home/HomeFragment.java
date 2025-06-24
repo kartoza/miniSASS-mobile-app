@@ -210,7 +210,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                     "    \"MiniSASS Observations\": {\n" +
                     "      \"type\": \"vector\",\n" +
                     "      \"tiles\": [\n" +
-                    "        \"http://192.168.1.7:7800/tiles/public.minisass_observations/{z}/{x}/{y}.pbf\"\n" +
+                    "        \"https://minisass.sta.do.kartoza.com/tiles/public.minisass_observations/{z}/{x}/{y}.pbf\"\n" +
                     "      ],\n" +
                     "      \"minZoom\": 0,\n" +
                     "      \"maxZoom\": 14\n" +
