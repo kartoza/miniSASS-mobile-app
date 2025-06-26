@@ -10,6 +10,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.android.volley.AuthFailureError;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +25,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -119,7 +119,6 @@ public class ApiService {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            // Just print error, no callback.onError since it doesn't exist
                             System.out.println("JSON parsing error: " + e.getMessage());
                         }
                     }
@@ -127,9 +126,24 @@ public class ApiService {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println(error.getMessage());
-                // Remove callback.onError call since it doesn't exist
             }
-        });
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Content-Type", "application/json;charset=UTF-8");
+                headers.put("Accept", "application/json");
+
+                // Add Bearer token authentication
+                String token = readFromStorage("access_token.txt");
+                System.out.println("Access Token: " + token);
+                if (token != null && !token.isEmpty()) {
+                    headers.put("Authorization", "Bearer " + token);
+                }
+
+                return headers;
+            }
+        };
 
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(
                 DefaultRetryPolicy.DEFAULT_TIMEOUT_MS,
