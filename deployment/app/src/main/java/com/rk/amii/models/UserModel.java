@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class UserModel {
 
+    @SerializedName("user_id")
+    private Integer userId;
+
     @SerializedName("email")
     private String email;
 
@@ -26,8 +29,10 @@ public class UserModel {
     private String uploadPreference;
 
     // Constructor
-    public UserModel(String email, String name, String surname, String organisationType,
-                String organisationName, String country, String uploadPreference) {
+    public UserModel(Integer userId, String email, String name, String surname,
+                     String organisationType, String organisationName, String country,
+                     String uploadPreference) {
+        this.userId = userId;
         this.email = email;
         this.name = name;
         this.surname = surname;
@@ -39,6 +44,9 @@ public class UserModel {
 
     public String getEmail() {
         return email;
+    }
+    public Integer getUserId() {
+        return userId;
     }
 
     public void setEmail(String email) {
