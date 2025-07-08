@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import androidx.work.ExistingWorkPolicy;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
+import androidx.work.Data;
 
 import com.rk.amii.R;
 import com.rk.amii.shared.Utils;
@@ -47,13 +48,19 @@ public class LandingFragment extends Fragment {
 
         requestPermissionsIfNecessary(permissions);
 
+        // Then in your method:
+        Data inputData = new Data.Builder()
+                .putBoolean("uploadOnly", true)
+                .build();
+
         OneTimeWorkRequest uploadRequest = new OneTimeWorkRequest.Builder(TaskRunner.class)
+                .setInputData(inputData)
                 .build();
 
         // Use unique work to ensure it only runs once
         WorkManager.getInstance(requireContext())
                 .enqueueUniqueWork(
-                        "task_runner_unique_work",  // Unique name for this work
+                        "sync_data",  // Unique name for this work
                         ExistingWorkPolicy.KEEP,    // KEEP means if it's already running, don't start a new one
                         uploadRequest
                 );

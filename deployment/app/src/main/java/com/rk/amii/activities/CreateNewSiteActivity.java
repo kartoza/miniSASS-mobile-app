@@ -28,6 +28,7 @@ import com.rk.amii.adapters.SiteImageAdapter;
 import com.rk.amii.camera.Camera;
 import com.rk.amii.database.DBHandler;
 import com.rk.amii.R;
+import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
 
@@ -131,9 +132,11 @@ public class CreateNewSiteActivity extends AppCompatActivity {
 
             findViewById(R.id.idSavingSiteView).setVisibility(View.VISIBLE);
 
+            UserModel user = dbHandler.getUserProfile();
+
             // Add the site data to the device database
             long siteId = dbHandler.addNewSite(siteNameValue, siteLocationValue, riverNameValue,
-                    descriptionValue, dateValue, riverTypeValue, false);
+                    descriptionValue, dateValue, riverTypeValue, "", user.getUserId());
 
             // Add the site images to the device database
             for(String imagePath : siteImages) {
@@ -169,11 +172,22 @@ public class CreateNewSiteActivity extends AppCompatActivity {
 
                     siteObject.put("site_data", siteDetails);
 
-                    Integer onlineSiteId = service.createSite(imageFiles, siteObject);
+                    JSONObject result = service.createSite(imageFiles, siteObject);
+                    Integer onlineSiteId = result.has("gid") ? result.getInt("gid") : 0;
                     if (onlineSiteId == 0) {
                         this.showCouldNotSaveSiteDialog(siteId);
                     } else {
                         dbHandler.updateSiteUploaded(String.valueOf(siteId), onlineSiteId);
+                        dbHandler.updateSite(
+                                Integer.toString((int) siteId),
+                                siteNameValue,
+                                siteLocationValue,
+                                riverNameValue,
+                                descriptionValue,
+                                dateValue,
+                                riverTypeValue,
+                                result.has("country") ? result.getString("country") : ""
+                        );
                         Intent intent = new Intent(CreateNewSiteActivity.this, SiteDetailActivity.class);
                         intent.putExtra("siteId", Long.toString(siteId));
                         intent.putExtra("type", "offline");
