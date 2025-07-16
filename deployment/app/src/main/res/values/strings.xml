@@ -470,8 +470,8 @@
         high scores are assigned to groups generally made up of very sensitive species (which can’t live and survive if there is pollution or disturbance).\n\n
         In the miniSASS app, you capture images of the aquatic macroinvertebrates you have sampled. You assign an identification to these images. At the same time, a machine-learning
         (ML) artificial intelligence (AI) identification algorithm runs on the image, identifying it as well. The app then generates a user score, and a ML score. These can be compared
-        as a guide to the user if they are identifying correctly or perhaps need to revisit their identifications.\n\n
-        A miniSASS survey samples a stream or river for these aquatic macroinvertebrates, and generates score based on the average sensitivity and tolerance of the community present.
+        as a guide to the user if they are identifying correctly or perhaps need to revisit their identifications.\n\nA miniSASS survey
+        samples a stream or river for these aquatic macroinvertebrates, and generates score based on the average sensitivity and tolerance of the community present.
         The score then relates to an ecological category, indicating the stream or river health and water quality.\n\n
     </string>
     <string name="freshwater_is_essential">
@@ -498,11 +498,10 @@
         Always remember, safety first! When thinking of doing a miniSASS survey, please check your
         surroundings and make sure the stream or river and the area are safe. Don’t enter streams
         or rivers that are deep or that have powerful, fast-flowing currents, or any dangerous
-        animals in them or nearby. \n\n
-        Protect yourself with sunscreen and appropriate clothing (gumboots and hats), and remember
-        to wash your hands with sanitizer or soap regularly. Be especially careful with polluted
-        rivers and streams, taking extra precautions to keep yourself safe and healthy.
-        MiniSASS is more fun and safer with others! \n\n
+        animals in them or nearby. \n\nProtect yourself with sunscreen and appropriate
+        clothing (gumboots and hats), and remember to wash your hands with sanitizer or soap
+        regularly. Be especially careful with polluted rivers and streams, taking extra precautions
+        to keep yourself safe and healthy. MiniSASS is more fun and safer with others! \n\n
     </string>
     <string name="aquatic_macroinvertebrates_small_but_visible">
         - Aquatic macroinvertebrates: Small, but visible to the naked eye, animals that have no
@@ -540,13 +539,13 @@
     <string name="we_can_all_play_a_part_in_monitoring_freshwater_resources">
         We can all play a part in monitoring freshwater resources, helping gather the data needed
         to manage them. By participating in citizen science, anyone can become an important
-        contributor to research and conservation! \n\n Conducting a miniSASS survey helps us learn about freshwater systems and the importance of biodiversity and healthy freshwater
+        contributor to research and conservation! \n\nConducting a miniSASS survey helps us learn about freshwater systems and the importance of biodiversity and healthy freshwater
         ecosystems, and gets us engaged with nature and our communities. It is a tool that lets
-        us take action to help monitor and conserve our freshwater systems. \n\n
-        The results of a miniSASS survey give a good indication of the water quality and health
+        us take action to help monitor and conserve our freshwater systems. \n\nThe results of a
+        miniSASS survey give a good indication of the water quality and health
         of a stream or river, serving to flag possible pollution, or healthy and functioning
         systems. Continuous monitoring of the same stream or river can give amazing insight into
-        changes over time.\n\n" Once you get your miniSASS score, you can even follow up with
+        changes over time.\n\nOnce you get your miniSASS score, you can even follow up with
         relevant local authorities to get them to follow up on suspected problems using your
         data as an indicator!\n\n
     </string>
@@ -555,6 +554,32 @@
     <string name="online_videos">Online Videos</string>
     <string name="introduction_to_minisass">Introduction to miniSASS</string>
     <string name="minisass_in_summary">miniSASS in summary</string>
+    <string name="safety_concerns_for_minisass">Safety concerns for miniSASS</string>
+    <string name="what_is_in_your_minisass_kit">What is in your miniSASS kit</string>
+    <string name="what_do_you_need_to_put_together_a_minisass_kit_at_home">
+        What do you need to put together a miniSASS kit at home
+    </string>
+    <string name="choosing_your_site_for_minisass">
+        Choosing your site for miniSASS
+    </string>
+    <string name="how_to_take_a_sample">
+        How to take a sample
+    </string>
+    <string name="cleaning_your_sample">
+        Cleaning your sample
+    </string>
+    <string name="using_the_dichotomous_key">
+        Using the dichotomous key
+    </string>
+    <string name="how_to_calculate_your_score">
+        How to calculate your score
+    </string>
+    <string name="uploading_your_minisass_score">
+        Uploading your miniSASS score
+    </string>
+    <string name="using_minisass_for_monitoring">
+        Using miniSASS for monitoring
+    </string>
 
     <string name="video_title">Video title</string>
     <string name="site_name">Site Name</string>
@@ -598,4 +623,18 @@
     <string name="login">Login</string>
     <string name="contact_name">Contact Name</string>
     <string name="unknown">Unknown</string>
+
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="email_address">Email address</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="organisation_type">Organisation Type</string>
+    <string name="organisation_name">Organisation Name</string>
+    <string name="select_certificate">Select Certificate</string>
+    <string name="site_location">Site location</string>
+    <string name="river_type">River Type</string>
+    <string name="unit">Unit</string>
+    <string name="email">Email</string>
+    <string name="upload_preference">Upload Preference</string>
 </resources>

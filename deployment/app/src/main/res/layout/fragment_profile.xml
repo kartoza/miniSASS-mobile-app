@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Email"
+            android:hint="@string/email"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Name"
+            android:hint="@string/name"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -42,7 +42,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Surname"
+            android:hint="@string/surname"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Organisation Type">
+            android:hint="@string/organisation_type">
 
             <AutoCompleteTextView
                 android:id="@+id/spinnerOrganisationType"
@@ -76,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Organisation Name"
+            android:hint="@string/organisation_name"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -92,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Country">
+            android:hint="@string/country">
 
             <AutoCompleteTextView
                 android:id="@+id/autoCompleteCountry"
@@ -111,7 +111,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Upload Preference">
+            android:hint="@string/upload_preference">
 
             <AutoCompleteTextView
                 android:id="@+id/spinnerUploadPreference"

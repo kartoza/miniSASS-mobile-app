@@ -425,11 +425,11 @@ Você coleta uma amostra de macroinvertebrados (pequenos animais) da água e, de
     <string name="language_portuguese">Português</string>
     <string name="language_afrikaans">afrikaans</string>
 
-    
+
     <string name="settings">Configurações</string>
     <string name="language_settings">Linguagem</string>
 
-    
+
     <string name="create_assessment">Criar avaliação</string>
     <string name="add_measurements">Adicione medições</string>
     <string name="capture">Capturar</string>
@@ -444,31 +444,38 @@ Você coleta uma amostra de macroinvertebrados (pequenos animais) da água e, de
     <string name="create_assessment_instruction">Tire uma foto de um espécime de cada tipo diferente que você encontrou.Continue tirando fotos até ter uma de cada um dos grupos que encontrou.Clique em Capture para começar a adicionar fotos de espécimes.</string>
 
 
-    
     <string name="activity_key_start">Please select filters to start</string>
     <string name="activity_key_more_filters">Please select more filters</string>
 
-    
+
     <string name="what_are_aquatic">O que são macroinvertebrados aquáticos e como a minissasa os usou para o biomonitoramento?</string>
     <string name="why_is_water_quality">Por que a qualidade da água e o monitoramento da saúde do riacho são importantes?</string>
     <string name="history_of_minisass">HISTÓRIA DA MINISASASS</string>
     <string name="river_safety">Segurança do rio</string>
     <string name="citizen_science_minisass">Ciência cidadã e minisass</string>
-    <string name="dichotomous_key_filter">Dichotomous key filter descriptions</string>
+    <string name="dichotomous_key_filter">Descrições de filtros de chave dicotómica</string>
     <string name="glossary">Glossário</string>
-    <string name="aquatic_macroinvertebrates_definition">Os macroinvertebrados aquáticos são pequenos animais que vivem em sistemas de água e não têm esqueleto interno.Eles são visíveis a olho nu, daí o termo \'macro\' que significa \'grande\'. \ N \ n
-Diferentes tipos de macroinvertebrados aquáticos têm diferentes níveis de tolerância ou sensibilidades para perturbar em seu ambiente.Isso significa que se pode olhar para a comunidade de
-Macroinvertebrados presentes em um riacho ou rio e inferir algo sobre a qualidade da água e a saúde do sistema. \ n \ n n
-Basicamente, em sistemas perturbados, por exemplo, onde há poluição ou espécies invasivas alienígenas abundantes, as espécies mais sensíveis e menos tolerantes podem desaparecer,
-enquanto as espécies tolerantes e menos sensíveis permanecerão presentes ou aumentarão em números. \ n \ n n
-O Minisass coloca todos os tipos de macroinvertebrados aquáticos em 13 grupos relativamente fáceis de identificar e fornece a esses grupos escores com base na tolerância geral conhecida e média e
+    <string name="aquatic_macroinvertebrates_definition">
+        Os macroinvertebrados aquáticos são pequenos animais que vivem em sistemas de água e não 
+        têm esqueleto interno.Eles são visíveis a olho nu, daí o termo \'macro\' que 
+        significa \'grande\'. \n\nDiferentes tipos de macroinvertebrados aquáticos têm diferentes 
+        níveis de tolerância ou sensibilidades para perturbar em seu ambiente. Isso significa que 
+        se pode olhar para a comunidade de Macroinvertebrados presentes em um riacho ou rio e 
+        inferir algo sobre a qualidade da água e a saúde do sistema. \n\nBasicamente, em sistemas
+        perturbados, por exemplo, onde há poluição ou espécies invasivas alienígenas abundantes,
+        as espécies mais sensíveis e menos tolerantes podem desaparecer, enquanto as espécies
+        tolerantes e menos sensíveis permanecerão presentes ou aumentarão em números. \n\nO
+        Minisass coloca todos os tipos de macroinvertebrados aquáticos em 13 grupos relativamente
+        fáceis de identificar e fornece a esses grupos escores com base na tolerância geral conhecida e média e
 Níveis de sensibilidade dos tipos nesses grupos.Pontuações baixas são atribuídas a grupos geralmente compostos por espécies muito tolerantes (que podem sobreviver à poluição e perturbação), enquanto
-Pontuações altas são atribuídas a grupos geralmente compostos por espécies muito sensíveis (que não podem viver e sobreviver se houver poluição ou perturbação). \ n \ n n
+Pontuações altas são atribuídas a grupos geralmente compostos por espécies muito sensíveis (que não podem viver e sobreviver se houver poluição ou perturbação). \n\n
 No aplicativo Minisass, você captura imagens dos macroinvertebrados aquáticos que você amostrou.Você atribui uma identificação a essas imagens.Ao mesmo tempo, um aprendizado de máquina
 (ML) O algoritmo de identificação de inteligência artificial (AI) é executado na imagem, identificando -a também.O aplicativo gera uma pontuação do usuário e uma pontuação ML.Estes podem ser comparados
-como um guia para o usuário se eles estiverem identificando corretamente ou talvez precisar revisitar suas identificações. \ n \ n n
-Uma pesquisa de minisassões mostra um riacho ou rio para esses macroinvertebrados aquáticos e gera pontuação com base na sensibilidade e tolerância média da comunidade presente.
-A pontuação então refere -se a uma categoria ecológica, indicando o riacho ou a qualidade da saúde e da água. \ N \ n n</string>
+como um guia para o usuário se eles estiverem identificando corretamente ou talvez precisar
+        revisitar suas identificações. \n\nUma pesquisa de minisassões mostra um riacho ou rio
+        para esses macroinvertebrados aquáticos e gera pontuação com base na sensibilidade e
+        tolerância média da comunidade presente. A pontuação então refere -se a uma categoria
+        ecológica, indicando o riacho ou a qualidade da saúde e da água. \n\n</string>
     <string name="freshwater_is_essential">A água doce é essencial para a biodiversidade e os seres humanos.Sustenta rico
 ecossistemas juntamente com todos os bens e serviços que eles prestam e apoia
 Agricultura, indústria, saneamento e hidratação.Gerenciando nosso precioso e frequentemente
@@ -488,11 +495,11 @@ Sass5 recente.</string>
     <string name="always_remember_safety_first">Lembre -se sempre, segurança primeiro!Ao pensar em fazer uma pesquisa de minisass, verifique seu
 arredores e verifique se o riacho ou o rio e a área estão seguros.Não insira fluxos
 ou rios profundos ou que têm correntes poderosas e de fluxo rápido, ou qualquer perigoso
-animais neles ou nas proximidades.\ n \ n
+animais neles ou nas proximidades.\n\n
 Proteja -se com protetor solar e roupas apropriadas (gumboots e chapéus) e lembre -se
 lavar as mãos com desinfetante ou sabão regularmente.Ter cuidado com poluído
 rios e riachos, tomando precauções extras para se manter seguro e saudável.
-O Minisass é mais divertido e seguro com os outros!\ n \ n</string>
+O Minisass é mais divertido e seguro com os outros!\n\n</string>
     <string name="aquatic_macroinvertebrates_small_but_visible">- Macroinvertebrados aquáticos: pequeno, mas visível a olho nu, animais que não têm
 Esqueleto interno e que vivem em sistemas de água.</string>
     <string name="biomonitoring_broadly_refers_to_using_organisms">- Biomonitoramento: refere -se amplamente ao uso de organismos (por exemplo, algas, macroinvertebrados,
@@ -514,14 +521,68 @@ Para miniSass, um treina de rede neural profunda em imagens corretamente identif
 Macroinvertebrados aquáticos e aprenda a identificá -los de acordo com os 13 grupos de minisass.</string>
     <string name="we_can_all_play_a_part_in_monitoring_freshwater_resources">Todos nós podemos desempenhar um papel no monitoramento dos recursos de água doce, ajudando a reunir os dados necessários
 para gerenciá -los.Ao participar da ciência do cidadão, qualquer um pode se tornar um importante
-Colaborador da pesquisa e conservação!\ n \ n "A realização de uma pesquisa de minisass nos ajuda
-Aprenda sobre sistemas de água doce e a importância da biodiversidade e da água doce saudável
-ecossistemas e nos envolve com a natureza e nossas comunidades.É uma ferramenta que permite
-Nós tomamos medidas para ajudar a monitorar e conservar nossos sistemas de água doce.\ n \ n "
-Os resultados de uma pesquisa de minissasa dão uma boa indicação da qualidade da água e da saúde
+Colaborador da pesquisa e conservação!\n\nA realização de uma pesquisa de minisass nos ajuda Aprenda sobre sistemas de água doce e a importância da biodiversidade e da água doce saudável
+ecossistemas e nos envolve com a natureza e nossas comunidades.É uma ferramenta que permite Nós
+        tomamos medidas para ajudar a monitorar e conservar nossos sistemas de água doce.\n\n Os resultados de uma pesquisa de minissasa dão uma boa indicação da qualidade da água e da saúde
 de um riacho ou rio, servindo para sinalizar possível poluição, ou saudável e funcionamento
 sistemas.O monitoramento contínuo do mesmo riacho ou rio pode dar uma visão incrível sobre
 muda com o tempo.
 As autoridades locais relevantes para que eles acompanhem os suspeitos de problemas usando o seu
-dados como um indicador! \ n \ n</string>
-</resources>
+dados como um indicador! \n\n</string>
+    <string name="training_and_educational_video">Vídeos de treinamento e educação</string>
+    <string name="introduction_to_minisass">Introdução ao minisass</string>
+    <string name="online_videos">Vídeos online</string>
+    <string name="minisass_in_summary">Minissass em resumo</string>
+    <string name="offline_videos">Vídeos offline</string>
+    <string name="video_title">Título do vídeo</string>
+    <string name="site_name">Nome do site</string>
+    <string name="river_name">Nome do rio</string>
+    <string name="registration">Registro</string>
+    <string name="i_have_read_and_agree_to">Eu li e concordo em</string>
+    <string name="register">Registrar</string>
+    <string name="updating_site">Site de atualização</string>
+    <string name="required">* Obrigatório</string>
+    <string name="take_site_photo">Tire a foto do site</string>
+    <string name="add_site">Adicionar site</string>
+    <string name="minisass_score">Pontuação de minisass</string>
+    <string name="minisass_ml_score">Minisass ML Score</string>
+    <string name="collector_s_name">Nome do colecionador</string>
+    <string name="water_temp">Temperatura da água</string>
+    <string name="dissolved_oxygen">Oxigênio dissolvido</string>
+    <string name="this_is_a_note">Esta é uma nota</string>
+    <string name="show_assessment_photos">Mostre fotos de avaliação</string>
+    <string name="invert_type">Tipo invertido</string>
+    <string name="english">Inglês</string>
+    <string name="update_site">Site de atualização</string>
+    <string name="no_sites_added_yet_click_on_the_button_t">Ainda não foram adicionados sites.Clique no botão + para adicionar um novo site.</string>
+    <string name="fetching_online_sites">Buscando sites online</string>
+    <string name="retry">Tente novamente</string>
+    <string name="reset_password">Redefinir senha</string>
+    <string name="a_password_reset_link_has_been_sent_to_t">Um link de redefinição de senha foi enviado para o endereço de e -mail fornecido</string>
+    <string name="reset">Reiniciar</string>
+    <string name="filter_name">Nome do filtro</string>
+    <string name="country">País</string>
+    <string name="loading_site">Site de carregamento</string>
+    <string name="save">Salvar</string>
+    <string name="focus_mode">Modo de foco</string>
+    <string name="user_choice_">Escolha do usuário:</string>
+    <string name="ml_prediction_">Previsão de ML:</string>
+    <string name="ml_prediction">Previsão de ML</string>
+    <string name="this_is_textline">Isso é linha de texto</string>
+    <string name="your_username_or_password_is_incorrect">Seu nome de usuário ou senha está incorreto</string>
+    <string name="create_account">Criar uma conta</string>
+    <string name="forgot_password">Esqueceu sua senha</string>
+    <string name="login">Conecte-se</string>
+    <string name="contact_name">Nome do contato</string>
+    <string name="unknown">Unknown</string>
+    <string name="safety_concerns_for_minisass">Preocupações de segurança para o minisass</string>
+    <string name="choosing_your_site_for_minisass">Escolhendo seu site para Minisass</string>
+    <string name="what_is_in_your_minisass_kit">O que está em seu kit de minisass</string>
+    <string name="what_do_you_need_to_put_together_a_minisass_kit_at_home">O que você precisa para montar um kit de minisass em casa</string>
+    <string name="how_to_take_a_sample">Como levar uma amostra</string>
+    <string name="cleaning_your_sample">Limpando sua amostra</string>
+    <string name="how_to_calculate_your_score">Como calcular sua pontuação</string>
+    <string name="uploading_your_minisass_score">Carregando sua pontuação de minisass</string>
+    <string name="using_minisass_for_monitoring">Usando a minissasa para monitoramento</string>
+    <string name="using_the_dichotomous_key">Usando a chave dicotômica</string>
+<string name="name">Nome</string><string name="surname">Sobrenome</string><string name="email_address">Endereço de email</string><string name="username">Nome de usuário</string><string name="password">Senha</string><string name="organisation_type">Tipo de organização</string><string name="organisation_name">Nome da organização</string><string name="select_certificate">Selecione Certificado</string><string name="site_location">Localização do site</string><string name="river_type">Tipo de rio</string><string name="unit">Unidade</string><string name="email">E-mail</string><string name="upload_preference">Carregar preferência</string></resources>

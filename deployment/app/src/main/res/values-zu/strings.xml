@@ -425,11 +425,11 @@ Uqoqa isampula yama-macroingvertertbrates (izilwane ezincane) ezivela emanzini, 
     <string name="language_portuguese">Isiphepheli</string>
     <string name="language_afrikaans">IsiBhulu</string>
 
-    
+
     <string name="settings">Amasethingi</string>
     <string name="language_settings">Ulimi</string>
 
-    
+
     <string name="create_assessment">Dala ukuhlolwa</string>
     <string name="add_measurements">Faka izilinganiso</string>
     <string name="capture">Phanga</string>
@@ -444,11 +444,10 @@ Uqoqa isampula yama-macroingvertertbrates (izilwane ezincane) ezivela emanzini, 
     <string name="create_assessment_instruction">Sicela uthathe isithombe sohlobo olulodwa lohlobo oluhlukile olutholile.Qhubeka uthathe izithombe uze ube neyodwa evela kwelinye lamaqembu owatholile.Chofoza u-Capture ukuze uqale ukungeza izithombe zezinhlobo.</string>
 
 
-    
     <string name="activity_key_start">Please select filters to start</string>
     <string name="activity_key_more_filters">Please select more filters</string>
 
-    
+
     <string name="what_are_aquatic">Yini ama-aquatic macroinvertertbrents futhi kanjani ama-minisass awasebenzisa kanjani ukuthola imali?</string>
     <string name="why_is_water_quality">Kungani ikhwalithi yamanzi nokusakazwa kwezempilo kubalulekile?</string>
     <string name="history_of_minisass">Umlando weMinisass</string>
@@ -456,19 +455,19 @@ Uqoqa isampula yama-macroingvertertbrates (izilwane ezincane) ezivela emanzini, 
     <string name="citizen_science_minisass">Isayensi yesakhamuzi kanye ne-minisass</string>
     <string name="dichotomous_key_filter">Dichotomous key filter descriptions</string>
     <string name="glossary">Pakanya</string>
-    <string name="aquatic_macroinvertebrates_definition">I-Aquatic MacroInvertebrates yizilwane ezincane ezihlala ezinhlelweni zamanzi futhi azinawo amathambo angaphakathi.Ziyabonakala esweni elinqunu, yingakho igama elithi \'Macro\' lisho \'enkulu\'. \ N \ n
+    <string name="aquatic_macroinvertebrates_definition">I-Aquatic MacroInvertebrates yizilwane ezincane ezihlala ezinhlelweni zamanzi futhi azinawo amathambo angaphakathi.Ziyabonakala esweni elinqunu, yingakho igama elithi \'Macro\' lisho \'enkulu\'. \n\n
 Izinhlobo ezahlukene zama-macroinverterrates anezinhlamvu ezihlukile zokubekezelela noma ukuzwela kokuphazamiseka endaweni yazo.Lokhu kusho ukuthi umuntu angabheka umphakathi we
-Ama-MacroInvertertbrates akhona emfuleni noma emfuleni futhi athambe okuthile ngekhwalithi yamanzi nempilo yohlelo. \ n \ n
+Ama-MacroInvertertbrates akhona emfuleni noma emfuleni futhi athambe okuthile ngekhwalithi yamanzi nempilo yohlelo. \n\n
 Ngokuyisisekelo ezinhlelweni eziphazamisekile, ngokwesibonelo lapho kunokungcola noma izinhlobo eziningi ezihlaselayo ezihlaselayo, izinhlobo ezibucayi kakhulu futhi ezibekezelayo kungalindeleka ukuba zinyamalale,
-Ngenkathi izinhlobo ezibekezelayo nezinkulu nangaphezulu zizohlala zikhona noma zikhule ngamanani. \ N \ n
+Ngenkathi izinhlobo ezibekezelayo nezinkulu nangaphezulu zizohlala zikhona noma zikhule ngamanani. \n\n
 IMinisass ibeka zonke izinhlobo zasemanzini Macroinvertertebrate zibe yizinhlobo eziyi-13 kulula ukubona amaqembu, futhi inika lezo zikolo zamaqembu ngokusekelwe kokujwayelekile, ukubekezelela okuphakathi nendawo futhi
 amazinga wokuzwela wezinhlobo kulawo maqembu.Izikolo eziphansi zabelwa emaqenjini ajwayele ukwakhiwa kwezinhlobo ezibekezelela kakhulu (ezingasinda ekungcoleni nasekuphazamiseka), ngenkathi
-Izikolo eziphakeme zinikezwa amaqembu ajwayele ukwakhiwa kwezinhlobo ezibucayi kakhulu (ezingakwazi ukuhlala futhi ziphile uma kunokungcola noma ukuphazamiseka). \ n \ n
+Izikolo eziphakeme zinikezwa amaqembu ajwayele ukwakhiwa kwezinhlobo ezibucayi kakhulu (ezingakwazi ukuhlala futhi ziphile uma kunokungcola noma ukuphazamiseka). \n\n
 Kuhlelo lokusebenza lwe-Minisass, uthwebula izithombe ze-Aquatic MacroInverterTebrates uhleliwe.Unikeza ukukhonjwa kulezi zithombe.Ngasikhathi sinye, ukufunda umshini
 .Uhlelo lokusebenza bese lukhiqiza amaphuzu omsebenzisi, kanye ne-ML Score.Lokhu kungaqhathaniswa
-njengesiqondisi kumsebenzisi uma ekhomba kahle noma mhlawumbe kudingeka ukuthi avakashele amahlosi awo. \ N \ n
+njengesiqondisi kumsebenzisi uma ekhomba kahle noma mhlawumbe kudingeka ukuthi avakashele amahlosi awo. \n\n
 Ucwaningo lweMinisass lusampula umfudlana noma umfula ngalezi zakhi zasemanzini zasemanzini, futhi ukhiqize amaphuzu ngokususelwa ekuzwela okuphakathi nokubekezelela umphakathi okhona.
-Isikolo bese sihlobene nesigaba semvelo, esibonisa ukusakazwa noma umfula impilo nekhwalithi yamanzi. \ N \ n</string>
+Isikolo bese sihlobene nesigaba semvelo, esibonisa ukusakazwa noma umfula impilo nekhwalithi yamanzi. \n\n</string>
     <string name="freshwater_is_essential">Amanzi amasha aqakathekileko ezilwaneni eziphilayo nakubantu.Ixhasa
 I-EcoSystems kanye nazo zonke izimpahla nezinsizakalo abazinikezayo, futhi isekela umuntu
 Ezolimo, imboni, ukuthuthwa kwendle kanye ne-hydration.Ukuphatha I-Precious yethu futhi Imvamisa
@@ -488,11 +487,11 @@ yakamuva yakwa-SAS5.</string>
     <string name="always_remember_safety_first">Khumbula njalo, ukuphepha kuqala!Lapho ucabanga ngokwenza inhlolovo ye-minisass, sicela uhlole okwakho
 Eduze futhi uqiniseke ukuthi umfudlana noma umfula nendawo ephephile.Ungangeni emifudlaneni
 noma imifula ejulile noma enemikhuba enamandla, egeleza ngokushesha, noma ikhona okuyingozi
-izilwane kuzo noma eduzane.\ n \ n
+izilwane kuzo noma eduzane.\n\n
 Zivikele nge-sunscreen kanye nezingubo ezifanele (ama-gumboots nezigqoko), futhi ukhumbule
 ukugeza izandla zakho nge-sanitizer noma insipho njalo.Qikelela ikakhulukazi ukungcoliswa
 Imifula nemifudlana, ethatha izinyathelo zokuphepha ezengeziwe ukuze uzigcine uphephile futhi uphilile.
-IMinisass imnandi ngokwengeziwe futhi iphephe nabanye!\ n \ n</string>
+IMinisass imnandi ngokwengeziwe futhi iphephe nabanye!\n\n</string>
     <string name="aquatic_macroinvertebrates_small_but_visible">- I-Aquatic MacroInverterBrertbrates: Encane, kepha iyabonakala esweni elinqunu, izilwane ezingenayo
 Amathambo angaphakathi futhi ahlala ezinhlelweni zamanzi.</string>
     <string name="biomonitoring_broadly_refers_to_using_organisms">- I-BionikeniCitoring: Lokhu kubhekise kakhulu ekusebenziseni izidalwa (e.g., Algae, Macroinververterterbrebrates,
@@ -514,14 +513,70 @@ Kwi-minisass i-Deep-Neural-Network izitimela ezithombeni ezihlonziwe kahle ze
 I-Aquatic MacroInverterBrertbrates futhi ufunde ukubaveza ngokuya ngamaqembu ayi-13 ama-minisass.</string>
     <string name="we_can_all_play_a_part_in_monitoring_freshwater_resources">Sonke singadlala indima ekubhekeni izinsiza ezifuywayo ezihlanzekile, sisiza ukuqoqa idatha edingekayo
 ukubaphatha.Ngokubamba iqhaza kwisayensi yeCitizen, noma ngubani angaba ebalulekile
-Umhlinzeki wokucwaninga nokulondolozwa!\ n \ n "ukuqhuba inhlolovo ye-minisass kusisiza
+Umhlinzeki wokucwaninga nokulondolozwa!\n\n ukuqhuba inhlolovo ye-minisass kusisiza
 Funda ngezinhlelo zamanzi ahlanzekile kanye nokubaluleka kokuhlukahlukana kwezinto eziphilayo kanye namanzi amnandi aphilile
 I-EcoSystems, bese usifaka nemvelo nemiphakathi yethu.Kuyithuluzi elivumela
-I-US thatha isenzo ukusiza ukuqapha nokugcina izinhlelo zethu zamanzi amnandi.\ n \ n "
+I-US thatha isenzo ukusiza ukuqapha nokugcina izinhlelo zethu zamanzi amnandi.\n\n 
 Imiphumela yocwaningo lwe-minisass inikeza inkomba enhle yekhwalithi yamanzi nempilo
 womfula noma umfula, osebenza ukugcwala ukungcoliswa okungenzeka, noma uphumelele futhi usebenze
 izinhlelo.Ukuqashwa okuqhubekayo komfula noma umfula ofanayo kunganikeza ukuqonda okumangalisayo
-ushintsho ngokuhamba kwesikhathi. \ n \ n "Uma usuthole amaphuzu akho amaminithi, ungalandela futhi
+ushintsho ngokuhamba kwesikhathi. \n\n Uma usuthole amaphuzu akho amaminithi, ungalandela futhi
 Iziphathimandla zasekhaya ezifanele zokuzithola zilandele ezinkingeni ezisolwayo zisebenzisa eyakho
-idatha njengesikhombi! \ n \ n</string>
-</resources>
+idatha njengesikhombi! \n\n</string>
+    <string name="training_and_educational_video">Amavidiyo wokuqeqesha kanye nemfundo</string>
+    <string name="online_videos">Amavidiyo aku-inthanethi</string>
+    <string name="introduction_to_minisass">Isingeniso kuMinisass</string>
+    <string name="minisass_in_summary">IMinisass efingqiwe</string>
+    <string name="offline_videos">Amavidiyo angaxhunyiwe ku-inthanethi</string>
+    <string name="safety_concerns_for_minisass">Ukuphepha kokuphepha kwe-minisass</string>
+    <string name="what_is_in_your_minisass_kit">Yini ekhishini lakho le-minisass</string>
+    <string name="what_do_you_need_to_put_together_a_minisass_kit_at_home">Yini okudingeka uyihlanganise ikhithi ye-minisass ekhaya</string>
+    <string name="choosing_your_site_for_minisass">Ukukhetha isayithi lakho le-minisass</string>
+    <string name="how_to_take_a_sample">Ungayithatha kanjani isampula</string>
+    <string name="cleaning_your_sample">Ukuhlanza isampula yakho</string>
+    <string name="using_the_dichotomous_key">Usebenzisa ukhiye weDichotomous</string>
+    <string name="how_to_calculate_your_score">Indlela yokubala isikolo sakho</string>
+    <string name="uploading_your_minisass_score">Ukulayisha Isikolo Sakho se-Minisass</string>
+    <string name="using_minisass_for_monitoring">Usebenzisa i-minisass yokuqapha</string>
+    <string name="video_title">Isihloko sevidiyo</string>
+    <string name="site_name">Igama Lendawo</string>
+    <string name="river_name">Igama lomfula</string>
+    <string name="registration">Ukurejistwa</string>
+    <string name="i_have_read_and_agree_to">Ngifundile futhi ngiyavuma</string>
+    <string name="register">Regista</string>
+    <string name="updating_site">Ukuvuselela Isayithi</string>
+    <string name="required">* Kuyadingeka</string>
+    <string name="take_site_photo">Thatha isithombe sesayithi</string>
+    <string name="add_site">Engeza isiza</string>
+    <string name="minisass_score">Isikolo seMinisass</string>
+    <string name="minisass_ml_score">IMinisass ML Score</string>
+    <string name="collector_s_name">Igama le-Collector</string>
+    <string name="water_temp">Amanzi</string>
+    <string name="dissolved_oxygen">I-oksijini encibilikile</string>
+    <string name="this_is_a_note">Lokhu kungukuthi</string>
+    <string name="show_assessment_photos">Khombisa izithombe zokuhlola</string>
+    <string name="invert_type">Uhlobo lwe-Inverter</string>
+    <string name="english">IsiNgisi</string>
+    <string name="update_site">Ukuvuselela isiza</string>
+    <string name="no_sites_added_yet_click_on_the_button_t">Awekho amasayithi angeziwe okwamanje.Chofoza inkinobho + ukuze ungeze isayithi elisha.</string>
+    <string name="fetching_online_sites">Ukulanda amasayithi aku-inthanethi</string>
+    <string name="retry">MuntuLALA</string>
+    <string name="reset_password">Setha kabusha iphasiwedi</string>
+    <string name="a_password_reset_link_has_been_sent_to_t">Isixhumanisi sokusetha kabusha iphasiwedi sithunyelwe ekhelini le-imeyili elinikeziwe</string>
+    <string name="reset">Setha kabusha</string>
+    <string name="filter_name">Igama lokuhlunga</string>
+    <string name="country">Izwe</string>
+    <string name="loading_site">Kulayishwa isayithi</string>
+    <string name="save">Hlenga</string>
+    <string name="focus_mode">Imodi yokugxila</string>
+    <string name="user_choice_">Ukukhetha komsebenzisi:</string>
+    <string name="ml_prediction_">Ukubikezela kwe-ML:</string>
+    <string name="ml_prediction">Ukubikezela kwe-ML</string>
+    <string name="this_is_textline">Lokhu kungumbhalo</string>
+    <string name="your_username_or_password_is_incorrect">Igama lakho lomsebenzisi noma iphasiwedi ayilungile</string>
+    <string name="create_account">Yenza i-akhawunti</string>
+    <string name="forgot_password">Ukhohlwe iphasiwedi</string>
+    <string name="login">Ngena ngemvume</string>
+    <string name="contact_name">igama longaxhumana naye</string>
+    <string name="unknown">-Ngaqondakali</string>
+<string name="name">Ibizo</string><string name="username">Igama lomsebenzisi</string><string name="password">Igama lokuvunyelwa ukungena endaweni ethile</string><string name="surname">Isibongo</string><string name="email_address">Ikheli le-imeyili</string><string name="organisation_type">Uhlobo lwenhlangano</string><string name="organisation_name">Igama Lenhlangano</string><string name="select_certificate">Khetha isitifiketi</string><string name="site_location">Indawo Yendawo</string><string name="river_type">Uhlobo lomfula</string><string name="unit">Umuvo</string><string name="email">Ivangeli</string><string name="upload_preference">Faka okuthandayo</string></resources>

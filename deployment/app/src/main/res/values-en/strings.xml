@@ -554,6 +554,32 @@
     <string name="online_videos">Online Videos</string>
     <string name="introduction_to_minisass">Introduction to miniSASS</string>
     <string name="minisass_in_summary">miniSASS in summary</string>
+    <string name="safety_concerns_for_minisass">Safety concerns for miniSASS</string>
+    <string name="what_is_in_your_minisass_kit">What is in your miniSASS kit</string>
+    <string name="what_do_you_need_to_put_together_a_minisass_kit_at_home">
+        What do you need to put together a miniSASS kit at home
+    </string>
+    <string name="choosing_your_site_for_minisass">
+        Choosing your site for miniSASS
+    </string>
+    <string name="how_to_take_a_sample">
+        How to take a sample
+    </string>
+    <string name="cleaning_your_sample">
+        Cleaning your sample
+    </string>
+    <string name="using_the_dichotomous_key">
+        Using the dichotomous key
+    </string>
+    <string name="how_to_calculate_your_score">
+        How to calculate your score
+    </string>
+    <string name="uploading_your_minisass_score">
+        Uploading your miniSASS score
+    </string>
+    <string name="using_minisass_for_monitoring">
+        Using miniSASS for monitoring
+    </string>
 
     <string name="video_title">Video title</string>
     <string name="site_name">Site Name</string>
@@ -597,4 +623,18 @@
     <string name="login">Login</string>
     <string name="contact_name">Contact Name</string>
     <string name="unknown">Unknown</string>
+
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="email_address">Email address</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="organisation_type">Organisation Type</string>
+    <string name="organisation_name">Organisation Name</string>
+    <string name="select_certificate">Select Certificate</string>
+    <string name="site_location">Site location</string>
+    <string name="river_type">River Type</string>
+    <string name="unit">Unit</string>
+    <string name="email">Email</string>
+    <string name="upload_preference">Upload Preference</string>
 </resources>
