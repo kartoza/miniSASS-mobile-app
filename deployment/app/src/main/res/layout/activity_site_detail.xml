@@ -207,7 +207,7 @@
                     android:layout_marginTop="50dp"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:text="You have successfully added your site and you are ready to begin sampling! Sample as many habitats as possible (rocky, sandy, and gravel, sand, and mud (GSM) following the guidelines) and then sort the aquatic macroinvertebrates you found into trays so you can take a photo of each different one. When ready, click on the ‘ADD ASSESSMENT’ button to start taking photos of each different one and identifying them."
+                    android:text="@string/site_detail_instruction"
                     android:textAlignment="center"
                     android:textSize="18sp" />
 

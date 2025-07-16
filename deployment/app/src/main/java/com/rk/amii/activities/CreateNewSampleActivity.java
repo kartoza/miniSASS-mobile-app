@@ -225,7 +225,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
                 //TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
                 assessmentDetailsContainer.setVisibility(View.VISIBLE);
                 showAssessmentDetailsIconButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
-                assessmentToggleMessage.setText("Hide");
+                assessmentToggleMessage.setText(getString(R.string.hide));
             }
         });
 

@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:hint="Date">
+                android:hint="@string/date">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idDate"
@@ -67,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Water temperature"
+            android:hint="@string/water_temperature"
             app:suffixText="°C">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginRight="5dp"
-                android:hint="Dissolved oxygen">
+                android:hint="@string/dissoved_oxygen">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idDissolvedOxygenAdd"
@@ -134,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginRight="5dp"
-                android:hint="Electrical Conductivity">
+                android:hint="@string/electrical_conductivity">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idElectricalConductivityAdd"
@@ -172,7 +172,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="Water clarity">
+            android:hint="@string/water_clarity">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/idWaterClarityAdd"
@@ -187,7 +187,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Notes">
+            android:hint="@string/notes">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/idNotesAdd"
@@ -261,7 +261,7 @@
         android:gravity="center"
         android:textAlignment="center"
         android:textSize="18sp"
-        android:text="Please take a photo of one specimen of each different type you found. Keep taking pictures until you have one from each of the groups you found. Click CAPTURE to start adding photos of specimens."/>
+        android:text="@string/create_assessment_instruction"/>
 
 
     <LinearLayout
@@ -275,7 +275,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="Capture"
+                android:text="@string/capture"
                 android:backgroundTint="#539987"
                 />
 
@@ -285,7 +285,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="Save Assessment"
+                android:text="@string/save_assessment"
                 android:backgroundTint="#539987"
                 />
 
@@ -344,14 +344,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:text="Use Key"
+                    android:text="@string/use_key"
                     android:backgroundTint="#539987"/>
 
                 <Button
                     android:id="@+id/idBtnAddSampleItem"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Add"
+                    android:text="@string/add"
                     android:enabled="false"
                     android:backgroundTint="#539987"/>
                 </LinearLayout>
@@ -384,7 +384,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/raleway"
-            android:text="Calculating scores and adding assessment."
+            android:text="@string/calculate_score_and_add_assessment"
             android:textAlignment="center" />
     </LinearLayout>
     </LinearLayout>

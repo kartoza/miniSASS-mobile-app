@@ -174,7 +174,7 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
         this.likelyGroupText.setVisibility(View.VISIBLE);
 
         if (possible.size() == 13) {
-            this.likelyGroupText.setText("Please select filters to start");
+            this.likelyGroupText.setText(context.getString(R.string.activity_key_start));
         } else {
             if (possible.size() <= 2) {
                 for (String x : possible) {
@@ -210,7 +210,7 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
                     this.likelyGroupText.setVisibility(View.GONE);
                 }
             } else {
-                this.likelyGroupText.setText("Please select more filters");
+                this.likelyGroupText.setText(context.getString(R.string.activity_key_more_filters));
             }
         }
 
