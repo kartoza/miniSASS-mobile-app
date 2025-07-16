@@ -65,7 +65,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Site name">
+                android:hint="@string/site_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idSiteNameEdit"
@@ -90,7 +90,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Site location">
+                android:hint="@string/site_location">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idSiteLocationEdit"
@@ -116,7 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp"
-                android:hint="River name">
+                android:hint="@string/river_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idRiverNameEdit"
@@ -132,7 +132,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="River Type">
+                android:hint="@string/river_type">
 
             <AutoCompleteTextView
                 android:id="@+id/riverTypeSpinner"
@@ -162,7 +162,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date">
+                android:hint="@string/date">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idDateEdit"
