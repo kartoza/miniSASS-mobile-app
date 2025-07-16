@@ -130,7 +130,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="32dp"
-            android:text="Save" />
+            android:text="@string/save" />
 
 
         <!-- ADD THIS: Divider for settings section -->

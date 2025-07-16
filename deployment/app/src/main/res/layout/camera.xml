@@ -43,7 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="Focus Mode"
+                android:text="@string/focus_mode"
                 android:src="@drawable/ic_baseline_cameraswitch_24"
                 android:layout_gravity="center"
                 android:background="@null"/>

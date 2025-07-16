@@ -47,7 +47,7 @@
             android:gravity="center"
             android:textAlignment="center"
             android:textSize="18sp"
-            android:text="No sites added yet. Click on the + button to add a new site."/>
+            android:text="@string/no_sites_added_yet_click_on_the_button_t"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/idFABsync"

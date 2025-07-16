@@ -470,8 +470,8 @@
         high scores are assigned to groups generally made up of very sensitive species (which can’t live and survive if there is pollution or disturbance).\n\n
         In the miniSASS app, you capture images of the aquatic macroinvertebrates you have sampled. You assign an identification to these images. At the same time, a machine-learning
         (ML) artificial intelligence (AI) identification algorithm runs on the image, identifying it as well. The app then generates a user score, and a ML score. These can be compared
-        as a guide to the user if they are identifying correctly or perhaps need to revisit their identifications.\n\n
-        A miniSASS survey samples a stream or river for these aquatic macroinvertebrates, and generates score based on the average sensitivity and tolerance of the community present.
+        as a guide to the user if they are identifying correctly or perhaps need to revisit their identifications.\n\nA miniSASS survey
+        samples a stream or river for these aquatic macroinvertebrates, and generates score based on the average sensitivity and tolerance of the community present.
         The score then relates to an ecological category, indicating the stream or river health and water quality.\n\n
     </string>
     <string name="freshwater_is_essential">
@@ -498,11 +498,10 @@
         Always remember, safety first! When thinking of doing a miniSASS survey, please check your
         surroundings and make sure the stream or river and the area are safe. Don’t enter streams
         or rivers that are deep or that have powerful, fast-flowing currents, or any dangerous
-        animals in them or nearby. \n\n
-        Protect yourself with sunscreen and appropriate clothing (gumboots and hats), and remember
-        to wash your hands with sanitizer or soap regularly. Be especially careful with polluted
-        rivers and streams, taking extra precautions to keep yourself safe and healthy.
-        MiniSASS is more fun and safer with others! \n\n
+        animals in them or nearby. \n\nProtect yourself with sunscreen and appropriate
+        clothing (gumboots and hats), and remember to wash your hands with sanitizer or soap
+        regularly. Be especially careful with polluted rivers and streams, taking extra precautions
+        to keep yourself safe and healthy. MiniSASS is more fun and safer with others! \n\n
     </string>
     <string name="aquatic_macroinvertebrates_small_but_visible">
         - Aquatic macroinvertebrates: Small, but visible to the naked eye, animals that have no
@@ -540,15 +539,62 @@
     <string name="we_can_all_play_a_part_in_monitoring_freshwater_resources">
         We can all play a part in monitoring freshwater resources, helping gather the data needed
         to manage them. By participating in citizen science, anyone can become an important
-        contributor to research and conservation! \n\n" Conducting a miniSASS survey helps us
-        learn about freshwater systems and the importance of biodiversity and healthy freshwater
+        contributor to research and conservation! \n\nConducting a miniSASS survey helps us learn about freshwater systems and the importance of biodiversity and healthy freshwater
         ecosystems, and gets us engaged with nature and our communities. It is a tool that lets
-        us take action to help monitor and conserve our freshwater systems. \n\n"
-        The results of a miniSASS survey give a good indication of the water quality and health
+        us take action to help monitor and conserve our freshwater systems. \n\nThe results of a
+        miniSASS survey give a good indication of the water quality and health
         of a stream or river, serving to flag possible pollution, or healthy and functioning
         systems. Continuous monitoring of the same stream or river can give amazing insight into
-        changes over time.\n\n" Once you get your miniSASS score, you can even follow up with
+        changes over time.\n\nOnce you get your miniSASS score, you can even follow up with
         relevant local authorities to get them to follow up on suspected problems using your
         data as an indicator!\n\n
     </string>
+    <string name="training_and_educational_video">Training and Education Videos</string>
+    <string name="offline_videos">Offline Videos</string>
+    <string name="online_videos">Online Videos</string>
+    <string name="introduction_to_minisass">Introduction to miniSASS</string>
+    <string name="minisass_in_summary">miniSASS in summary</string>
+
+    <string name="video_title">Video title</string>
+    <string name="site_name">Site Name</string>
+    <string name="river_name">River Name</string>
+    <string name="registration">Registration</string>
+    <string name="i_have_read_and_agree_to">I have read and agree to </string>
+    <string name="register">Register</string>
+    <string name="updating_site">Updating site</string>
+    <string name="required">* Required</string>
+    <string name="take_site_photo">Take site Photo</string>
+    <string name="add_site">Add Site</string>
+    <string name="minisass_score">miniSass Score</string>
+    <string name="minisass_ml_score">miniSass ML Score</string>
+    <string name="collector_s_name">Collector\'s Name</string>
+    <string name="water_temp">Water Temp</string>
+    <string name="dissolved_oxygen">Dissolved Oxygen</string>
+    <string name="ph">ph</string>
+    <string name="this_is_a_note">This is a note</string>
+    <string name="show_assessment_photos">Show assessment photos</string>
+    <string name="invert_type">Invert Type</string>
+    <string name="english">English</string>
+    <string name="update_site">Update Site</string>
+    <string name="no_sites_added_yet_click_on_the_button_t">No sites added yet. Click on the + button to add a new site.</string>
+    <string name="fetching_online_sites">Fetching online sites</string>
+    <string name="retry">Retry</string>
+    <string name="reset_password">Reset password</string>
+    <string name="a_password_reset_link_has_been_sent_to_t">A password reset link has been sent to the provided email address</string>
+    <string name="reset">Reset</string>
+    <string name="filter_name">Filter Name</string>
+    <string name="country">Country</string>
+    <string name="loading_site">Loading site</string>
+    <string name="save">Save</string>
+    <string name="focus_mode">Focus Mode</string>
+    <string name="user_choice_">User Choice: </string>
+    <string name="ml_prediction_">ML Prediction: </string>
+    <string name="ml_prediction">ML Prediction</string>
+    <string name="this_is_textline">This is textline</string>
+    <string name="your_username_or_password_is_incorrect">Your username or password is incorrect </string>
+    <string name="create_account">Create Account</string>
+    <string name="forgot_password">Forgot Password</string>
+    <string name="login">Login</string>
+    <string name="contact_name">Contact Name</string>
+    <string name="unknown">Unknown</string>
 </resources>

@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="Fetching online sites"
+            android:text="@string/fetching_online_sites"
             />
         <ProgressBar
             android:id="@+id/idPBLoadingSites"
@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:text="Retry"
+            android:text="@string/retry"
             android:visibility="gone"/>
     </LinearLayout>
 </LinearLayout>

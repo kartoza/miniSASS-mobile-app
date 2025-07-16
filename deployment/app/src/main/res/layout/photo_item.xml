@@ -49,14 +49,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="User Choice: "
+                        android:text="@string/user_choice_"
                         android:textSize="14dp"
                         android:layout_marginEnd="20dp"/>
                     <TextView
                         android:id="@+id/idUserChoice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Invert Type"
+                        android:text="@string/invert_type"
                         android:textSize="14dp"
                         android:textColor="@color/black"/>
                 </LinearLayout>
@@ -68,14 +68,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ML Prediction: "
+                        android:text="@string/ml_prediction_"
                         android:textSize="14dp"
                         android:layout_marginEnd="10dp"/>
                     <TextView
                         android:id="@+id/idMlPrediction"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ML Prediction"
+                        android:text="@string/ml_prediction"
                         android:textSize="14dp"
                         android:textColor="@color/black"/>
                 </LinearLayout>
@@ -86,7 +86,7 @@
 <!--    <TextView
         android:layout_height="1dp"
         android:layout_width="fill_parent"
-        android:text="This is textline"
+        android:text="@string/this_is_textline"
         android:background="#539987"
         />-->
 

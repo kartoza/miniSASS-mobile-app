@@ -38,132 +38,132 @@ public class DataItems {
 
         List<String> list7 = new ArrayList<>();
         list7.add(
-                context.getString(R.string.item_format, context.getString(R.string.shell)) +
+                context.getString(R.string.item_format, context.getString(R.string.shell)) + " " +
                         context.getString(R.string.shell_description)
         );
         list7.add(
-                context.getString(R.string.item_format, context.getString(R.string.shelter)) +
+                context.getString(R.string.item_format, context.getString(R.string.shelter)) + " " +
                         context.getString(R.string.shelter_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.clearly_defined_legs)
-                ) + context.getString(R.string.clearly_defined_legs_description)
+                ) + " " + context.getString(R.string.clearly_defined_legs_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.segmented_body)
-                ) + context.getString(R.string.segmented_body_description)
+                ) + " " + context.getString(R.string.segmented_body_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.long_thin_body)
-                ) + context.getString(R.string.long_thin_body_description)
+                ) + " " + context.getString(R.string.long_thin_body_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.appendages)
-                ) + context.getString(R.string.appendages_description)
+                ) + " " + context.getString(R.string.appendages_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.three_pairs_of_legs)
-                ) + context.getString(R.string.three_pairs_of_legs_description)
+                ) + " " + context.getString(R.string.three_pairs_of_legs_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.four_or_more_pairs_of_legs)
-                ) + context.getString(R.string.four_or_more_pairs_of_legs_description)
+                ) + " " + context.getString(R.string.four_or_more_pairs_of_legs_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.elongated_tail)
-                ) + context.getString(R.string.elongated_tail_description)
+                ) + " " + context.getString(R.string.elongated_tail_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.tufted_tail)
-                ) + context.getString(R.string.tufted_tail_description)
+                ) + " " + context.getString(R.string.tufted_tail_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format, context.getString(R.string.short_tail)
-                ) + context.getString(R.string.short_tail_description)
+                ) + " " + context.getString(R.string.short_tail_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.plate_like_gills)
-                ) + context.getString(R.string.plate_like_gills_description)
+                ) + " " + context.getString(R.string.plate_like_gills_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.feather_like_gills
                         )
-                ) + context.getString(R.string.feather_like_gills_description)
+                ) + " " + context.getString(R.string.feather_like_gills_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.leaf_like_gills)
-                ) + context.getString(R.string.leaf_like_gills_description)
+                ) + " " + context.getString(R.string.leaf_like_gills_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.bulging_eyes)
-                ) + context.getString(R.string.bulging_eyes_description)
+                ) + " " + context.getString(R.string.bulging_eyes_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.stocky_body)
-                ) + context.getString(R.string.stocky_body_description)
+                ) + " " + context.getString(R.string.stocky_body_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.antennae)
-                ) + context.getString(R.string.antennae_description)
+                ) + " " + context.getString(R.string.antennae_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.suckers_at_both_ends)
-                ) + context.getString(R.string.suckers_at_both_ends_description)
+                ) + " " + context.getString(R.string.suckers_at_both_ends_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.wing_buds)
-                ) + context.getString(R.string.wing_buds_description)
+                ) + " " + context.getString(R.string.wing_buds_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.flattened_body)
-                ) + context.getString(R.string.flattened_body_description)
+                ) + " " + context.getString(R.string.flattened_body_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.short_stubby_legs)
-                ) + context.getString(R.string.short_stubby_legs_description)
+                ) + " " + context.getString(R.string.short_stubby_legs_description)
         );
         list7.add(
                 context.getString(
                         R.string.item_format,
                         context.getString(R.string.rounded_body)
-                ) + context.getString(R.string.rounded_body_description)
+                ) + " " + context.getString(R.string.rounded_body_description)
         );
 
         expandableDetailList.put(context.getString(R.string.what_are_aquatic), list1);

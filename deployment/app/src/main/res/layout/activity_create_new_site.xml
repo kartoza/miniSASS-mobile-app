@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/raleway"
-                android:text="Updating site"
+                android:text="@string/updating_site"
                 android:textAlignment="center" />
         </LinearLayout>
     </LinearLayout>
@@ -83,7 +83,7 @@
                 android:layout_marginBottom="12dp"
                 android:textColor="@color/red"
                 android:layout_marginTop="5dp"
-                android:text="* Required"
+                android:text="@string/required"
                 android:textSize="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -108,7 +108,7 @@
                 android:layout_marginBottom="12dp"
                 android:textColor="@color/red"
                 android:layout_marginTop="5dp"
-                android:text="* Required"
+                android:text="@string/required"
                 android:textSize="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -154,7 +154,7 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="12dp"
-                android:text="* Required"
+                android:text="@string/required"
                 android:textColor="@color/red"
                 android:textSize="10dp"/>
 
@@ -180,7 +180,7 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginBottom="12dp"
                 android:layout_marginTop="5dp"
-                android:text="* Required"
+                android:text="@string/required"
                 android:textColor="@color/red"
                 android:textSize="10dp"
                 />
@@ -232,7 +232,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:text="Take site Photo"
+                android:text="@string/take_site_photo"
                 android:backgroundTint="#539987"
                 />
 
@@ -241,7 +241,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Add Site"
+                android:text="@string/add_site"
                 android:backgroundTint="#539987"/>
         </LinearLayout>
 

@@ -33,13 +33,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:text="Site Name" />
+                    android:text="@string/site_name" />
 
                 <TextView
                     android:id="@+id/idDateOnline"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Date"
+                    android:text="@string/date"
                     android:textAlignment="viewEnd"/>
 
             </LinearLayout>
@@ -50,7 +50,7 @@
                 android:id="@+id/idRiverNameOnline"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
-                android:text="River Name"
+                android:text="@string/river_name"
                 android:layout_marginTop="5dp"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"/>
@@ -156,7 +156,7 @@
                     android:id="@+id/idAddSample"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Add assessment"
+                    android:text="@string/add_assessment"
                     android:layout_marginRight="15dp"
                     android:backgroundTint="#539987"
                     />-->
