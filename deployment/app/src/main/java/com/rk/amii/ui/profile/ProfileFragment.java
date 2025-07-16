@@ -3,6 +3,7 @@ package com.rk.amii.ui.profile;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +23,13 @@ import com.rk.amii.database.DBHandler;
 import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.utils.Constants;
+import com.rk.amii.activities.LanguageSelectionActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ProfileFragment extends Fragment {
-
+    private View view;
     private static final String PREFS = "profile_prefs";
     private static final String KEY_UPLOAD_PREF = "upload_pref";
     private SharedPreferences prefs;
@@ -38,7 +40,8 @@ public class ProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+        view = inflater.inflate(R.layout.fragment_profile, container, false);
+        setupLanguageSelection();
         prefs = requireContext().getSharedPreferences(PREFS, Context.MODE_PRIVATE);
 
         dbHandler = new DBHandler(getContext());
@@ -79,6 +82,22 @@ public class ProfileFragment extends Fragment {
         buttonSave.setOnClickListener(v -> saveProfile());
 
         return view;
+    }
+
+    private void setupLanguageSelection() {
+//        int a = 1;
+        View languageSettingItem = view.findViewById(R.id.language_setting_item);
+        if (languageSettingItem != null) {
+            languageSettingItem.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), LanguageSelectionActivity.class);
+                startActivity(intent);
+            });
+        }
+//        View languageSettingItem = view.findViewById(R.id.language_setting_item);
+//        languageSettingItem.setOnClickListener(v -> {
+//            Intent intent = new Intent(getActivity(), LanguageSelectionActivity.class);
+//            startActivity(intent);
+//        });
     }
 
     @Override

@@ -102,7 +102,9 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        getActivity().setTitle("Site Detail");
+        if (getActivity() != null) {
+            getActivity().setTitle(getString(R.string.site_detail));
+        }
 
         if (ActivityCompat.checkSelfPermission(DashboardFragment.this.getActivity(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
             requestPermission();
