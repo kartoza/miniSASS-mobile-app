@@ -19,6 +19,7 @@ import com.rk.amii.database.DBHandler;
 import com.rk.amii.models.SitesModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
+import com.rk.amii.utils.Constants;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -92,8 +93,19 @@ public class EditSiteActivity extends AppCompatActivity {
             String riverNameValue = riverName.getText().toString();
             String descriptionValue = description.getText().toString();
             String dateValue = date.getText().toString();
-            String riverTypeValue = riverType.getText().toString();
             SitesModel site = dbHandler.getSiteById((int) siteId);
+            String selectedRiverType = riverType.getText().toString();
+            String riverTypeValue = "";
+
+            String[] riverTypes = getResources().getStringArray(R.array.riverTypes);
+            if (!selectedRiverType.isEmpty()) {
+                for (int i = 0; i < riverTypes.length; i++) {
+                    if (riverTypes[i].equals(selectedRiverType)) {
+                        riverTypeValue = Constants.RIVER_TYPES[i];
+                        break;
+                    }
+                }
+            }
 
             // Validate the required fields
             if (TextUtils.isEmpty(siteNameValue) || TextUtils.isEmpty(siteLocationValue) ||
@@ -189,7 +201,20 @@ public class EditSiteActivity extends AppCompatActivity {
         riverName.setText(site.getRiverName());
         description.setText(site.getDescription());
         date.setText(site.getDate());
-        riverType.setText(site.getRiverType(), false);
+        String riverTypeValue = site.getRiverType();
+        String riverTypeDisplay = "";
+
+        String[] riverTypes = getResources().getStringArray(R.array.riverTypes);
+        if (!riverTypeValue.isEmpty()) {
+            for (int i = 0; i < Constants.RIVER_TYPES.length; i++) {
+                if (Constants.RIVER_TYPES[i].toLowerCase().equals(riverTypeValue.toLowerCase())) {
+                    riverTypeDisplay = riverTypes[i];
+                    break;
+                }
+            }
+        }
+
+        riverType.setText(riverTypeDisplay, false);
     }
 
 }

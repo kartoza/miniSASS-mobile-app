@@ -51,6 +51,12 @@ public class Constants {
             "University",
             "Other"
     };
+
+    public static final String[] RIVER_TYPES = {
+            "Sandy",
+            "Rocky"
+    };
+
     // Private constructor to prevent instantiation
     private Constants() {}
 }

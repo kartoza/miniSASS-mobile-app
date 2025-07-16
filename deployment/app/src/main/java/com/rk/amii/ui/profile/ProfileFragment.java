@@ -37,6 +37,8 @@ public class ProfileFragment extends Fragment {
     private Button buttonSave;
     private DBHandler dbHandler;
     private AutoCompleteTextView spinnerUploadPreference, spinnerOrganisationType, autoCompleteCountry;
+    private String[] organisationTypes;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -105,10 +107,11 @@ public class ProfileFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         // Setup organization type dropdown
+        organisationTypes = getResources().getStringArray(R.array.organisationTypes);
         ArrayAdapter<String> orgTypeAdapter = new ArrayAdapter<>(
                 getContext(),
                 android.R.layout.simple_dropdown_item_1line,
-                Constants.ORGANISATION_TYPES
+                organisationTypes
         );
         spinnerOrganisationType.setAdapter(orgTypeAdapter);
 
@@ -150,7 +153,7 @@ public class ProfileFragment extends Fragment {
             if (userOrganisationType != null && !userOrganisationType.trim().isEmpty()) {
                 for (int i = 0; i < Constants.ORGANISATION_TYPES.length; i++) {
                     if (Constants.ORGANISATION_TYPES[i].equals(userOrganisationType.trim())) {
-                        spinnerOrganisationType.setText(Constants.ORGANISATION_TYPES[i], false);
+                        spinnerOrganisationType.setText(organisationTypes[i], false);
                         break;
                     }
                 }
@@ -214,7 +217,18 @@ public class ProfileFragment extends Fragment {
         String organisationName = editOrganisationName.getText().toString();
 
         // Get selected organization type
-        String organisationType = spinnerOrganisationType.getText().toString();
+        String organisationType = "";
+        String selectedOrganisationType = spinnerOrganisationType.getText().toString();
+        if (!selectedOrganisationType.isEmpty()) {
+            for (int i = 0; i < organisationTypes.length; i++) {
+                if (organisationTypes[i].equals(selectedOrganisationType)) {
+                    if (i < organisationTypes.length) {
+                        organisationType = Constants.ORGANISATION_TYPES[i];
+                    }
+                    break;
+                }
+            }
+        }
 
         // Get selected country code
         String country = "";
