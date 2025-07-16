@@ -173,8 +173,8 @@ public class DashboardFragment extends Fragment {
                 startActivity(i);
             } else {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(DashboardFragment.this.getActivity());
-                builder.setTitle("Getting Location");
-                builder.setMessage("Trying to get your location please wait.");
+                builder.setTitle(getString(R.string.getting_location));
+                builder.setMessage(getString(R.string.trying_to_get_location));
                 locationDialog = builder.show();
                 getLocationAndContinue = true;
             }

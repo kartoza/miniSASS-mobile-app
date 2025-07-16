@@ -32,9 +32,15 @@ Uqoqa isampula yama-macroingvertertbrates (izilwane ezincane) ezivela emanzini, 
         <item>Ithem</item>
     </string-array>
 
+    <!--  order: sandy, rocky  -->
+<!--    <string-array name="riverTypes">-->
+<!--        <item>-Nesihlabathi</item> -->
+<!--        <item>Namatshe</item>-->
+<!--    </string-array>-->
+
     <string-array name="riverTypes">
-        <item>-Nesihlabathi</item>
-        <item>Namatshe</item>
+        <item>Sandy</item>
+        <item>Rocky</item>
     </string-array>
 
     <string-array name="organisationTypes">
