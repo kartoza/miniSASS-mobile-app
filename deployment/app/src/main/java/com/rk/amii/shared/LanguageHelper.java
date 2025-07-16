@@ -57,6 +57,8 @@ public class LanguageHelper {
                 return "English";
             case "pt":
                 return "Português";
+            case "zu":
+                return "IsiZulu";
 //            case "es":
 //                return "Español";
 //            case "fr":

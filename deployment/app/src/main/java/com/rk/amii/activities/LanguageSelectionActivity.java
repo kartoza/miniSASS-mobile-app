@@ -18,7 +18,7 @@ public class LanguageSelectionActivity extends AppCompatActivity {
 
         // Set title using existing ActionBar
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Select Language");
+            getSupportActionBar().setTitle(getString(R.string.select_language));
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -28,7 +28,7 @@ public class LanguageSelectionActivity extends AppCompatActivity {
 
     private void showLanguageSelectionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select Language");
+        builder.setTitle(getString(R.string.select_language));
 
         builder.setItems(languageNames, (dialog, which) -> {
             String selectedLanguage = languageCodes[which];
