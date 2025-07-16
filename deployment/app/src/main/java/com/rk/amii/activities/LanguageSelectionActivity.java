@@ -9,8 +9,8 @@ import com.rk.amii.shared.LanguageHelper;
 
 public class LanguageSelectionActivity extends AppCompatActivity {
 
-    private String[] languageCodes = {"en", "pt"};
-    private String[] languageNames = {"English", "Português"};
+    private String[] languageCodes = {"en", "pt", "zu"};
+    private String[] languageNames = {"English", "Português", "IsiZulu"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -551,4 +551,9 @@
         relevant local authorities to get them to follow up on suspected problems using your
         data as an indicator!\n\n
     </string>
+    <string name="training_and_educational_video">Training and Education Videos</string>
+    <string name="offline_videos">Offline Videos</string>
+    <string name="online_videos">Online Videos</string>
+    <string name="introduction_to_minisass">Introduction to miniSASS</string>
+    <string name="minisass_in_summary">miniSASS in summary</string>
 </resources>

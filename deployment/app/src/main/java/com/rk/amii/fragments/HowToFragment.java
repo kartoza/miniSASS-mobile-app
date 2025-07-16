@@ -39,7 +39,7 @@ public class HowToFragment extends Fragment {
         videos.add(
                 new VideoModel(
                         "android.resource://" + this.getActivity().getPackageName() + "/" + R.raw.intro,
-                        "Introduction to miniSASS",
+                        getString(R.string.introduction_to_minisass),
                         "offline"));
         videos.add(
                 new VideoModel(

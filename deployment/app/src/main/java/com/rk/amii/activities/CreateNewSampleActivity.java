@@ -123,7 +123,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
 
         isOnline = Utils.isNetworkAvailable(this);
 
-        setTitle("Create Assessment");
+        setTitle(getString(R.string.create_assessment));
 
         Intent intent = getIntent();
 
@@ -219,7 +219,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
                 //TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
                 assessmentDetailsContainer.setVisibility(View.GONE);
                 showAssessmentDetailsIconButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-                assessmentToggleMessage.setText("Add measurements");
+                assessmentToggleMessage.setText(getString(R.string.add_measurements));
 
             } else {
                 //TransitionManager.beginDelayedTransition(cardView, new AutoTransition());

@@ -30,7 +30,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:text="Offline Videos"/>
+            android:text="@string/offline_videos"/>
 
         <LinearLayout
             android:id="@+id/offlineVideoContainer"
@@ -61,7 +61,7 @@
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="20sp"
-            android:text="Online Videos"/>
+            android:text="@string/online_videos"/>
 
         <LinearLayout
             android:id="@+id/onlineVideoContainer"
