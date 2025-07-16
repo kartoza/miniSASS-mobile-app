@@ -1,11 +1,13 @@
 package com.rk.amii.activities;
 
+import android.content.Intent;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import com.rk.amii.R;
 import com.rk.amii.shared.LanguageHelper;
+import com.rk.amii.MainActivity;
 
 public class LanguageSelectionActivity extends AppCompatActivity {
 
@@ -28,15 +30,17 @@ public class LanguageSelectionActivity extends AppCompatActivity {
 
     private void showLanguageSelectionDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.select_language));
+        builder.setTitle("Select Language");
 
         builder.setItems(languageNames, (dialog, which) -> {
             String selectedLanguage = languageCodes[which];
             saveLanguagePreference(selectedLanguage);
             LanguageHelper.setLocale(this, selectedLanguage);
 
-            // Finish and recreate calling activity
-            setResult(RESULT_OK);
+            // Restart the main activity with clear task
+            Intent intent = new Intent(this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             finish();
         });
 

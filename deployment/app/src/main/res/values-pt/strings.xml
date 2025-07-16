@@ -3,7 +3,7 @@
     <string name="app_name">miniSASS</string>
     <string name="title_landing">Lar</string>
     <string name="title_home">Mapa</string>
-    <string name="title_dashboard">Sites</string>
+    <string name="title_dashboard">Locais</string>
     <string name="title_profile">Perfil</string>
     <string name="title_notifications">Sobre</string>
     <string name="privacy_policy">política de Privacidade</string>
@@ -360,7 +360,7 @@ Você coleta uma amostra de macroinvertebrados (pequenos animais) da água e, de
     <string name="poor">Pobre</string>
     <string name="very_poor">Muito pobre "</string>
 
-    <string name="item_format">- %s:</string>
+    <string name="item_format">- %s: </string>
     <string name="shell">Concha</string>
     <string name="shell_description">Um caso externo de proteção rígido e rígido de um molusco</string>
     <string name="shelter">Abrigo</string>

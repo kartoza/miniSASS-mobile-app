@@ -360,7 +360,7 @@ Uqoqa isampula yama-macroingvertertbrates (izilwane ezincane) ezivela emanzini, 
     <string name="poor">-Ntulayo</string>
     <string name="very_poor">Mpofu kakhulu "</string>
 
-    <string name="item_format">-% S:</string>
+    <string name="item_format">- %s: </string>
     <string name="shell">Igobolondo</string>
     <string name="shell_description">Icala elilukhuni, eliqinile lokuvikela i-mollusc</string>
     <string name="shelter">Ingosi</string>

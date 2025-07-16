@@ -18,7 +18,7 @@ public class LanguageHelper {
         Locale.setDefault(locale);
 
         Resources resources = context.getResources();
-        Configuration config = resources.getConfiguration();
+        Configuration config = new Configuration(resources.getConfiguration());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             config.setLocale(locale);
@@ -26,11 +26,13 @@ public class LanguageHelper {
             config.locale = locale;
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            context.createConfigurationContext(config);
-        }
-
         resources.updateConfiguration(config, resources.getDisplayMetrics());
+
+        // Also update application context
+        if (context.getApplicationContext() != context) {
+            Resources appResources = context.getApplicationContext().getResources();
+            appResources.updateConfiguration(config, appResources.getDisplayMetrics());
+        }
     }
 
     /**
