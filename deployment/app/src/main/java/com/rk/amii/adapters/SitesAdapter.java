@@ -122,14 +122,19 @@ public class SitesAdapter extends RecyclerView.Adapter<SitesAdapter.ViewHolder> 
         }
 
         if (assessments.size() > 0) {
-            holder.siteStatus.setText(Utils.calculateCondition(assessments.get(0).getMiniSassScore(), modal.getRiverType()));
+            holder.siteStatus.setText(Utils.calculateCondition(context, assessments.get(0).getMiniSassScore(), modal.getRiverType()));
 
-            holder.siteStatus.setTextColor(Color.parseColor(
-                    Utils.getStatusColor(assessments.get(0).getMiniSassScore(), modal.getRiverType())));
-
-            setTextViewDrawableColor(holder.crabStatus, Color.parseColor(
-                    Utils.getStatusColor(assessments.get(0).getMiniSassScore(), modal.getRiverType())));
+            String statusColor = Utils.getStatusColor(assessments.get(0).getMiniSassScore(), modal.getRiverType());
+            if (statusColor != null && !statusColor.isEmpty()) {
+                holder.siteStatus.setTextColor(Color.parseColor(statusColor));
+                setTextViewDrawableColor(holder.crabStatus, Color.parseColor(statusColor));
+            } else {
+                holder.siteStatus.setTextColor(Color.parseColor("#000000"));
+                setTextViewDrawableColor(holder.crabStatus, Color.parseColor("#000000"));
+            }
         }
+
+
 
         /**
          * Set the onclick listener for the view button of the site.

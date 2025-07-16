@@ -637,4 +637,8 @@
     <string name="unit">Unit</string>
     <string name="email">Email</string>
     <string name="upload_preference">Upload Preference</string>
+
+    <string name="syncing_sites_observations">Syncing Sites and Observations!</string>
+    <string name="getting_location">Getting Location</string>
+    <string name="trying_to_get_location">Trying to get your location please wait.</string>
 </resources>

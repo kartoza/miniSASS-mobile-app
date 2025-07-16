@@ -61,16 +61,16 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
         if (site != null) {
             holder.miniSassScore.setText(context.getString(R.string.user_score) + ": " + String.format("%.2f", modal.getMiniSassScore()));
             holder.miniSassMLScore.setText(context.getString(R.string.ml_score) + ": " + String.format("%.2f", modal.getMiniSassMLScore()));
-            holder.userCondition.setText(context.getString(R.string.user_condition) + ": " + Utils.calculateCondition(modal.getMiniSassScore(), site.getRiverType()));
-            holder.mlCondition.setText(context.getString(R.string.ml_condition) + ": " + Utils.calculateCondition(modal.getMiniSassMLScore(), site.getRiverType()));
+            holder.userCondition.setText(context.getString(R.string.user_condition) + ": " + Utils.calculateCondition(context, modal.getMiniSassScore(), site.getRiverType()));
+            holder.mlCondition.setText(context.getString(R.string.ml_condition) + ": " + Utils.calculateCondition(context, modal.getMiniSassMLScore(), site.getRiverType()));
             holder.collectorsName.setText(context.getString(R.string.collector_name) + ": " + modal.getCollectorsName());
             holder.organisationName.setText(context.getString(R.string.organisation) + ": " + modal.getOrganisation());
             holder.obsDate.setText(context.getString(R.string.observation_date) + ": " + modal.getObservationDate());
         } else {
             holder.miniSassScore.setText(context.getString(R.string.user_score) + ": " + String.format("%.2f", modal.getMiniSassScore()));
             holder.miniSassMLScore.setText(context.getString(R.string.ml_score) + ": " + String.format("%.2f", modal.getMiniSassMLScore()));
-            holder.userCondition.setText(context.getString(R.string.user_condition) + ": " + Utils.calculateCondition(modal.getMiniSassScore(), "sandy"));
-            holder.mlCondition.setText(context.getString(R.string.ml_condition) + ": " + Utils.calculateCondition(modal.getMiniSassMLScore(), "sandy"));
+            holder.userCondition.setText(context.getString(R.string.user_condition) + ": " + Utils.calculateCondition(context, modal.getMiniSassScore(), "sandy"));
+            holder.mlCondition.setText(context.getString(R.string.ml_condition) + ": " + Utils.calculateCondition(context, modal.getMiniSassMLScore(), "sandy"));
             holder.collectorsName.setText(context.getString(R.string.collector_name) + ": " + modal.getCollectorsName());
             holder.organisationName.setText(context.getString(R.string.organisation) + ": " + modal.getOrganisation());
             holder.obsDate.setText(context.getString(R.string.observation_date) + ": " + modal.getObservationDate());

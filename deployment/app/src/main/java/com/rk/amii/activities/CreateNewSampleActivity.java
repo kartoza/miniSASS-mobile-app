@@ -185,7 +185,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         dissolvedOxygenUnitTypes.add("mg/l");
         dissolvedOxygenUnitTypes.add("%DO");
         dissolvedOxygenUnitTypes.add("PPM");
-        dissolvedOxygenUnitTypes.add("Unknown");
+        dissolvedOxygenUnitTypes.add(getString(R.string.unknown));
 
         ArrayAdapter<String> dissolvedOxygenUnitAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, dissolvedOxygenUnitTypes);
         dissolvedOxygenUnit.setAdapter(dissolvedOxygenUnitAdapter);
@@ -199,7 +199,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         electricalConductivityUnitTypes.add("S/m");
         electricalConductivityUnitTypes.add("µS/cm");
         electricalConductivityUnitTypes.add("mS/m");
-        electricalConductivityUnitTypes.add("Unknown");
+        electricalConductivityUnitTypes.add(getString(R.string.unknown));
 
 
         ArrayAdapter<String> electricalConductivityUnitAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, electricalConductivityUnitTypes);
