@@ -1,0 +1,554 @@
+<resources>
+    <string name="app_name">miniSASS</string>
+    <string name="title_landing">Home</string>
+    <string name="title_home">Map</string>
+    <string name="title_dashboard">Sites</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_notifications">About</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="logout">Logout</string>
+    <string name="what_is_minisass_heading">What is miniSASS</string>
+    <string name="what_is_minisass">
+        miniSASS is a simple tool which can be used by anyone to monitor the health of a river.
+        You collect a sample of macroinvertebrates (small animals) from the water, and depending on which groups are found, you have a measure of the general river health and water quality in that river.
+    </string>
+    <string name="how_to_use_the_app">How to use the app?</string>
+    <string name="how_to_use_minisass">
+        The miniSASS App walthrough video will take you through how to use the app.
+    </string>
+    <string name="watch_video">Watch Video</string>
+
+    <string-array name="macroinvertebrates">
+        <item>Select your identification</item>
+        <item>Bugs &amp; Beetles</item>
+        <item>Caddisflies</item>
+        <item>Damselflies</item>
+        <item>Dragonflies</item>
+        <item>Flat worms</item>
+        <item>Crabs &amp; Shrimps</item>
+        <item>Leeches</item>
+        <item>Minnow Mayflies</item>
+        <item>Other Mayflies</item>
+        <item>Snails/Clams/Mussels</item>
+        <item>Stoneflies</item>
+        <item>Trueflies</item>
+        <item>Worms</item>
+    </string-array>
+
+    <string-array name="riverTypes">
+        <item>Sandy</item>
+        <item>Rocky</item>
+    </string-array>
+
+    <string-array name="organisationTypes">
+        <item>School</item>
+        <item>NGO</item>
+        <item>Conservancy</item>
+        <item>Private Individual</item>
+        <item>Government Department</item>
+        <item>Consultancy</item>
+        <item>University</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="countries_display_names">
+        <item>Aruba</item>
+        <item>Afghanistan</item>
+        <item>Angola</item>
+        <item>Anguilla</item>
+        <item>Aland Islands</item>
+        <item>Albania</item>
+        <item>Andorra</item>
+        <item>United Arab Emirates</item>
+        <item>Argentina</item>
+        <item>Armenia</item>
+        <item>American Samoa</item>
+        <item>Antarctica</item>
+        <item>French Southern Territories</item>
+        <item>Antigua and Barbuda</item>
+        <item>Australia</item>
+        <item>Austria</item>
+        <item>Azerbaijan</item>
+        <item>Burundi</item>
+        <item>Belgium</item>
+        <item>Benin</item>
+        <item>Bonaire, Sint Eustatius and Saba</item>
+        <item>Burkina Faso</item>
+        <item>Bangladesh</item>
+        <item>Bulgaria</item>
+        <item>Bahrain</item>
+        <item>Bahamas</item>
+        <item>Bosnia and Herzegovina</item>
+        <item>Saint Barthelemy</item>
+        <item>Belarus</item>
+        <item>Belize</item>
+        <item>Bermuda</item>
+        <item>Bolivia, Plurinational State of</item>
+        <item>Brazil</item>
+        <item>Barbados</item>
+        <item>Brunei Darussalam</item>
+        <item>Bhutan</item>
+        <item>Bouvet Island</item>
+        <item>Botswana</item>
+        <item>Central African Republic</item>
+        <item>Canada</item>
+        <item>Cocos (Keeling) Islands</item>
+        <item>Switzerland</item>
+        <item>Chile</item>
+        <item>China</item>
+        <item>Cote d\'Ivoire</item>
+        <item>Cameroon</item>
+        <item>Congo, The Democratic Republic of the</item>
+        <item>Congo</item>
+        <item>Cook Islands</item>
+        <item>Colombia</item>
+        <item>Comoros</item>
+        <item>Cabo Verde</item>
+        <item>Costa Rica</item>
+        <item>Cuba</item>
+        <item>Curacao</item>
+        <item>Christmas Island</item>
+        <item>Cayman Islands</item>
+        <item>Cyprus</item>
+        <item>Czechia</item>
+        <item>Germany</item>
+        <item>Djibouti</item>
+        <item>Dominica</item>
+        <item>Denmark</item>
+        <item>Dominican Republic</item>
+        <item>Algeria</item>
+        <item>Ecuador</item>
+        <item>Egypt</item>
+        <item>Eritrea</item>
+        <item>Western Sahara</item>
+        <item>Spain</item>
+        <item>Estonia</item>
+        <item>Ethiopia</item>
+        <item>Finland</item>
+        <item>Fiji</item>
+        <item>Falkland Islands (Malvinas)</item>
+        <item>France</item>
+        <item>Faroe Islands</item>
+        <item>Micronesia, Federated States of</item>
+        <item>Gabon</item>
+        <item>United Kingdom</item>
+        <item>Georgia</item>
+        <item>Guernsey</item>
+        <item>Ghana</item>
+        <item>Gibraltar</item>
+        <item>Guinea</item>
+        <item>Guadeloupe</item>
+        <item>Gambia</item>
+        <item>Guinea-Bissau</item>
+        <item>Equatorial Guinea</item>
+        <item>Greece</item>
+        <item>Grenada</item>
+        <item>Greenland</item>
+        <item>Guatemala</item>
+        <item>French Guiana</item>
+        <item>Guam</item>
+        <item>Guyana</item>
+        <item>Hong Kong</item>
+        <item>Heard Island and McDonald Islands</item>
+        <item>Honduras</item>
+        <item>Croatia</item>
+        <item>Haiti</item>
+        <item>Hungary</item>
+        <item>Indonesia</item>
+        <item>Isle of Man</item>
+        <item>India</item>
+        <item>British Indian Ocean Territory</item>
+        <item>Ireland</item>
+        <item>Iran, Islamic Republic of</item>
+        <item>Iraq</item>
+        <item>Iceland</item>
+        <item>Israel</item>
+        <item>Italy</item>
+        <item>Jamaica</item>
+        <item>Jersey</item>
+        <item>Jordan</item>
+        <item>Japan</item>
+        <item>Kazakhstan</item>
+        <item>Kenya</item>
+        <item>Kyrgyzstan</item>
+        <item>Cambodia</item>
+        <item>Kiribati</item>
+        <item>Saint Kitts and Nevis</item>
+        <item>Korea, Republic of</item>
+        <item>Kuwait</item>
+        <item>Lao People\'s Democratic Republic</item>
+        <item>Lebanon</item>
+        <item>Liberia</item>
+        <item>Libya</item>
+        <item>Saint Lucia</item>
+        <item>Liechtenstein</item>
+        <item>Sri Lanka</item>
+        <item>Lesotho</item>
+        <item>Lithuania</item>
+        <item>Luxembourg</item>
+        <item>Latvia</item>
+        <item>Macao</item>
+        <item>Saint Martin (French part)</item>
+        <item>Morocco</item>
+        <item>Monaco</item>
+        <item>Moldova, Republic of</item>
+        <item>Madagascar</item>
+        <item>Maldives</item>
+        <item>Mexico</item>
+        <item>Marshall Islands</item>
+        <item>North Macedonia</item>
+        <item>Mali</item>
+        <item>Malta</item>
+        <item>Myanmar</item>
+        <item>Montenegro</item>
+        <item>Mongolia</item>
+        <item>Northern Mariana Islands</item>
+        <item>Mozambique</item>
+        <item>Mauritania</item>
+        <item>Montserrat</item>
+        <item>Martinique</item>
+        <item>Mauritius</item>
+        <item>Malawi</item>
+        <item>Malaysia</item>
+        <item>Mayotte</item>
+        <item>Namibia</item>
+        <item>New Caledonia</item>
+        <item>Niger</item>
+        <item>Norfolk Island</item>
+        <item>Nigeria</item>
+        <item>Nicaragua</item>
+        <item>Niue</item>
+        <item>Netherlands</item>
+        <item>Norway</item>
+        <item>Nepal</item>
+        <item>Nauru</item>
+        <item>New Zealand</item>
+        <item>Oman</item>
+        <item>Pakistan</item>
+        <item>Panama</item>
+        <item>Pitcairn</item>
+        <item>Peru</item>
+        <item>Philippines</item>
+        <item>Palau</item>
+        <item>Papua New Guinea</item>
+        <item>Poland</item>
+        <item>Puerto Rico</item>
+        <item>Korea, Democratic People\'s Republic of</item>
+        <item>Portugal</item>
+        <item>Paraguay</item>
+        <item>Palestine, State of</item>
+        <item>French Polynesia</item>
+        <item>Qatar</item>
+        <item>Reunion</item>
+        <item>Romania</item>
+        <item>Russian Federation</item>
+        <item>Rwanda</item>
+        <item>Saudi Arabia</item>
+        <item>Sudan</item>
+        <item>Senegal</item>
+        <item>Singapore</item>
+        <item>South Georgia and the South Sandwich Islands</item>
+        <item>Saint Helena, Ascension and Tristan da Cunha</item>
+        <item>Svalbard and Jan Mayen</item>
+        <item>Solomon Islands</item>
+        <item>Sierra Leone</item>
+        <item>El Salvador</item>
+        <item>San Marino</item>
+        <item>Somalia</item>
+        <item>Saint Pierre and Miquelon</item>
+        <item>Serbia</item>
+        <item>South Sudan</item>
+        <item>Sao Tome and Principe</item>
+        <item>Suriname</item>
+        <item>Slovakia</item>
+        <item>Slovenia</item>
+        <item>Sweden</item>
+        <item>Eswatini</item>
+        <item>Sint Maarten (Dutch part)</item>
+        <item>Seychelles</item>
+        <item>Syrian Arab Republic</item>
+        <item>Turks and Caicos Islands</item>
+        <item>Chad</item>
+        <item>Togo</item>
+        <item>Thailand</item>
+        <item>Tajikistan</item>
+        <item>Tokelau</item>
+        <item>Turkmenistan</item>
+        <item>Timor-Leste</item>
+        <item>Tonga</item>
+        <item>Trinidad and Tobago</item>
+        <item>Tunisia</item>
+        <item>Turkiye</item>
+        <item>Tuvalu</item>
+        <item>Taiwan, Province of China</item>
+        <item>Tanzania, United Republic of</item>
+        <item>Uganda</item>
+        <item>Ukraine</item>
+        <item>United States Minor Outlying Islands</item>
+        <item>Uruguay</item>
+        <item>United States</item>
+        <item>Uzbekistan</item>
+        <item>Holy See (Vatican City State)</item>
+        <item>Saint Vincent and the Grenadines</item>
+        <item>Venezuela, Bolivarian Republic of</item>
+        <item>Virgin Islands, British</item>
+        <item>Virgin Islands, U.S.</item>
+        <item>Viet Nam</item>
+        <item>Vanuatu</item>
+        <item>Wallis and Futuna</item>
+        <item>Samoa</item>
+        <item>Yemen</item>
+        <item>South Africa</item>
+        <item>Zambia</item>
+        <item>Zimbabwe</item>
+    </string-array>
+
+    <string name="fill_in_all_fields">Please fill in all required fields</string>
+
+    <string name="could_not_save_online_site">Could not save online site</string>
+    <string name="online_site_save">The site will be saved on the miniSASS website the next time you use the app, if you are connected to the internet.</string>
+
+    <string name="could_not_update_online_site">Could not update online site</string>
+    <string name="online_site_update">The site will be updated on the miniSASS website the next time you use the app, if you are connected to the internet.</string>
+
+    <string name="upload_images">Upload Images</string>
+    <string name="do_you_want_to_upload_images_start">Do you want to upload the assessment images? They are </string>
+    <string name="do_you_want_to_upload_images_end"> MB in size.</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ok">Ok</string>
+
+    <string name="could_not_save_online_assessment">Could not save assessment online</string>
+    <string name="online_assessment_save">The assessment will be saved online the next time you use the app, if you are connected to the internet.</string>
+
+    <string name="registration_in_progress">Registration in progress</string>
+    <string name="registration_message">To finish registration, please click on the activation link sent to the email you registered with. When you are successfully registered you can return to the app to login.</string>
+    <string name="registration_failed">Registration Failed</string>
+
+    <string name="delete_site">Delete Site</string>
+    <string name="site_detail">Site Detail</string>
+    <string name="site_details">Site Details</string>
+    <string name="description">Description</string>
+    <string name="description_label">Description:</string>
+    <string name="location">Location</string>
+    <string name="location_label">Location:</string>
+    <string name="assessments">Assessments</string>
+    <string name="add_assessment">Add Assessment</string>
+    <string name="site_detail_instruction">You have successfully added your site and you are ready to begin sampling! Sample as many habitats as possible (rocky, sandy, and gravel, sand, and mud (GSM) following the guidelines) and then sort the aquatic macroinvertebrates you found into trays so you can take a photo of each different one. When ready, click on the ‘ADD ASSESSMENT’ button to start taking photos of each different one and identifying them.</string>
+    <string name="are_you_sure_delete_site">Are you sure you want to delete this site?</string>
+    <string name="could_not_delete_site">Could not delete site</string>
+    <string name="connect_device_to_internet_try_again">Please connect your device to the internet and try again</string>
+
+    <string name="something_went_wrong_try_again">Something went wrong. Please try again.</string>
+
+    <string name="reset_password_title">Reset Password</string>
+
+    <string name="user_score">User Score</string>
+    <string name="ml_score">ML Score</string>
+    <string name="user_condition">User Condition</string>
+    <string name="ml_condition">ML Condition</string>
+    <string name="collector_name">Collector\'s Name</string>
+    <string name="organisation">Organisation</string>
+    <string name="observation_date">Observation Date</string>
+    <string name="water_temperature">Water Temperature</string>
+    <string name="dissoved_oxygen">Dissolved Oxygen</string>
+    <string name="electrical_conductivity">Electrical Conductivity</string>
+    <string name="water_clarity">Water Clarity</string>
+    <string name="show_note">Show note</string>
+
+    <string name="natural">Natural</string>
+    <string name="good">Good</string>
+    <string name="fair">Fair</string>
+    <string name="poor">Poor</string>
+    <string name="very_poor">Very Poor"</string>
+
+    <string name="item_format">- %s: </string>
+    <string name="shell">Shell</string>
+    <string name="shell_description">A hard, rigid protective outer case of a mollusc</string>
+    <string name="shelter">Shelter</string>
+    <string name="shelter_description">An external structure/housing made of twigs or sand particles</string>
+    <string name="clearly_defined_legs">Clearly defined legs</string>
+    <string name="clearly_defined_legs_description">A well defined limb on which the invertebrate walks </string>
+    <string name="segmented_body">Segmented body</string>
+    <string name="segmented_body_description">A body that is devided into equal and equidistant parts</string>
+    <string name="long_thin_body">Long thin body</string>
+    <string name="long_thin_body_description">An elongated body on which legs are attached</string>
+    <string name="appendages">Appendages</string>
+    <string name="appendages_description">A projective part of the invertebrate with a distinct appearance</string>
+    <string name="three_pairs_of_legs">3 pairs of legs</string>
+    <string name="three_pairs_of_legs_description">Three limbs on each side of the body</string>
+    <string name="four_or_more_pairs_of_legs">4 or more pairs of legs</string>
+    <string name="four_or_more_pairs_of_legs_description">Four legs on each side of the body</string>
+    <string name="elongated_tail">Elongated tail</string>
+    <string name="elongated_tail_description">An elongated terminal appendage attached to the posterior end of the body/abdomen</string>
+    <string name="tufted_tail">Tufted tail</string>
+    <string name="tufted_tail_description">A tail with many small appendages attached at a local point resembling a small tuft</string>
+    <string name="short_tail">Short tail</string>
+    <string name="short_tail_description">A short terminal appendage attached to the posterior end of the body/abdomen</string>
+    <string name="plate_like_gills">Plate like gills</string>
+    <string name="plate_like_gills_description">Gills with a plate-like appearance</string>
+    <string name="feather_like_gills">Feather like gills</string>
+    <string name="feather_like_gills_description">Gills with a feather-like appearance</string>
+    <string name="leaf_like_gills">Leaf like gills</string>
+    <string name="leaf_like_gills_description">Gills with a leaf-like appearance</string>
+    <string name="bulging_eyes">Bulging eyes</string>
+    <string name="bulging_eyes_description">Large protruding eyes forming part of the outline of the head</string>
+    <string name="stocky_body">Stocky body</string>
+    <string name="stocky_body_description">A short body on which legs are attached</string>
+    <string name="antennae">Antennae</string>
+    <string name="antennae_description">A pair of short/long sensory appendages attached to the head</string>
+    <string name="suckers_at_both_ends">Suckers at both ends</string>
+    <string name="suckers_at_both_ends_description">Having sucking parts at both ends of the organisms by which they attach to a surface</string>
+    <string name="wing_buds">Wing buds</string>
+    <string name="wing_buds_description">Small flattened sturcutres on the upper body that will grow into wings</string>
+    <string name="flattened_body">Flattened body</string>
+    <string name="flattened_body_description">A flat and thin body</string>
+    <string name="short_stubby_legs">Short stubby legs</string>
+    <string name="short_stubby_legs_description">Short stubby leg-like structures near the head on both sides of the body</string>
+    <string name="rounded_body">Rounded body</string>
+    <string name="rounded_body_description">A body which is rounded and has a smooth outline</string>
+
+    <string-array name="upload_preference_values">
+        <item>wifi</item>
+        <item>mobile</item>
+        <item>both</item>
+    </string-array>
+
+    <string-array name="upload_preference_display_names">
+        <item>Wi-Fi Only</item>
+        <item>Mobile Data Only</item>
+        <item>Wi-Fi and Mobile Data</item>
+    </string-array>
+
+    <string name="select_language">Select Language</string>
+    <string name="language_english">English</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_french">Français</string>
+    <string name="language_portuguese">Português</string>
+    <string name="language_afrikaans">Afrikaans</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="language_settings">Language</string>
+
+    <!--  Create Assessment  -->
+    <string name="create_assessment">Create Assessment</string>
+    <string name="add_measurements">Add measurements</string>
+    <string name="capture">Capture</string>
+    <string name="date">Date</string>
+    <string name="notes">Notes</string>
+    <string name="hide">Hide</string>
+    <string name="crop">Crop</string>
+    <string name="use_key">Use Key</string>
+    <string name="add">Add</string>
+    <string name="save_assessment">Save Assessment</string>
+    <string name="calculate_score_and_add_assessment">Calculating scores and adding assessment.</string>
+    <string name="create_assessment_instruction">Please take a photo of one specimen of each different type you found. Keep taking pictures until you have one from each of the groups you found. Click CAPTURE to start adding photos of specimens.</string>
+
+
+    <!--  Activity Key  -->
+    <string name="activity_key_start">Please select filters to start</string>
+    <string name="activity_key_more_filters">Please select more filters</string>
+
+    <!--  About page  -->
+    <string name="what_are_aquatic">What are aquatic macroinvertebrates and how does miniSASS used them for biomonitoring?</string>
+    <string name="why_is_water_quality">Why is water quality and stream health monitoring important?</string>
+    <string name="history_of_minisass">History of miniSASS</string>
+    <string name="river_safety">River safety</string>
+    <string name="citizen_science_minisass">Citizen science and miniSASS</string>
+    <string name="dichotomous_key_filter">Dichotomous key filter descriptions</string>
+    <string name="glossary">Glossary</string>
+    <string name="aquatic_macroinvertebrates_definition">
+        Aquatic macroinvertebrates are small animals that live in water systems and have no internal skeleton. They are visible to the naked eye, hence the term ‘macro’ meaning ‘large’.\n\n
+        Different kinds of aquatic macroinvertebrates have different tolerance levels or sensitivities to disturbance in their environment. This means that one can look at the community of
+        macroinvertebrates present in a stream or river and infer something about the water quality and health of the system.\n\n
+        Basically in disturbed systems, for example where there is pollution or abundant alien invasive species, the most sensitive and least tolerant species can be expected to disappear,
+        while the tolerant and least sensitive species will remain present or increase in numbers.\n\n
+        MiniSASS puts all the aquatic macroinvertebrate types into 13 relatively easy to identify groups, and gives those groups scores based on the known general, average tolerance and
+        sensitivity levels of the types in those groups. Low scores are assigned to groups generally made up of very tolerant species (which can survive pollution and disturbance), while
+        high scores are assigned to groups generally made up of very sensitive species (which can’t live and survive if there is pollution or disturbance).\n\n
+        In the miniSASS app, you capture images of the aquatic macroinvertebrates you have sampled. You assign an identification to these images. At the same time, a machine-learning
+        (ML) artificial intelligence (AI) identification algorithm runs on the image, identifying it as well. The app then generates a user score, and a ML score. These can be compared
+        as a guide to the user if they are identifying correctly or perhaps need to revisit their identifications.\n\n
+        A miniSASS survey samples a stream or river for these aquatic macroinvertebrates, and generates score based on the average sensitivity and tolerance of the community present.
+        The score then relates to an ecological category, indicating the stream or river health and water quality.\n\n
+    </string>
+    <string name="freshwater_is_essential">
+        Fresh water is essential for biodiversity and humans. It sustains rich
+        ecosystems along with all the goods and services they provide, and supports human
+        agriculture, industry, sanitation, and hydration. Managing our precious and often
+        scarce freshwater systems requires monitoring the health and quality of our
+        streams and rivers. Basically, appropriate management and intervention for
+        freshwater ecosystems can only be designed and implemented if there are good
+        monitoring data to show where problems are, or where solution are working!
+    </string>
+    <string name="minisass_is_based_on">
+        MiniSASS is based on the more in-depth biomonitoring technique, the South
+        African Scoring System (SASS). The SASS system rigorously samples streams and
+        rivers, identifying all the aquatic macroinvertebrates present to family level
+        (over 90 different groupings). Dr P. Mark Graham and Dr Chris W.S. Dickens
+        refined the groupings down to the miniSASS 13, which are much more easily
+        identifiable but still provide a good picture of water quality and stream or
+        river health, similar to the more details SASS survey. The original miniSASS
+        was based on SASS version 4, but has been updated to align with the more
+        recent SASS5.
+    </string>
+    <string name="always_remember_safety_first">
+        Always remember, safety first! When thinking of doing a miniSASS survey, please check your
+        surroundings and make sure the stream or river and the area are safe. Don’t enter streams
+        or rivers that are deep or that have powerful, fast-flowing currents, or any dangerous
+        animals in them or nearby. \n\n
+        Protect yourself with sunscreen and appropriate clothing (gumboots and hats), and remember
+        to wash your hands with sanitizer or soap regularly. Be especially careful with polluted
+        rivers and streams, taking extra precautions to keep yourself safe and healthy.
+        MiniSASS is more fun and safer with others! \n\n
+    </string>
+    <string name="aquatic_macroinvertebrates_small_but_visible">
+        - Aquatic macroinvertebrates: Small, but visible to the naked eye, animals that have no
+        internal skeleton and which live in water systems.
+    </string>
+    <string name="biomonitoring_broadly_refers_to_using_organisms">
+        - Biomonitoring: This broadly refers to using organisms (e.g., algae, macroinvertebrates,
+        fish, birds, or mammals) living in an environment to assess quantitative or qualitative
+        information about that environment.
+    </string>
+    <string name="biodiversity_all_different_kinds">
+        - Biodiversity: All different kinds of life in an area. Basically, a term that refers to
+        all the plants, animals, fungi, or any life in an environment.
+    </string>
+    <string name="citizen_science_the_general_public">
+        - Citizen science: The general public being involved in scientific research, in any way
+        from research design, through data collection and analysis, to reporting findings.
+    </string>
+    <string name="conservation_protecting_and_restoring_natural_systems">
+        - Conservation: Protecting and restoring natural systems, preventing extinctions,
+        and maintaining biological diversity and ecosystem health and function.
+    </string>
+    <string name="ecosystem_community_of_interacting_living_organisms">
+        - Ecosystem: A community of interacting living organisms and the physical environment
+        in which they live. A description of a whole system, including all its biodiversity
+        and physical habitat features.
+    </string>
+    <string name="machine_learning_computer_systems">
+        - Machine-learning (ML): Computer systems that are able to learn and adapt
+        without following explicit instructions. The computer learns by using algorithms
+        and statistical models to analyse and draw inferences from patterns in data.
+        For miniSASS a deep-neural-network trains on correctly identified images of
+        aquatic macroinvertebrates and learn to identify them according to the 13 miniSASS groups.
+    </string>
+    <string name="we_can_all_play_a_part_in_monitoring_freshwater_resources">
+        We can all play a part in monitoring freshwater resources, helping gather the data needed
+        to manage them. By participating in citizen science, anyone can become an important
+        contributor to research and conservation! \n\n" Conducting a miniSASS survey helps us
+        learn about freshwater systems and the importance of biodiversity and healthy freshwater
+        ecosystems, and gets us engaged with nature and our communities. It is a tool that lets
+        us take action to help monitor and conserve our freshwater systems. \n\n"
+        The results of a miniSASS survey give a good indication of the water quality and health
+        of a stream or river, serving to flag possible pollution, or healthy and functioning
+        systems. Continuous monitoring of the same stream or river can give amazing insight into
+        changes over time.\n\n" Once you get your miniSASS score, you can even follow up with
+        relevant local authorities to get them to follow up on suspected problems using your
+        data as an indicator!\n\n
+    </string>
+</resources>
