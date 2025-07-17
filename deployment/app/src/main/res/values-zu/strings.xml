@@ -32,16 +32,28 @@ Uqoqa isampula yama-macroingvertertbrates (izilwane ezincane) ezivela emanzini, 
         <item>Ithem</item>
     </string-array>
 
+<!--    <string-array name="macroinvertebrates">-->
+<!--        <item>Select your identification</item>-->
+<!--        <item>Bugs &amp; Beetles</item>-->
+<!--        <item>Caddisflies</item>-->
+<!--        <item>Damselflies</item>-->
+<!--        <item>Dragonflies</item>-->
+<!--        <item>Flat worms</item>-->
+<!--        <item>Crabs &amp; Shrimps</item>-->
+<!--        <item>Leeches</item>-->
+<!--        <item>Minnow Mayflies</item>-->
+<!--        <item>Other Mayflies</item>-->
+<!--        <item>Snails/Clams/Mussels</item>-->
+<!--        <item>Stoneflies</item>-->
+<!--        <item>Trueflies</item>-->
+<!--        <item>Worms</item>-->
+<!--    </string-array>-->
+
     <!--  order: sandy, rocky  -->
     <string-array name="riverTypes">
         <item>-Nesihlabathi</item>
         <item>Namatshe</item>
     </string-array>
-
-<!--    <string-array name="riverTypes">-->
-<!--        <item>Sandy</item>-->
-<!--        <item>Rocky</item>-->
-<!--    </string-array>-->
 
     <string-array name="organisationTypes">
         <item>Isikole</item>
@@ -450,8 +462,8 @@ Uqoqa isampula yama-macroingvertertbrates (izilwane ezincane) ezivela emanzini, 
     <string name="create_assessment_instruction">Sicela uthathe isithombe sohlobo olulodwa lohlobo oluhlukile olutholile.Qhubeka uthathe izithombe uze ube neyodwa evela kwelinye lamaqembu owatholile.Chofoza u-Capture ukuze uqale ukungeza izithombe zezinhlobo.</string>
 
 
-    <string name="activity_key_start">Please select filters to start</string>
-    <string name="activity_key_more_filters">Please select more filters</string>
+    <string name="activity_key_start">Sicela ukhethe izihlungi ukuze uqale</string>
+    <string name="activity_key_more_filters">Sicela ukhethe izihlungi ezengeziwe</string>
 
 
     <string name="what_are_aquatic">Yini ama-aquatic macroinvertertbrents futhi kanjani ama-minisass awasebenzisa kanjani ukuthola imali?</string>

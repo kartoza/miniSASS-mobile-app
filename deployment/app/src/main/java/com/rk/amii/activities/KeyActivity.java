@@ -47,20 +47,90 @@ public class KeyActivity extends AppCompatActivity {
     /**
      * Setup the filters used by the key
      */
+    /**
+     * Setup the filters used by the key
+     */
     private void setKeyFilters() {
-        String[] bugsAndBeetles = {"clearly_defined_legs","appendages","3_pairs_of_legs","feather_like_gills","antennae","rounded_body"};
-        String[] caddisflies = {"shelter","clearly_defined_legs","long_thin_body","3_pairs_of_legs","tufted_tail","short_tail","feather_like_gills"};
-        String[] crabsAndShrimps = {"clearly_defined_legs","4_or_more_pairs_of_legs","antennae"};
-        String[] damselflies = {"clearly_defined_legs","long_thin_body","3_pairs_of_legs","leaf_like_gills","antennae","wing_buds"};
-        String[] dragonflies = {"clearly_defined_legs","3_pairs_of_legs","bulging_eyes","stocky_body","antennae","wing_buds"};
-        String[] flatWorms = {"flattened_body"};
-        String[] leeches = {"segmented_body","suckers_at_both_ends"};
-        String[] minnowMayflies = {"clearly_defined_legs","3_pairs_of_legs","elongated_tail","plate_like_gills","antennae","wing_buds"};
-        String[] otherMayflies = {"clearly_defined_legs","3_pairs_of_legs","elongated_tail","feather_like_gills","antennae"};
-        String[] snailsClamsMussels = {"shell"};
-        String[] stoneflies = {"clearly_defined_legs","3_pairs_of_legs","elongated_tail","feather_like_gills","antennae"};
-        String[] trueFlies = {"segmented_body","long_thin_body","appendages","short_stubby_legs"};
-        String[] worms = {"segmented_body","long_thin_body"};
+        String[] bugsAndBeetles = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.appendages),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.feather_like_gills),
+                getString(R.string.antennae),
+                getString(R.string.rounded_body)
+        };
+        String[] caddisflies = {
+                getString(R.string.shelter),
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.long_thin_body),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.tufted_tail),
+                getString(R.string.short_tail),
+                getString(R.string.feather_like_gills)
+        };
+        String[] crabsAndShrimps = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.four_or_more_pairs_of_legs),
+                getString(R.string.antennae)
+        };
+        String[] damselflies = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.long_thin_body),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.leaf_like_gills),
+                getString(R.string.antennae),
+                getString(R.string.wing_buds)
+        };
+        String[] dragonflies = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.bulging_eyes),
+                getString(R.string.stocky_body),
+                getString(R.string.antennae),
+                getString(R.string.wing_buds)
+        };
+        String[] flatWorms = {
+                getString(R.string.flattened_body)
+        };
+        String[] leeches = {
+                getString(R.string.segmented_body),
+                getString(R.string.suckers_at_both_ends)
+        };
+        String[] minnowMayflies = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.elongated_tail),
+                getString(R.string.plate_like_gills),
+                getString(R.string.antennae),
+                getString(R.string.wing_buds)
+        };
+        String[] otherMayflies = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.elongated_tail),
+                getString(R.string.feather_like_gills),
+                getString(R.string.antennae)
+        };
+        String[] snailsClamsMussels = {
+                getString(R.string.shell)
+        };
+        String[] stoneflies = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.elongated_tail),
+                getString(R.string.feather_like_gills),
+                getString(R.string.antennae)
+        };
+        String[] trueFlies = {
+                getString(R.string.segmented_body),
+                getString(R.string.long_thin_body),
+                getString(R.string.appendages),
+                getString(R.string.short_stubby_legs)
+        };
+        String[] worms = {
+                getString(R.string.segmented_body),
+                getString(R.string.long_thin_body)
+        };
 
         HashMap<String,String[]> keyFilters = new HashMap<>();
         keyFilters.put("bugs_and_beetles", bugsAndBeetles);

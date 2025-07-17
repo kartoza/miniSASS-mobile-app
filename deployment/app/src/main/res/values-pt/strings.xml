@@ -32,9 +32,27 @@ Você coleta uma amostra de macroinvertebrados (pequenos animais) da água e, de
         <item>Vermes</item>
     </string-array>
 
+<!--    <string-array name="macroinvertebrates">-->
+<!--        <item>Select your identification</item>-->
+<!--        <item>Bugs &amp; Beetles</item>-->
+<!--        <item>Caddisflies</item>-->
+<!--        <item>Damselflies</item>-->
+<!--        <item>Dragonflies</item>-->
+<!--        <item>Flat worms</item>-->
+<!--        <item>Crabs &amp; Shrimps</item>-->
+<!--        <item>Leeches</item>-->
+<!--        <item>Minnow Mayflies</item>-->
+<!--        <item>Other Mayflies</item>-->
+<!--        <item>Snails/Clams/Mussels</item>-->
+<!--        <item>Stoneflies</item>-->
+<!--        <item>Trueflies</item>-->
+<!--        <item>Worms</item>-->
+<!--    </string-array>-->
+
+    <!--  order: sandy, rocky  -->
     <string-array name="riverTypes">
-        <item>Sandy</item>
-        <item>Rocky</item>
+        <item>Arenoso</item>
+        <item>Rochoso</item>
     </string-array>
 
     <string-array name="organisationTypes">
@@ -444,8 +462,8 @@ Você coleta uma amostra de macroinvertebrados (pequenos animais) da água e, de
     <string name="create_assessment_instruction">Tire uma foto de um espécime de cada tipo diferente que você encontrou.Continue tirando fotos até ter uma de cada um dos grupos que encontrou.Clique em Capture para começar a adicionar fotos de espécimes.</string>
 
 
-    <string name="activity_key_start">Please select filters to start</string>
-    <string name="activity_key_more_filters">Please select more filters</string>
+    <string name="activity_key_start">Selecione os filtros para começar</string>
+    <string name="activity_key_more_filters">Selecione mais filtros</string>
 
 
     <string name="what_are_aquatic">O que são macroinvertebrados aquáticos e como a minissasa os usou para o biomonitoramento?</string>
