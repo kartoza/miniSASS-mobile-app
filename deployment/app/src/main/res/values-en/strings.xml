@@ -17,6 +17,7 @@
         The miniSASS App walthrough video will take you through how to use the app.
     </string>
     <string name="watch_video">Watch Video</string>
+    <string name="select_your_identification">Select your identification</string>
 
     <string-array name="macroinvertebrates">
         <item>Select your identification</item>

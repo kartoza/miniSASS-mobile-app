@@ -50,6 +50,7 @@ import com.rk.amii.models.SitesModel;
 import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
+import com.rk.amii.utils.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -275,8 +276,11 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         macroinvertebrates.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!parent.getItemAtPosition(position).equals("Select your identification")) {
-                    invertType = parent.getItemAtPosition(position).toString();
+                if (!parent.getItemAtPosition(position).equals(getString(R.string.select_your_identification))) {
+                    // decrease position by 1 since element at position 0 in parent is
+                    // "Select your identification". Constants.MACROINVERTEBRATES does not have
+                    // "Select your identification", so the index is decreased by 1.
+                    invertType = Constants.MACROINVERTEBRATES[position - 1];
                     addSampleItem.setEnabled(true);
                 }
             }

@@ -57,6 +57,23 @@ public class Constants {
             "Rocky"
     };
 
+    // Or as a String array
+    public static final String[] MACROINVERTEBRATES = {
+            "Bugs & Beetles",
+            "Caddisflies",
+            "Damselflies",
+            "Dragonflies",
+            "Flat worms",
+            "Crabs & Shrimps",
+            "Leeches",
+            "Minnow Mayflies",
+            "Other Mayflies",
+            "Snails/Clams/Mussels",
+            "Stoneflies",
+            "Trueflies",
+            "Worms"
+    };
+
     // Private constructor to prevent instantiation
     private Constants() {}
 }

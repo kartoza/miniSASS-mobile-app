@@ -14,6 +14,7 @@ Você coleta uma amostra de macroinvertebrados (pequenos animais) da água e, de
     <string name="how_to_use_the_app">Como usar o aplicativo?</string>
     <string name="how_to_use_minisass">O vídeo de Minisass App Walkthrough o levará a como usar o aplicativo.</string>
     <string name="watch_video">Assistir ao vídeo</string>
+    <string name="select_your_identification">Selecione sua identificação</string>
 
     <string-array name="macroinvertebrates">
         <item>Selecione sua identificação</item>

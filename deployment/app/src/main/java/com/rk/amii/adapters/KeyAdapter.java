@@ -204,21 +204,21 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
         });
 
         if ((holder.checkbox.getText().toString().equals(modal.getName())) && modal.getSelected()) {
-           holder.checkbox.setChecked(true);
+            holder.checkbox.setChecked(true);
         } else {
             holder.checkbox.setChecked(false);
         }
 
         holder.checkbox.setOnClickListener(v -> {
-            FilterGroupModel filterGM = filterGroup.get(position);
-            filterGM.setSelected(false);
+            FilterGroupModel filter = filterGroup.get(position);
+            filter.setSelected(false);
 
             if (holder.checkbox.isChecked()){
-                selected.add(filterGM.getName().replace(" ", "_").toLowerCase());
-                filterGM.setSelected(true);
+                selected.add(filter.getName());
+                filter.setSelected(true);
             }else{
-                if (selected.contains(filterGM.getName().replace(" ", "_").toLowerCase())) {
-                    selected.remove(filterGM.getName().replace(" ", "_").toLowerCase());
+                if (selected.contains(filter.getName())) {
+                    selected.remove(filter.getName());
                 }
             }
             filter(keyFilters);
@@ -239,17 +239,14 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
         ArrayList<String> possible = getPossible(keyFilters);
 
         for(String pos : possible)  {
-
-            pos = pos.replace(" ", "_");
-
             for (HashMap.Entry<String,String[]> filter : keyFilters.entrySet()) {
                 String key = filter.getKey();
                 String[] value = filter.getValue();
 
-                if (key == pos) {
+                if (key.equals(pos)) {
                     for(int i = 0; i < value.length; i++) {
                         for (int j = 0; j < filterGroupCopy.size(); j++) {
-                            if (filterGroupCopy.get(j).getName().replace(" ", "_").toLowerCase().equals(value[i])) {
+                            if (filterGroupCopy.get(j).getName().equals(value[i])) {
                                 FilterGroupModel current = filterGroupCopy.get(j);
                                 if (!filterGroup.contains(current)) {
                                     filterGroup.add(current);
@@ -259,8 +256,6 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
                     }
                 }
             }
-
-
         }
 
         Collections.sort(this.filterGroup, (t1, t2) -> t1.getName().compareTo(t2.getName()));
@@ -282,7 +277,6 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
                         prettyX = x.replace("_", " ");
                         prettyX = prettyX.replace("and", "&");
                     }
-
 
                     System.out.println("POSS " + x);
                     GradientDrawable shape =  new GradientDrawable();
@@ -311,7 +305,6 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
             }
         }
 
-
         notifyDataSetChanged();
     }
 
@@ -331,7 +324,6 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
                     likelyGroups.remove(key);
                 }
             }
-
         }
         return likelyGroups;
     }
