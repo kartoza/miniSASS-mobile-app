@@ -39,12 +39,12 @@ public class HowToFragment extends Fragment {
         videos.add(
                 new VideoModel(
                         "android.resource://" + this.getActivity().getPackageName() + "/" + R.raw.intro,
-                        "Introduction to miniSASS",
+                        getString(R.string.introduction_to_minisass),
                         "offline"));
         videos.add(
                 new VideoModel(
                         "android.resource://" + this.getActivity().getPackageName() + "/" + R.raw.summary,
-                        "miniSASS in summary",
+                        getString(R.string.minisass_in_summary),
                         "offline"));
 
         // Add the videos to the offline video view
@@ -57,61 +57,61 @@ public class HowToFragment extends Fragment {
         onlineVideos.add(
                 new VideoModel(
                         "https://youtu.be/yGbi7P8RYoU",
-                        "Safety concerns for miniSASS",
+                        getString(R.string.safety_concerns_for_minisass),
                         "online",
                         R.raw.imagehowtostaysafe));
         onlineVideos.add(
                 new VideoModel(
                         "https://youtu.be/XJLcJMutXP8",
-                        "What is in your miniSASS kit",
+                        getString(R.string.what_is_in_your_minisass_kit),
                         "online",
                         R.raw.imagetheminisasskit));
         onlineVideos.add(
                 new VideoModel(
                         "https://youtu.be/_-L-Xs4QJRg",
-                        "What do you need to put together a miniSASS kit at home",
+                        getString(R.string.what_do_you_need_to_put_together_a_minisass_kit_at_home),
                         "online",
                         R.raw.imagethehomemademinisasskit));
         onlineVideos.add(
                 new VideoModel(
                         "https://youtu.be/WX_DkYyfnmk",
-                        "Choosing your site for miniSASS",
+                        getString(R.string.choosing_your_site_for_minisass),
                         "online",
                         R.raw.imagechoosingasite));
         onlineVideos.add(
                 new VideoModel(
                         "https://youtu.be/XY_p8usHx4Q",
-                        "How to take a sample",
+                        getString(R.string.how_to_take_a_sample),
                         "online",
                         R.raw.imagehowtotakeasample));
         onlineVideos.add(
                 new VideoModel(
                         "https://youtu.be/8RATZXY2jyo",
-                        "Cleaning your sample",
+                        getString(R.string.cleaning_your_sample),
                         "online",
                         R.raw.imagecleaningyoursample));
         onlineVideos.add(
                 new VideoModel(
                         "https://youtu.be/hKdPiSSVL0s",
-                        "Using the dichotomous key",
+                        getString(R.string.using_the_dichotomous_key),
                         "online",
                         R.raw.imagehowtousethekey));
         onlineVideos.add(
                 new VideoModel(
                         "https://youtu.be/O_deXdCQIfM",
-                        "How to calculate your score",
+                        getString(R.string.how_to_calculate_your_score),
                         "online",
                         R.raw.imagehowtocalculatescore));
         onlineVideos.add(
                 new VideoModel(
                         "https://youtu.be/uUJTrkZKL6U",
-                        "Uploading your miniSASS score",
+                        getString(R.string.uploading_your_minisass_score),
                         "online",
                         R.raw.imageuploadingyourscore));
         onlineVideos.add(
                 new VideoModel(
                         "https://youtu.be/uU7hOj4zjG0",
-                        "Using miniSASS for monitoring",
+                        getString(R.string.using_minisass_for_monitoring),
                         "online",
                         R.raw.imageusingminisassformonitoring));
 

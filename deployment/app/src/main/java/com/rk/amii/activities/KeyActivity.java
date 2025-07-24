@@ -47,20 +47,90 @@ public class KeyActivity extends AppCompatActivity {
     /**
      * Setup the filters used by the key
      */
+    /**
+     * Setup the filters used by the key
+     */
     private void setKeyFilters() {
-        String[] bugsAndBeetles = {"clearly_defined_legs","appendages","3_pairs_of_legs","feather_like_gills","antennae","rounded_body"};
-        String[] caddisflies = {"shelter","clearly_defined_legs","long_thin_body","3_pairs_of_legs","tufted_tail","short_tail","feather_like_gills"};
-        String[] crabsAndShrimps = {"clearly_defined_legs","4_or_more_pairs_of_legs","antennae"};
-        String[] damselflies = {"clearly_defined_legs","long_thin_body","3_pairs_of_legs","leaf_like_gills","antennae","wing_buds"};
-        String[] dragonflies = {"clearly_defined_legs","3_pairs_of_legs","bulging_eyes","stocky_body","antennae","wing_buds"};
-        String[] flatWorms = {"flattened_body"};
-        String[] leeches = {"segmented_body","suckers_at_both_ends"};
-        String[] minnowMayflies = {"clearly_defined_legs","3_pairs_of_legs","elongated_tail","plate_like_gills","antennae","wing_buds"};
-        String[] otherMayflies = {"clearly_defined_legs","3_pairs_of_legs","elongated_tail","feather_like_gills","antennae"};
-        String[] snailsClamsMussels = {"shell"};
-        String[] stoneflies = {"clearly_defined_legs","3_pairs_of_legs","elongated_tail","feather_like_gills","antennae"};
-        String[] trueFlies = {"segmented_body","long_thin_body","appendages","short_stubby_legs"};
-        String[] worms = {"segmented_body","long_thin_body"};
+        String[] bugsAndBeetles = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.appendages),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.feather_like_gills),
+                getString(R.string.antennae),
+                getString(R.string.rounded_body)
+        };
+        String[] caddisflies = {
+                getString(R.string.shelter),
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.long_thin_body),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.tufted_tail),
+                getString(R.string.short_tail),
+                getString(R.string.feather_like_gills)
+        };
+        String[] crabsAndShrimps = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.four_or_more_pairs_of_legs),
+                getString(R.string.antennae)
+        };
+        String[] damselflies = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.long_thin_body),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.leaf_like_gills),
+                getString(R.string.antennae),
+                getString(R.string.wing_buds)
+        };
+        String[] dragonflies = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.bulging_eyes),
+                getString(R.string.stocky_body),
+                getString(R.string.antennae),
+                getString(R.string.wing_buds)
+        };
+        String[] flatWorms = {
+                getString(R.string.flattened_body)
+        };
+        String[] leeches = {
+                getString(R.string.segmented_body),
+                getString(R.string.suckers_at_both_ends)
+        };
+        String[] minnowMayflies = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.elongated_tail),
+                getString(R.string.plate_like_gills),
+                getString(R.string.antennae),
+                getString(R.string.wing_buds)
+        };
+        String[] otherMayflies = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.elongated_tail),
+                getString(R.string.feather_like_gills),
+                getString(R.string.antennae)
+        };
+        String[] snailsClamsMussels = {
+                getString(R.string.shell)
+        };
+        String[] stoneflies = {
+                getString(R.string.clearly_defined_legs),
+                getString(R.string.three_pairs_of_legs),
+                getString(R.string.elongated_tail),
+                getString(R.string.feather_like_gills),
+                getString(R.string.antennae)
+        };
+        String[] trueFlies = {
+                getString(R.string.segmented_body),
+                getString(R.string.long_thin_body),
+                getString(R.string.appendages),
+                getString(R.string.short_stubby_legs)
+        };
+        String[] worms = {
+                getString(R.string.segmented_body),
+                getString(R.string.long_thin_body)
+        };
 
         HashMap<String,String[]> keyFilters = new HashMap<>();
         keyFilters.put("bugs_and_beetles", bugsAndBeetles);
@@ -256,27 +326,27 @@ public class KeyActivity extends AppCompatActivity {
         bstail.add(R.raw.short_tail_2);
 
         groupFilters = new ArrayList<>();
-        groupFilters.add(new FilterGroupModel("Shell", shell, bshell, R.string.shell_description));
-        groupFilters.add(new FilterGroupModel("Shelter", shelter, bshelter, R.string.shelter_description));
-        groupFilters.add(new FilterGroupModel("Clearly defined legs", clegs, bclegs, R.string.clearly_defined_legs_description));
-        groupFilters.add(new FilterGroupModel("Segmented body", sbody, bsbody, R.string.segmented_body_description));
-        groupFilters.add(new FilterGroupModel("Long thin body", lbody, blbody, R.string.long_thin_body_description));
-        groupFilters.add(new FilterGroupModel("Appendages", appendages, bappendages, R.string.appendages_description));
-        groupFilters.add(new FilterGroupModel("3 pairs of legs", tlegs, btlegs, R.string.three_pairs_of_legs_description));
-        groupFilters.add(new FilterGroupModel("4 or more pairs of legs", flegs, bflegs, R.string.four_or_more_pairs_of_legs_description));
-        groupFilters.add(new FilterGroupModel("Elongated tail", etail, betail, R.string.elongated_tail_description));
-        groupFilters.add(new FilterGroupModel("Tufted tail", ttail, bttail, R.string.tufted_tail_description));
-        groupFilters.add(new FilterGroupModel("Short tail", stail, bstail, R.string.short_tail_description));
-        groupFilters.add(new FilterGroupModel("Plate like gills", pgills, bpgills, R.string.plate_like_gills_description));
-        groupFilters.add(new FilterGroupModel("Feather like gills", fgills, bfgills, R.string.feather_like_gills_description));
-        groupFilters.add(new FilterGroupModel("Leaf like gills", lgills, blgills, R.string.leaf_like_gills_description));
-        groupFilters.add(new FilterGroupModel("Bulging eyes", beyes, bbeyes, R.string.bulging_eyes_description));
-        groupFilters.add(new FilterGroupModel("Stocky body", stbody, bstbody, R.string.stocky_body_description));
-        groupFilters.add(new FilterGroupModel("Antennae", antennae, bantennae, R.string.antennae_description));
-        groupFilters.add(new FilterGroupModel("Suckers at both ends", suckers, bsuckers, R.string.suckers_at_both_ends_description));
-        groupFilters.add(new FilterGroupModel("Wing buds", wing_buds, bwing_buds, R.string.wing_buds_description));
-        groupFilters.add(new FilterGroupModel("Flattened body", fbody, bfbody, R.string.flattened_body_description));
-        groupFilters.add(new FilterGroupModel("Short stubby legs", slegs, bslegs, R.string.short_stubby_legs_description));
-        groupFilters.add(new FilterGroupModel("Rounded body", rbody, brbody, R.string.rounded_body_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.shell), shell, bshell, R.string.shell_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.shelter), shelter, bshelter, R.string.shelter_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.clearly_defined_legs), clegs, bclegs, R.string.clearly_defined_legs_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.segmented_body), sbody, bsbody, R.string.segmented_body_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.long_thin_body), lbody, blbody, R.string.long_thin_body_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.appendages), appendages, bappendages, R.string.appendages_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.three_pairs_of_legs), tlegs, btlegs, R.string.three_pairs_of_legs_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.four_or_more_pairs_of_legs), flegs, bflegs, R.string.four_or_more_pairs_of_legs_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.elongated_tail), etail, betail, R.string.elongated_tail_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.tufted_tail), ttail, bttail, R.string.tufted_tail_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.short_tail), stail, bstail, R.string.short_tail_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.plate_like_gills), pgills, bpgills, R.string.plate_like_gills_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.feather_like_gills), fgills, bfgills, R.string.feather_like_gills_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.leaf_like_gills), lgills, blgills, R.string.leaf_like_gills_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.bulging_eyes), beyes, bbeyes, R.string.bulging_eyes_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.stocky_body), stbody, bstbody, R.string.stocky_body_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.stocky_body), antennae, bantennae, R.string.antennae_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.suckers_at_both_ends), suckers, bsuckers, R.string.suckers_at_both_ends_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.wing_buds), wing_buds, bwing_buds, R.string.wing_buds_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.wing_buds), fbody, bfbody, R.string.flattened_body_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.short_stubby_legs), slegs, bslegs, R.string.short_stubby_legs_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.rounded_body), rbody, brbody, R.string.rounded_body_description));
     }
 }

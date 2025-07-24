@@ -32,7 +32,7 @@
                 android:id="@+id/idMiniSassScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="miniSass Score"
+                android:text="@string/minisass_score"
                 android:textColor="@color/black"
                 android:textSize="14dp" />
 
@@ -40,7 +40,7 @@
                     android:id="@+id/idMiniSassMLScore"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="miniSass ML Score"
+                    android:text="@string/minisass_ml_score"
                     android:textColor="@color/black"
                     android:textSize="14dp"
                     android:textAlignment="viewEnd"/>
@@ -56,7 +56,7 @@
                 android:id="@+id/idUserCondition"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="User Condition"
+                android:text="@string/user_condition"
                 android:textColor="#727272"
                 android:textSize="14dp" />
 
@@ -64,7 +64,7 @@
                 android:id="@+id/idMLCondition"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ML Condition"
+                android:text="@string/ml_condition"
                 android:textColor="#727272"
                 android:textSize="14dp"
                 android:textAlignment="viewEnd"/>
@@ -80,19 +80,19 @@
                     android:id="@+id/idCollectorsName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Collector's Name" />
+                    android:text="@string/collector_s_name" />
 
                 <TextView
                     android:id="@+id/idOrganisation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Organisation" />
+                    android:text="@string/organisation" />
 
                 <TextView
                     android:id="@+id/idDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Date" />
+                    android:text="@string/date" />
             </LinearLayout>
 
             <LinearLayout
@@ -105,31 +105,31 @@
                     android:id="@+id/idWaterTemp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Water Temp" />
+                    android:text="@string/water_temp" />
 
                 <TextView
                     android:id="@+id/idDissolvedOxygen"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Dissolved Oxygen" />
+                    android:text="@string/dissolved_oxygen" />
 
                 <TextView
                     android:id="@+id/idElectricalConductivity"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Electrical Conductivity" />
+                    android:text="@string/electrical_conductivity" />
 
                 <TextView
                     android:id="@+id/idWaterClarity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Water Clarity" />
+                    android:text="@string/water_clarity" />
 
                 <TextView
                     android:id="@+id/idPh"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="ph"
+                    android:text="@string/ph"
                     />
 
             </LinearLayout>
@@ -146,7 +146,7 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Show note"
+                    android:text="@string/show_note"
                     android:textSize="16sp"
                     />
                 <ImageButton
@@ -169,7 +169,7 @@
                     android:id="@+id/idNote"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="This is a note"
+                    android:text="@string/this_is_a_note"
                     android:padding="10dp"
                     />
 
@@ -187,7 +187,7 @@
                     android:layout_weight="1"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="Show assessment photos"
+                    android:text="@string/show_assessment_photos"
                     android:textSize="16sp"
                     />
                 <ImageButton

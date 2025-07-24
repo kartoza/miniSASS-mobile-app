@@ -18,7 +18,7 @@
         android:layout_width="0dp"
         android:layout_weight="0.9"
         android:layout_height="match_parent"
-        android:text="Filter Name"/>
+        android:text="@string/filter_name"/>
 
     <ImageView
         android:id="@+id/groupItemInfo"

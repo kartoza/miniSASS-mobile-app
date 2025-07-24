@@ -17,6 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:textAlignment="center"
-        android:text="Calculating scores and adding assessment."/>
+        android:text="@string/calculate_score_and_add_assessment"/>
 
 </RelativeLayout>

@@ -59,43 +59,43 @@ public class AssessmentsAdapter extends RecyclerView.Adapter<AssessmentsAdapter.
 
         //TODO get real online site id
         if (site != null) {
-            holder.miniSassScore.setText("User score: " + String.format("%.2f", modal.getMiniSassScore()));
-            holder.miniSassMLScore.setText("ML score: " + String.format("%.2f", modal.getMiniSassMLScore()));
-            holder.userCondition.setText("User Condition: " + Utils.calculateCondition(modal.getMiniSassScore(), site.getRiverType()));
-            holder.mlCondition.setText("ML Condition: " + Utils.calculateCondition(modal.getMiniSassMLScore(), site.getRiverType()));
-            holder.collectorsName.setText("Collector's name: " + modal.getCollectorsName());
-            holder.organisationName.setText("Organisation: " + modal.getOrganisation());
-            holder.obsDate.setText("Observation Date: " + modal.getObservationDate());
+            holder.miniSassScore.setText(context.getString(R.string.user_score) + ": " + String.format("%.2f", modal.getMiniSassScore()));
+            holder.miniSassMLScore.setText(context.getString(R.string.ml_score) + ": " + String.format("%.2f", modal.getMiniSassMLScore()));
+            holder.userCondition.setText(context.getString(R.string.user_condition) + ": " + Utils.calculateCondition(context, modal.getMiniSassScore(), site.getRiverType()));
+            holder.mlCondition.setText(context.getString(R.string.ml_condition) + ": " + Utils.calculateCondition(context, modal.getMiniSassMLScore(), site.getRiverType()));
+            holder.collectorsName.setText(context.getString(R.string.collector_name) + ": " + modal.getCollectorsName());
+            holder.organisationName.setText(context.getString(R.string.organisation) + ": " + modal.getOrganisation());
+            holder.obsDate.setText(context.getString(R.string.observation_date) + ": " + modal.getObservationDate());
         } else {
-            holder.miniSassScore.setText("User score: " + String.format("%.2f", modal.getMiniSassScore()));
-            holder.miniSassMLScore.setText("ML score: " + String.format("%.2f", modal.getMiniSassMLScore()));
-            holder.userCondition.setText("User Condition: " + Utils.calculateCondition(modal.getMiniSassScore(), "sandy"));
-            holder.mlCondition.setText("ML Condition: " + Utils.calculateCondition(modal.getMiniSassMLScore(), "sandy"));
-            holder.collectorsName.setText("Collector's name: " + modal.getCollectorsName());
-            holder.organisationName.setText("Organisation: " + modal.getOrganisation());
-            holder.obsDate.setText("Observation Date: " + modal.getObservationDate());
+            holder.miniSassScore.setText(context.getString(R.string.user_score) + ": " + String.format("%.2f", modal.getMiniSassScore()));
+            holder.miniSassMLScore.setText(context.getString(R.string.ml_score) + ": " + String.format("%.2f", modal.getMiniSassMLScore()));
+            holder.userCondition.setText(context.getString(R.string.user_condition) + ": " + Utils.calculateCondition(context, modal.getMiniSassScore(), "sandy"));
+            holder.mlCondition.setText(context.getString(R.string.ml_condition) + ": " + Utils.calculateCondition(context, modal.getMiniSassMLScore(), "sandy"));
+            holder.collectorsName.setText(context.getString(R.string.collector_name) + ": " + modal.getCollectorsName());
+            holder.organisationName.setText(context.getString(R.string.organisation) + ": " + modal.getOrganisation());
+            holder.obsDate.setText(context.getString(R.string.observation_date) + ": " + modal.getObservationDate());
         }
 
         if (!TextUtils.isEmpty(modal.getWaterTemp())) {
-            holder.waterTemp.setText(Html.fromHtml("Water temperature: <b>" + modal.getWaterTemp() + " °C</b>", Html.FROM_HTML_MODE_LEGACY));
+            holder.waterTemp.setText(Html.fromHtml(context.getString(R.string.water_temperature) + ": <b>" + modal.getWaterTemp() + " °C</b>", Html.FROM_HTML_MODE_LEGACY));
         } else {
             holder.waterTemp.setVisibility(View.GONE);
         }
 
         if (!TextUtils.isEmpty(modal.getWaterClarity())) {
-            holder.waterClarity.setText(Html.fromHtml("Water clarity: <b>" + modal.getWaterClarity() + "</b>", Html.FROM_HTML_MODE_LEGACY));
+            holder.waterClarity.setText(Html.fromHtml(context.getString(R.string.water_clarity) + ": <b>" + modal.getWaterClarity() + "</b>", Html.FROM_HTML_MODE_LEGACY));
         } else {
             holder.waterClarity.setVisibility(View.GONE);
         }
 
         if (!TextUtils.isEmpty(modal.getDissolvedOxygen())) {
-            holder.dissolvedOxygen.setText(Html.fromHtml("Dissolved oxygen: <b>" + modal.getDissolvedOxygen() + " " + modal.getDissolvedOxygenUnit() + "</b>", Html.FROM_HTML_MODE_LEGACY));
+            holder.dissolvedOxygen.setText(Html.fromHtml(context.getString(R.string.dissoved_oxygen) + ": <b>" + modal.getDissolvedOxygen() + " " + modal.getDissolvedOxygenUnit() + "</b>", Html.FROM_HTML_MODE_LEGACY));
         } else {
             holder.dissolvedOxygen.setVisibility(View.GONE);
         }
 
         if (!TextUtils.isEmpty(modal.getElectricalConductivity())) {
-            holder.electricalConductivity.setText(Html.fromHtml("Electrical conductivity: <b>" + modal.getElectricalConductivity() + " " + modal.getElectricalConductivityUnit() + "</b>", Html.FROM_HTML_MODE_LEGACY));
+            holder.electricalConductivity.setText(Html.fromHtml(context.getString(R.string.electrical_conductivity) + ": <b>" + modal.getElectricalConductivity() + " " + modal.getElectricalConductivityUnit() + "</b>", Html.FROM_HTML_MODE_LEGACY));
         } else {
             holder.electricalConductivity.setVisibility(View.GONE);
         }

@@ -20,6 +20,8 @@ android {
             // Specify the ABI configurations you want
             abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
         }
+
+        resConfigs "en", "pt", "zu"
     }
     buildTypes {
         release {

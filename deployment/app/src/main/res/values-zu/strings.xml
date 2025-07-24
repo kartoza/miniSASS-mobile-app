@@ -1,0 +1,638 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">miniSASS</string>
+    <string name="title_landing">Ikhaya</string>
+    <string name="title_home">Imephu</string>
+    <string name="title_dashboard">Tes</string>
+    <string name="title_profile">Uhlangothi olulodwa lobuso</string>
+    <string name="title_notifications">Maqondana</string>
+    <string name="privacy_policy">Inqubomgomo yobumfihlo</string>
+    <string name="logout">Phuma</string>
+    <string name="what_is_minisass_heading">Yini i-minisass</string>
+    <string name="what_is_minisass">I-Minisass iyithuluzi elilula elingasetshenziswa yinoma ngubani ukuqapha impilo yomfula.
+Uqoqa isampula yama-macroingvertertbrates (izilwane ezincane) ezivela emanzini, futhi kuya ngokuthi amaqembu atholakala ngawo, unesilinganiso esithile sempilo yezempilo evamile yezempilo neyemanzi kulowo mfula.</string>
+    <string name="how_to_use_the_app">Ungayisebenzisa kanjani uhlelo lokusebenza?</string>
+    <string name="how_to_use_minisass">Ividiyo ye-minisass i-Walkthrough Video izokuthatha ngendlela yokusebenzisa uhlelo lokusebenza.</string>
+    <string name="watch_video">Buka Ividiyo</string>
+    <string name="select_your_identification">Khetha ukukhonjwa kwakho</string>
+
+    <string-array name="macroinvertebrates">
+        <item>Khetha ukukhonjwa kwakho</item>
+        <item>Izimbungulu namabhungane</item>
+        <item>Ama-caddies</item>
+        <item>Ama-Damglies</item>
+        <item>Amaphiko</item>
+        <item>Izibungu zasefulethini</item>
+        <item>Crabs &amp; shrimps</item>
+        <item>Izimbotshana</item>
+        <item>AmaMayali Minnow</item>
+        <item>Kwamanye ama-mayflies</item>
+        <item>Iminenke / ama-clams / ama-mussels</item>
+        <item>Izitoto</item>
+        <item>Izici eziyiqiniso</item>
+        <item>Ithem</item>
+    </string-array>
+
+<!--    <string-array name="macroinvertebrates">-->
+<!--        <item>Select your identification</item>-->
+<!--        <item>Bugs &amp; Beetles</item>-->
+<!--        <item>Caddisflies</item>-->
+<!--        <item>Damselflies</item>-->
+<!--        <item>Dragonflies</item>-->
+<!--        <item>Flat worms</item>-->
+<!--        <item>Crabs &amp; Shrimps</item>-->
+<!--        <item>Leeches</item>-->
+<!--        <item>Minnow Mayflies</item>-->
+<!--        <item>Other Mayflies</item>-->
+<!--        <item>Snails/Clams/Mussels</item>-->
+<!--        <item>Stoneflies</item>-->
+<!--        <item>Trueflies</item>-->
+<!--        <item>Worms</item>-->
+<!--    </string-array>-->
+
+    <!--  order: sandy, rocky  -->
+    <string-array name="riverTypes">
+        <item>-Nesihlabathi</item>
+        <item>Namatshe</item>
+    </string-array>
+
+    <string-array name="organisationTypes">
+        <item>Isikole</item>
+        <item>NGO</item>
+        <item>Ukukhononda</item>
+        <item>Umuntu wangasese</item>
+        <item>UMnyango Kahulumeni</item>
+        <item>Ukuxoxisana</item>
+        <item>Inyuvesi</item>
+        <item>-Nye nje</item>
+    </string-array>
+
+    <string-array name="countries_display_names">
+        <item>Aruba</item>
+        <item>Afghanistan</item>
+        <item>Angola</item>
+        <item>Anguilla</item>
+        <item>Aland Islands</item>
+        <item>Albania</item>
+        <item>Andorra</item>
+        <item>United Arab Emirates</item>
+        <item>Argentina</item>
+        <item>Armenia</item>
+        <item>American Samoa</item>
+        <item>Antarctica</item>
+        <item>French Southern Territories</item>
+        <item>Antigua and Barbuda</item>
+        <item>Australia</item>
+        <item>Austria</item>
+        <item>Azerbaijan</item>
+        <item>Burundi</item>
+        <item>Belgium</item>
+        <item>Benin</item>
+        <item>Bonaire, Sint Eustatius and Saba</item>
+        <item>Burkina Faso</item>
+        <item>Bangladesh</item>
+        <item>Bulgaria</item>
+        <item>Bahrain</item>
+        <item>Bahamas</item>
+        <item>Bosnia and Herzegovina</item>
+        <item>Saint Barthelemy</item>
+        <item>Belarus</item>
+        <item>Belize</item>
+        <item>Bermuda</item>
+        <item>Bolivia, Plurinational State of</item>
+        <item>Brazil</item>
+        <item>Barbados</item>
+        <item>Brunei Darussalam</item>
+        <item>Bhutan</item>
+        <item>Bouvet Island</item>
+        <item>Botswana</item>
+        <item>Central African Republic</item>
+        <item>Canada</item>
+        <item>Cocos (Keeling) Islands</item>
+        <item>Switzerland</item>
+        <item>Chile</item>
+        <item>China</item>
+        <item>Cote d\'Ivoire</item>
+        <item>Cameroon</item>
+        <item>Congo, The Democratic Republic of the</item>
+        <item>Congo</item>
+        <item>Cook Islands</item>
+        <item>Colombia</item>
+        <item>Comoros</item>
+        <item>Cabo Verde</item>
+        <item>Costa Rica</item>
+        <item>Cuba</item>
+        <item>Curacao</item>
+        <item>Christmas Island</item>
+        <item>Cayman Islands</item>
+        <item>Cyprus</item>
+        <item>Czechia</item>
+        <item>Germany</item>
+        <item>Djibouti</item>
+        <item>Dominica</item>
+        <item>Denmark</item>
+        <item>Dominican Republic</item>
+        <item>Algeria</item>
+        <item>Ecuador</item>
+        <item>Egypt</item>
+        <item>Eritrea</item>
+        <item>Western Sahara</item>
+        <item>Spain</item>
+        <item>Estonia</item>
+        <item>Ethiopia</item>
+        <item>Finland</item>
+        <item>Fiji</item>
+        <item>Falkland Islands (Malvinas)</item>
+        <item>France</item>
+        <item>Faroe Islands</item>
+        <item>Micronesia, Federated States of</item>
+        <item>Gabon</item>
+        <item>United Kingdom</item>
+        <item>Georgia</item>
+        <item>Guernsey</item>
+        <item>Ghana</item>
+        <item>Gibraltar</item>
+        <item>Guinea</item>
+        <item>Guadeloupe</item>
+        <item>Gambia</item>
+        <item>Guinea-Bissau</item>
+        <item>Equatorial Guinea</item>
+        <item>Greece</item>
+        <item>Grenada</item>
+        <item>Greenland</item>
+        <item>Guatemala</item>
+        <item>French Guiana</item>
+        <item>Guam</item>
+        <item>Guyana</item>
+        <item>Hong Kong</item>
+        <item>Heard Island and McDonald Islands</item>
+        <item>Honduras</item>
+        <item>Croatia</item>
+        <item>Haiti</item>
+        <item>Hungary</item>
+        <item>Indonesia</item>
+        <item>Isle of Man</item>
+        <item>India</item>
+        <item>British Indian Ocean Territory</item>
+        <item>Ireland</item>
+        <item>Iran, Islamic Republic of</item>
+        <item>Iraq</item>
+        <item>Iceland</item>
+        <item>Israel</item>
+        <item>Italy</item>
+        <item>Jamaica</item>
+        <item>Jersey</item>
+        <item>Jordan</item>
+        <item>Japan</item>
+        <item>Kazakhstan</item>
+        <item>Kenya</item>
+        <item>Kyrgyzstan</item>
+        <item>Cambodia</item>
+        <item>Kiribati</item>
+        <item>Saint Kitts and Nevis</item>
+        <item>Korea, Republic of</item>
+        <item>Kuwait</item>
+        <item>Lao People\'s Democratic Republic</item>
+        <item>Lebanon</item>
+        <item>Liberia</item>
+        <item>Libya</item>
+        <item>Saint Lucia</item>
+        <item>Liechtenstein</item>
+        <item>Sri Lanka</item>
+        <item>Lesotho</item>
+        <item>Lithuania</item>
+        <item>Luxembourg</item>
+        <item>Latvia</item>
+        <item>Macao</item>
+        <item>Saint Martin (French part)</item>
+        <item>Morocco</item>
+        <item>Monaco</item>
+        <item>Moldova, Republic of</item>
+        <item>Madagascar</item>
+        <item>Maldives</item>
+        <item>Mexico</item>
+        <item>Marshall Islands</item>
+        <item>North Macedonia</item>
+        <item>Mali</item>
+        <item>Malta</item>
+        <item>Myanmar</item>
+        <item>Montenegro</item>
+        <item>Mongolia</item>
+        <item>Northern Mariana Islands</item>
+        <item>Mozambique</item>
+        <item>Mauritania</item>
+        <item>Montserrat</item>
+        <item>Martinique</item>
+        <item>Mauritius</item>
+        <item>Malawi</item>
+        <item>Malaysia</item>
+        <item>Mayotte</item>
+        <item>Namibia</item>
+        <item>New Caledonia</item>
+        <item>Niger</item>
+        <item>Norfolk Island</item>
+        <item>Nigeria</item>
+        <item>Nicaragua</item>
+        <item>Niue</item>
+        <item>Netherlands</item>
+        <item>Norway</item>
+        <item>Nepal</item>
+        <item>Nauru</item>
+        <item>New Zealand</item>
+        <item>Oman</item>
+        <item>Pakistan</item>
+        <item>Panama</item>
+        <item>Pitcairn</item>
+        <item>Peru</item>
+        <item>Philippines</item>
+        <item>Palau</item>
+        <item>Papua New Guinea</item>
+        <item>Poland</item>
+        <item>Puerto Rico</item>
+        <item>Korea, Democratic People\'s Republic of</item>
+        <item>Portugal</item>
+        <item>Paraguay</item>
+        <item>Palestine, State of</item>
+        <item>French Polynesia</item>
+        <item>Qatar</item>
+        <item>Reunion</item>
+        <item>Romania</item>
+        <item>Russian Federation</item>
+        <item>Rwanda</item>
+        <item>Saudi Arabia</item>
+        <item>Sudan</item>
+        <item>Senegal</item>
+        <item>Singapore</item>
+        <item>South Georgia and the South Sandwich Islands</item>
+        <item>Saint Helena, Ascension and Tristan da Cunha</item>
+        <item>Svalbard and Jan Mayen</item>
+        <item>Solomon Islands</item>
+        <item>Sierra Leone</item>
+        <item>El Salvador</item>
+        <item>San Marino</item>
+        <item>Somalia</item>
+        <item>Saint Pierre and Miquelon</item>
+        <item>Serbia</item>
+        <item>South Sudan</item>
+        <item>Sao Tome and Principe</item>
+        <item>Suriname</item>
+        <item>Slovakia</item>
+        <item>Slovenia</item>
+        <item>Sweden</item>
+        <item>Eswatini</item>
+        <item>Sint Maarten (Dutch part)</item>
+        <item>Seychelles</item>
+        <item>Syrian Arab Republic</item>
+        <item>Turks and Caicos Islands</item>
+        <item>Chad</item>
+        <item>Togo</item>
+        <item>Thailand</item>
+        <item>Tajikistan</item>
+        <item>Tokelau</item>
+        <item>Turkmenistan</item>
+        <item>Timor-Leste</item>
+        <item>Tonga</item>
+        <item>Trinidad and Tobago</item>
+        <item>Tunisia</item>
+        <item>Turkiye</item>
+        <item>Tuvalu</item>
+        <item>Taiwan, Province of China</item>
+        <item>Tanzania, United Republic of</item>
+        <item>Uganda</item>
+        <item>Ukraine</item>
+        <item>United States Minor Outlying Islands</item>
+        <item>Uruguay</item>
+        <item>United States</item>
+        <item>Uzbekistan</item>
+        <item>Holy See (Vatican City State)</item>
+        <item>Saint Vincent and the Grenadines</item>
+        <item>Venezuela, Bolivarian Republic of</item>
+        <item>Virgin Islands, British</item>
+        <item>Virgin Islands, U.S.</item>
+        <item>Viet Nam</item>
+        <item>Vanuatu</item>
+        <item>Wallis and Futuna</item>
+        <item>Samoa</item>
+        <item>Yemen</item>
+        <item>South Africa</item>
+        <item>Zambia</item>
+        <item>Zimbabwe</item>
+    </string-array>
+
+    <string name="fill_in_all_fields">Sicela ugcwalise zonke izinkambu ezidingekayo</string>
+
+    <string name="could_not_save_online_site">Ayikwazanga ukugcina isiza online</string>
+    <string name="online_site_save">Isayithi lizosindiswa kuwebhusayithi yeMinisass ngokuzayo lapho usebenzisa uhlelo lokusebenza, uma uxhumeke kwi-Intanethi.</string>
+
+    <string name="could_not_update_online_site">Ayikwazanga ukuvuselela isiza online</string>
+    <string name="online_site_update">Isayithi lizovuselelwa kuwebhusayithi yeMinisass ngokuzayo lapho usebenzisa uhlelo lokusebenza, uma uxhumeke kwi-Intanethi.</string>
+
+    <string name="upload_images">Layisha izithombe</string>
+    <string name="do_you_want_to_upload_images_start">Ngabe ufuna ukulayisha izithombe zokuhlola?Kunjalo</string>
+    <string name="do_you_want_to_upload_images_end">MB ngosayizi.</string>
+
+    <string name="yes">Yebo</string>
+    <string name="no">No</string>
+    <string name="ok">Ok</string>
+
+    <string name="could_not_save_online_assessment">Ayikwazanga ukugcina ukuhlola online</string>
+    <string name="online_assessment_save">Ukuhlola kuzogcinwa ku-inthanethi ngokuzayo lapho usebenzisa uhlelo lokusebenza, uma uxhumeke kwi-Intanethi.</string>
+
+    <string name="registration_in_progress">Ukubhalisa kuyaqhubeka</string>
+    <string name="registration_message">Ukuze uqede ukubhaliswa, sicela uchofoze kusixhumanisi sokwenza kusebenze okuthunyelwe ku-imeyili oyibhalisile.Uma ubhalise ngempumelelo ngempumelelo ungabuyela kuhlelo lokusebenza ukuze ungene ngemvume.</string>
+    <string name="registration_failed">Ukubhalisa kwehlulekile</string>
+
+    <string name="delete_site">Susa isayithi</string>
+    <string name="site_detail">Imininingwane yesayithi</string>
+    <string name="site_details">Imininingwane yesayithi</string>
+    <string name="description">Ukufanisa</string>
+    <string name="description_label">Incazelo:</string>
+    <string name="location">Indawo lapho kubekwe khona</string>
+    <string name="location_label">Indawo:</string>
+    <string name="assessments">Ukuhlola</string>
+    <string name="add_assessment">Faka Ukuhlola</string>
+    <string name="site_detail_instruction">Ungeze ngempumelelo isiza sakho futhi usukulungele ukuqala isampula!Isampula izindawo zokuhlala eziningi ngangokunokwenzeka (idwala, uSandy, kanye ne-gravel, isihlabathi, nodaka (GSM (GSM) kulandela imihlahlandlela) bese uhlela isithombe se-aquatic macroinvertertebrebrebrebrates otholwe kumathileyi ngamunye.Uma usukulungele, chofoza inkinobho ethi \'Faka Ukuhlola\' ukuze uqale ukuthatha izithombe zodwa okuhlukile futhi uzikhomba.</string>
+    <string name="are_you_sure_delete_site">Uqinisekile ukuthi ufuna ukususa leli sayithi?</string>
+    <string name="could_not_delete_site">Ayikwazanga ukususa isiza</string>
+    <string name="connect_device_to_internet_try_again">Sicela uxhume idivaysi yakho kwi-Intanethi bese uzama futhi</string>
+
+    <string name="something_went_wrong_try_again">Kukhona into engahambanga kahle.Sicela uzame futhi.</string>
+
+    <string name="reset_password_title">Setha kabusha iphasiwedi</string>
+
+    <string name="user_score">Isikolo somsebenzisi</string>
+    <string name="ml_score">I-ML Score</string>
+    <string name="user_condition">Isimo somsebenzisi</string>
+    <string name="ml_condition">Isimo se-ML</string>
+    <string name="collector_name">Igama le-Collector</string>
+    <string name="organisation">Inhlangano</string>
+    <string name="observation_date">Usuku lokubonana</string>
+    <string name="water_temperature">Ukushisa kwamanzi</string>
+    <string name="dissoved_oxygen">I-oksijini encibilikile</string>
+    <string name="electrical_conductivity">Ukuqina kukagesi</string>
+    <string name="water_clarity">Ukucaciswa Amanzi</string>
+    <string name="show_note">Khombisa inothi</string>
+
+    <string name="natural">-Yimvelo</string>
+    <string name="good">Kuhle ngokuncomekayo</string>
+    <string name="fair">-Hle</string>
+    <string name="poor">-Ntulayo</string>
+    <string name="very_poor">Mpofu kakhulu "</string>
+
+    <string name="item_format">- %s: </string>
+    <string name="shell">Igobolondo</string>
+    <string name="shell_description">Icala elilukhuni, eliqinile lokuvikela i-mollusc</string>
+    <string name="shelter">Ingosi</string>
+    <string name="shelter_description">Isakhiwo sangaphandle / izindlu ezenziwe ngamahlumela noma izinhlayiya zesihlabathi</string>
+    <string name="clearly_defined_legs">Imilenze echazwe ngokucacile</string>
+    <string name="clearly_defined_legs_description">Umlenze ochazwe kahle lapho kuvela khona i-invertebrate</string>
+    <string name="segmented_body">Umzimba ohlukaniswe</string>
+    <string name="segmented_body_description">Umzimba ophambukayo ezingxenyeni ezilinganayo nezilinganayo</string>
+    <string name="long_thin_body">Umzimba omude omncane</string>
+    <string name="long_thin_body_description">Isidumbu esiphakeme lapho kufakwe khona imilenze</string>
+    <string name="appendages">Ukuthakazelwa</string>
+    <string name="appendages_description">Ingxenye ehlukile ye-invertebrate ngokubukeka okuhlukile</string>
+    <string name="three_pairs_of_legs">3 ngazimbili zemilenze</string>
+    <string name="three_pairs_of_legs_description">Imilenze emithathu ohlangothini ngalunye lomzimba</string>
+    <string name="four_or_more_pairs_of_legs">4 noma ngaphezulu ngazimbili zemilenze</string>
+    <string name="four_or_more_pairs_of_legs_description">Imilenze emine ohlangothini ngalunye lomzimba</string>
+    <string name="elongated_tail">Umsila ophakeme</string>
+    <string name="elongated_tail_description">I-appendage evulekile eqinile enamathiselwe ekugcineni komzimba / isisu</string>
+    <string name="tufted_tail">Umsila othize</string>
+    <string name="tufted_tail_description">Umsila onamava amaningi amancane anamathiselwe ephuzwini lendawo elifana ne-tuft encane</string>
+    <string name="short_tail">Umsila omfishane</string>
+    <string name="short_tail_description">I-appendage emfushane yesiginali enamathiselwe ekugcineni komzimba / isisu</string>
+    <string name="plate_like_gills">Ipuleti like gill</string>
+    <string name="plate_like_gills_description">Gill ngokubukeka okufana neplate</string>
+    <string name="feather_like_gills">Izimpaphe zifana nama-gill</string>
+    <string name="feather_like_gills_description">Gill nge feather-like ukubukeka</string>
+    <string name="leaf_like_gills">Iqabunga njengezindikimba</string>
+    <string name="leaf_like_gills_description">Gill ngokubukeka kwamaqabunga</string>
+    <string name="bulging_eyes">Amehlo avulayo</string>
+    <string name="bulging_eyes_description">Amehlo amakhulu aphumayo akha ingxenye yohlaka lwekhanda</string>
+    <string name="stocky_body">Umzimba we-stocky</string>
+    <string name="stocky_body_description">Umzimba omfishane lapho imilenze inamathiselwe khona</string>
+    <string name="antennae">Isilwanena</string>
+    <string name="antennae_description">Umbhangqwana wama-appendages amafushane we-sensory / amade anamathiselwe ekhanda</string>
+    <string name="suckers_at_both_ends">Ama-Suckers kuzo zombili iziphetho</string>
+    <string name="suckers_at_both_ends_description">Ukuba nokuncenga izingxenye emikhawulweni yomibili yezinto eziphilayo ezinamathisela ebusweni</string>
+    <string name="wing_buds">Ama-wing buds</string>
+    <string name="wing_buds_description">Izakhiwo ezincane ezithambile emzimbeni ophezulu ozokhula zibe ngamaphiko</string>
+    <string name="flattened_body">Umzimba othambile</string>
+    <string name="flattened_body_description">Umzimba oyisicaba nowamancanyana</string>
+    <string name="short_stubby_legs">Imilenze emifushane ye-stubby</string>
+    <string name="short_stubby_legs_description">Izakhiwo ezifishane ze-Stubby Leg-efana nekhanda ezinhlangothini zombili zomzimba</string>
+    <string name="rounded_body">Umzimba oyindilinga</string>
+    <string name="rounded_body_description">Umzimba oyindilinga futhi unonhlaka obushelelezi</string>
+
+    <string-array name="upload_preference_values">
+        <item>wifi</item>
+        <item>mobile</item>
+        <item>both</item>
+    </string-array>
+
+    <string-array name="upload_preference_display_names">
+        <item>Wi-fi kuphela</item>
+        <item>Idatha yeselula kuphela</item>
+        <item>I-Wi-Fi nedatha yeselula</item>
+    </string-array>
+
+    <string name="select_language">Khetha ulimi</string>
+    <string name="language_english">IsiNgisi</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_french">IsiFulentshi</string>
+    <string name="language_portuguese">Isiphepheli</string>
+    <string name="language_afrikaans">IsiBhulu</string>
+
+
+    <string name="settings">Amasethingi</string>
+    <string name="language_settings">Ulimi</string>
+
+
+    <string name="create_assessment">Dala ukuhlolwa</string>
+    <string name="add_measurements">Faka izilinganiso</string>
+    <string name="capture">Phanga</string>
+    <string name="date">Isundu</string>
+    <string name="notes">Amanothi</string>
+    <string name="hide">Hide</string>
+    <string name="crop">Isivuno</string>
+    <string name="use_key">Sebenzisa Ukhiye</string>
+    <string name="add">Enezelela</string>
+    <string name="save_assessment">Gcina Ukuhlola</string>
+    <string name="calculate_score_and_add_assessment">Ukubala izikolo kanye nokungezwa kokuhlola.</string>
+    <string name="create_assessment_instruction">Sicela uthathe isithombe sohlobo olulodwa lohlobo oluhlukile olutholile.Qhubeka uthathe izithombe uze ube neyodwa evela kwelinye lamaqembu owatholile.Chofoza u-Capture ukuze uqale ukungeza izithombe zezinhlobo.</string>
+
+
+    <string name="activity_key_start">Sicela ukhethe izihlungi ukuze uqale</string>
+    <string name="activity_key_more_filters">Sicela ukhethe izihlungi ezengeziwe</string>
+
+
+    <string name="what_are_aquatic">Yini ama-aquatic macroinvertertbrents futhi kanjani ama-minisass awasebenzisa kanjani ukuthola imali?</string>
+    <string name="why_is_water_quality">Kungani ikhwalithi yamanzi nokusakazwa kwezempilo kubalulekile?</string>
+    <string name="history_of_minisass">Umlando weMinisass</string>
+    <string name="river_safety">Ukuphepha Komfula</string>
+    <string name="citizen_science_minisass">Isayensi yesakhamuzi kanye ne-minisass</string>
+    <string name="dichotomous_key_filter">Dichotomous key filter descriptions</string>
+    <string name="glossary">Pakanya</string>
+    <string name="aquatic_macroinvertebrates_definition">
+        I-Aquatic MacroInvertebrates yizilwane ezincane ezihlala ezinhlelweni zamanzi futhi azinawo
+        amathambo angaphakathi.Ziyabonakala esweni elinqunu, yingakho igama elithi \'Macro\' lisho
+        \'enkulu\'. \n\nIzinhlobo ezahlukene zama-macroinverterrates anezinhlamvu ezihlukile
+        zokubekezelela noma ukuzwela kokuphazamiseka endaweni yazo.Lokhu kusho ukuthi umuntu
+        angabheka umphakathi we Ama-MacroInvertertbrates akhona emfuleni noma emfuleni futhi
+        athambe okuthile ngekhwalithi yamanzi nempilo yohlelo. \n\nNgokuyisisekelo ezinhlelweni
+        eziphazamisekile, ngokwesibonelo lapho kunokungcola noma izinhlobo eziningi ezihlaselayo
+        ezihlaselayo, izinhlobo ezibucayi kakhulu futhi ezibekezelayo kungalindeleka ukuba
+        zinyamalale, Ngenkathi izinhlobo ezibekezelayo nezinkulu nangaphezulu zizohlala zikhona
+        noma zikhule ngamanani. \n\nIMinisass ibeka zonke izinhlobo zasemanzini Macroinvertertebrate
+        zibe yizinhlobo eziyi-13 kulula ukubona amaqembu, futhi inika lezo zikolo zamaqembu
+        ngokusekelwe kokujwayelekile, ukubekezelela okuphakathi nendawo futhi amazinga wokuzwela
+        wezinhlobo kulawo maqembu.Izikolo eziphansi zabelwa emaqenjini ajwayele ukwakhiwa
+        kwezinhlobo ezibekezelela kakhulu (ezingasinda ekungcoleni nasekuphazamiseka), ngenkathi
+        Izikolo eziphakeme zinikezwa amaqembu ajwayele ukwakhiwa kwezinhlobo ezibucayi kakhulu
+        (ezingakwazi ukuhlala futhi ziphile uma kunokungcola noma ukuphazamiseka). \n\n
+        Kuhlelo lokusebenza lwe-Minisass, uthwebula izithombe ze-Aquatic MacroInverterTebrates
+        uhleliwe.Unikeza ukukhonjwa kulezi zithombe.Ngasikhathi sinye, ukufunda umshini. Uhlelo
+        lokusebenza bese lukhiqiza amaphuzu omsebenzisi, kanye ne-ML Score.Lokhu kungaqhathaniswa
+        njengesiqondisi kumsebenzisi uma ekhomba kahle noma mhlawumbe kudingeka ukuthi avakashele
+        amahlosi awo. \n\nUcwaningo lweMinisass lusampula umfudlana noma umfula ngalezi zakhi
+        zasemanzini zasemanzini, futhi ukhiqize amaphuzu ngokususelwa ekuzwela okuphakathi
+        nokubekezelela umphakathi okhona. Isikolo bese sihlobene nesigaba semvelo, esibonisa
+        ukusakazwa noma umfula impilo nekhwalithi yamanzi. \n\n
+    </string>
+    <string name="freshwater_is_essential">
+        Amanzi amasha aqakathekileko ezilwaneni eziphilayo nakubantu.Ixhasa
+        I-EcoSystems kanye nazo zonke izimpahla nezinsizakalo abazinikezayo, futhi isekela umuntu
+        Ezolimo, imboni, ukuthuthwa kwendle kanye ne-hydration.Ukuphatha I-Precious yethu futhi Imvamisa
+        Izinhlelo zamanzi ezihlanzekile ezilambile zidinga ukuqapha impilo nekhwalithi yethu
+        imifudlana nemifula.Ngokuyisisekelo, ukuphathwa okufanele nokungenelela kwe
+        Imvelo ye-FreshWater yemvelo ingakhiwa kuphela futhi yenziwe ngentengo uma kukhona okuhle
+        Ukuqapha idatha ukukhombisa lapho kunezinkinga, noma lapho kusebenza khona isixazululo!
+    </string>
+    <string name="minisass_is_based_on">
+        I-Minisass isuselwa kwinqubo ejulile ye-biolomonitoring, eningizimu
+        Uhlelo lwe-African Scoring (SASS).Uhlelo lwe-sass lukhuni imifudlana futhi
+        Imifula, ikhomba wonke ama-macroinvertertebrates asemanzini akhona ezingeni lomndeni
+        (ngaphezulu kwamaqembu ahlukene angama-90).UDkt P. Mark Graham noDkt Chris W.S.Amashibhodi
+        kucwengeze amaqembu phansi ku-minisass 13, okulula kakhulu
+        ukukhonjwa kepha kusanikeza isithombe esihle sekhwalithi yamanzi nokusakaza noma
+        Impilo yomfula, ofana nemininingwane ye-SASS Survey.I-minisass yasekuqaleni
+        wayesekelwe ku-SASS version 4, kepha uvuselelwe ukuvumelanisa nokuningi
+        yakamuva yakwa-SAS5.
+    </string>
+    <string name="always_remember_safety_first">
+        Khumbula njalo, ukuphepha kuqala!Lapho ucabanga ngokwenza inhlolovo ye-minisass, sicela uhlole okwakho
+        Eduze futhi uqiniseke ukuthi umfudlana noma umfula nendawo ephephile.Ungangeni emifudlaneni
+        noma imifula ejulile noma enemikhuba enamandla, egeleza ngokushesha, noma ikhona okuyingozi
+        izilwane kuzo noma eduzane.\n\n Zivikele nge-sunscreen kanye nezingubo ezifanele (ama-gumboots nezigqoko), futhi ukhumbule
+        ukugeza izandla zakho nge-sanitizer noma insipho njalo.Qikelela ikakhulukazi ukungcoliswa
+        Imifula nemifudlana, ethatha izinyathelo zokuphepha ezengeziwe ukuze uzigcine uphephile futhi uphilile.
+        IMinisass imnandi ngokwengeziwe futhi iphephe nabanye!\n\n
+    </string>
+    <string name="aquatic_macroinvertebrates_small_but_visible">
+        - I-Aquatic MacroInverterBrertbrates: Encane, kepha iyabonakala esweni elinqunu, izilwane
+        ezingenayo Amathambo angaphakathi futhi ahlala ezinhlelweni zamanzi.
+    </string>
+    <string name="biomonitoring_broadly_refers_to_using_organisms">
+        - I-BionikeniCitoring: Lokhu kubhekise kakhulu ekusebenziseni izidalwa (e.g., Algae,
+        Macroinververterterbrebrates, Izinhlanzi, izinyoni, noma izilwane ezincelisayo) ezihlala
+        endaweni yokuhlola amanani noma okufanele imininingwane mayelana naleya ndawo.
+    </string>
+    <string name="biodiversity_all_different_kinds">- Izinto eziphilayo: zonke izinhlobo ezahlukene zokuphila endaweni.Ngokuyisisekelo, igama elibhekise kulo
+Zonke izitshalo, izilwane, isikhunta, noma noma iyiphi impilo emvelweni.</string>
+    <string name="citizen_science_the_general_public">- Isayensi yesakhamuzi: Umphakathi jikelele obandakanyeka ocwaningweni lwesayensi, nganoma iyiphi indlela
+Ukusuka ekwakhiweni kocwaningo, ngokuqoqwa kwedatha nokuhlaziywa, ukubika okutholakele.</string>
+    <string name="conservation_protecting_and_restoring_natural_systems">- Ukulondolozwa: Ukuvikela nokubuyisa izinhlelo zemvelo, ukuvimbela ukugcwala,
+nokugcina ukwehluka kwemvelo kanye nempilo kanye nomsebenzi wezemvelo.</string>
+    <string name="ecosystem_community_of_interacting_living_organisms">- I-Ecosystem: Umphakathi wokuxhumana kwezinto eziphilayo kanye nemvelo ebonakalayo
+bahlala kuzo.Ukuchazwa kohlelo lonke, kufaka phakathi konke okuhlukahlukene kwezinto eziphilayo
+nezici zendawo yokukhubazeka.</string>
+    <string name="machine_learning_computer_systems">- Umshini-Learning (ML): Izinhlelo zekhompyutha ezikwazi ukufunda nokuvumelanisa
+ngaphandle kokulandela imiyalo ecacile.Ikhompyutha ifunda ngokusebenzisa ama-algorithms
+kanye namamodeli wezibalo ukuze ahlaziye futhi adwebe izingcaphuno ezivela kumaphethini kudatha.
+Kwi-minisass i-Deep-Neural-Network izitimela ezithombeni ezihlonziwe kahle ze
+I-Aquatic MacroInverterBrertbrates futhi ufunde ukubaveza ngokuya ngamaqembu ayi-13 ama-minisass.</string>
+    <string name="we_can_all_play_a_part_in_monitoring_freshwater_resources">
+        Sonke singadlala indima ekubhekeni izinsiza ezifuywayo ezihlanzekile, sisiza ukuqoqa idatha
+        edingekayo ukubaphatha.Ngokubamba iqhaza kwisayensi yeCitizen, noma ngubani angaba
+        ebalulekile Umhlinzeki wokucwaninga nokulondolozwa!\n\n ukuqhuba inhlolovo ye-minisass
+        kusisiza Funda ngezinhlelo zamanzi ahlanzekile kanye nokubaluleka kokuhlukahlukana
+        kwezinto eziphilayo kanye namanzi amnandi aphilile I-EcoSystems, bese usifaka nemvelo
+        nemiphakathi yethu.Kuyithuluzi elivumela I-US thatha isenzo ukusiza ukuqapha nokugcina
+        izinhlelo zethu zamanzi amnandi.\n\nImiphumela yocwaningo lwe-minisass inikeza inkomba
+        enhle yekhwalithi yamanzi nempilo womfula noma umfula, osebenza ukugcwala ukungcoliswa
+        okungenzeka, noma uphumelele futhi usebenze izinhlelo.Ukuqashwa okuqhubekayo komfula noma
+        umfula ofanayo kunganikeza ukuqonda okumangalisayo ushintsho ngokuhamba kwesikhathi. \n\nUma
+        usuthole amaphuzu akho amaminithi, ungalandela futhi Iziphathimandla zasekhaya ezifanele
+        zokuzithola zilandele ezinkingeni ezisolwayo zisebenzisa eyakho idatha njengesikhombi! \n\n
+    </string>
+    <string name="training_and_educational_video">Amavidiyo wokuqeqesha kanye nemfundo</string>
+    <string name="online_videos">Amavidiyo aku-inthanethi</string>
+    <string name="introduction_to_minisass">Isingeniso kuMinisass</string>
+    <string name="minisass_in_summary">IMinisass efingqiwe</string>
+    <string name="offline_videos">Amavidiyo angaxhunyiwe ku-inthanethi</string>
+    <string name="safety_concerns_for_minisass">Ukuphepha kokuphepha kwe-minisass</string>
+    <string name="what_is_in_your_minisass_kit">Yini ekhishini lakho le-minisass</string>
+    <string name="what_do_you_need_to_put_together_a_minisass_kit_at_home">Yini okudingeka uyihlanganise ikhithi ye-minisass ekhaya</string>
+    <string name="choosing_your_site_for_minisass">Ukukhetha isayithi lakho le-minisass</string>
+    <string name="how_to_take_a_sample">Ungayithatha kanjani isampula</string>
+    <string name="cleaning_your_sample">Ukuhlanza isampula yakho</string>
+    <string name="using_the_dichotomous_key">Usebenzisa ukhiye weDichotomous</string>
+    <string name="how_to_calculate_your_score">Indlela yokubala isikolo sakho</string>
+    <string name="uploading_your_minisass_score">Ukulayisha Isikolo Sakho se-Minisass</string>
+    <string name="using_minisass_for_monitoring">Usebenzisa i-minisass yokuqapha</string>
+    <string name="video_title">Isihloko sevidiyo</string>
+    <string name="site_name">Igama Lendawo</string>
+    <string name="river_name">Igama lomfula</string>
+    <string name="registration">Ukurejistwa</string>
+    <string name="i_have_read_and_agree_to">Ngifundile futhi ngiyavuma</string>
+    <string name="register">Regista</string>
+    <string name="updating_site">Ukuvuselela Isayithi</string>
+    <string name="required">* Kuyadingeka</string>
+    <string name="take_site_photo">Thatha isithombe sesayithi</string>
+    <string name="add_site">Engeza isiza</string>
+    <string name="minisass_score">Isikolo seMinisass</string>
+    <string name="minisass_ml_score">IMinisass ML Score</string>
+    <string name="collector_s_name">Igama le-Collector</string>
+    <string name="water_temp">Amanzi</string>
+    <string name="dissolved_oxygen">I-oksijini encibilikile</string>
+    <string name="this_is_a_note">Lokhu kungukuthi</string>
+    <string name="show_assessment_photos">Khombisa izithombe zokuhlola</string>
+    <string name="invert_type">Uhlobo lwe-Inverter</string>
+    <string name="english">IsiNgisi</string>
+    <string name="update_site">Ukuvuselela isiza</string>
+    <string name="no_sites_added_yet_click_on_the_button_t">Awekho amasayithi angeziwe okwamanje.Chofoza inkinobho + ukuze ungeze isayithi elisha.</string>
+    <string name="fetching_online_sites">Ukulanda amasayithi aku-inthanethi</string>
+    <string name="retry">MuntuLALA</string>
+    <string name="reset_password">Setha kabusha iphasiwedi</string>
+    <string name="a_password_reset_link_has_been_sent_to_t">Isixhumanisi sokusetha kabusha iphasiwedi sithunyelwe ekhelini le-imeyili elinikeziwe</string>
+    <string name="reset">Setha kabusha</string>
+    <string name="filter_name">Igama lokuhlunga</string>
+    <string name="country">Izwe</string>
+    <string name="loading_site">Kulayishwa isayithi</string>
+    <string name="save">Hlenga</string>
+    <string name="focus_mode">Imodi yokugxila</string>
+    <string name="user_choice_">Ukukhetha komsebenzisi:</string>
+    <string name="ml_prediction_">Ukubikezela kwe-ML:</string>
+    <string name="ml_prediction">Ukubikezela kwe-ML</string>
+    <string name="this_is_textline">Lokhu kungumbhalo</string>
+    <string name="your_username_or_password_is_incorrect">Igama lakho lomsebenzisi noma iphasiwedi ayilungile</string>
+    <string name="create_account">Yenza i-akhawunti</string>
+    <string name="forgot_password">Ukhohlwe iphasiwedi</string>
+    <string name="login">Ngena ngemvume</string>
+    <string name="contact_name">igama longaxhumana naye</string>
+    <string name="unknown">-Ngaqondakali</string>
+    <string name="name">Ibizo</string>
+    <string name="username">Igama lomsebenzisi</string>
+    <string name="password">Igama lokuvunyelwa ukungena endaweni ethile</string>
+    <string name="surname">Isibongo</string>
+    <string name="email_address">Ikheli le-imeyili</string>
+    <string name="organisation_type">Uhlobo lwenhlangano</string>
+    <string name="organisation_name">Igama Lenhlangano</string>
+    <string name="select_certificate">Khetha isitifiketi</string>
+    <string name="site_location">Indawo Yendawo</string>
+    <string name="river_type">Uhlobo lomfula</string>
+    <string name="unit">Umuvo</string>
+    <string name="email">Ivangeli</string>
+    <string name="upload_preference">Faka okuthandayo</string>
+</resources>

@@ -3,6 +3,7 @@ package com.rk.amii.shared;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import com.rk.amii.R;
 import com.rk.amii.database.DBHandler;
 import com.rk.amii.models.UserModel;
 
@@ -17,31 +18,31 @@ public class Utils {
      * @param score score
      * @return the condition of the river
      */
-    public static String calculateCondition(float score, String riverType) {
+    public static String calculateCondition(Context context, float score, String riverType) {
         String condition = "";
         if (riverType.equals("Sandy")) {
             if(score > 6.9) {
-                condition = "Natural";
+                condition = context.getString(R.string.natural);
             } else if (score >= 5.9 && score <= 6.8) {
-                condition = "Good";
+                condition = context.getString(R.string.good);
             } else if (score >= 5.4 && score <= 5.8) {
-                condition = "Fair";
+                condition = context.getString(R.string.fair);
             } else if (score >= 4.8 && score <= 5.3) {
-                condition = "Poor";
+                condition = context.getString(R.string.poor);
             } else if (score < 4.8) {
-                condition = "Very Poor";
+                condition = context.getString(R.string.very_poor);
             }
         } else {
             if(score > 7.2) {
-                condition = "Natural";
+                condition = context.getString(R.string.natural);
             } else if (score >= 6.2 && score <= 7.2) {
-                condition = "Good";
+                condition = context.getString(R.string.good);
             } else if (score >= 5.7 && score <= 6.1) {
-                condition = "Fair";
+                condition = context.getString(R.string.fair);
             } else if (score >= 5.3 && score <= 5.6) {
-                condition = "Poor";
+                condition = context.getString(R.string.poor);
             } else if (score < 5.3) {
-                condition = "Very Poor";
+                condition = context.getString(R.string.very_poor);
             }
         }
         return condition;

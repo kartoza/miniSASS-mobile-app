@@ -30,7 +30,7 @@
             android:id="@+id/invertType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Invert Type"
+            android:text="@string/invert_type"
             android:textColor="@color/black"
             android:textSize="14dp" />
 

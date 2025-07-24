@@ -35,6 +35,9 @@
             android:name=".activities.ImageViewDescriptionActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.LanguageSelectionActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.KeyActivity"
             android:exported="false" />
         <activity

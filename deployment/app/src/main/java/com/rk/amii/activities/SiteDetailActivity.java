@@ -62,7 +62,7 @@ public class SiteDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         dbHandler = new DBHandler(getApplicationContext());
         setContentView(R.layout.activity_site_detail);
-        setTitle("Site Detail");
+        setTitle(R.string.site_detail);
 
         isOnline = Utils.isNetworkAvailable(this);
 

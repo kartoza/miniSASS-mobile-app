@@ -60,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:textColor="@color/red"
-                android:text="Your username or password is incorrect "
+                android:text="@string/your_username_or_password_is_incorrect"
                 android:visibility="gone"
                 />
 
@@ -75,7 +75,7 @@
                 android:id="@+id/registerBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create Account"
+                android:text="@string/create_account"
                 android:layout_gravity="center"/>
 
             <TextView
@@ -88,7 +88,7 @@
                 android:id="@+id/resetPasswordBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Forgot Password"
+                android:text="@string/forgot_password"
                 android:layout_gravity="center"/>
         </LinearLayout>
 
@@ -97,7 +97,7 @@
                 android:id="@+id/loginButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Login"
+                android:text="@string/login"
                 android:layout_gravity="center"/>
         </LinearLayout>
 

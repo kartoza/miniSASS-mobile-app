@@ -3,6 +3,7 @@ package com.rk.amii;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.content.SharedPreferences;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -24,6 +25,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.mapbox.mapboxsdk.Mapbox;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.rk.amii.activities.AuthenticationActivity;
+import com.rk.amii.shared.LanguageHelper;
 import com.rk.amii.database.DBHandler;
 import com.rk.amii.databinding.ActivityMainBinding;
 import com.rk.amii.models.SitesModel;
@@ -41,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Apply saved language before calling super.onCreate()
+        applySavedLanguage();
         super.onCreate(savedInstanceState);
         Mapbox.getInstance(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -54,11 +58,24 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        Boolean isAgreedToPrivacyPolicy = (Boolean) getIntent().getExtras().get("is_agreed_to_privacy_policy");
+        // Add null check for extras
+        Bundle extras = getIntent().getExtras();
+        Boolean isAgreedToPrivacyPolicy = true; // Default value
+        if (extras != null) {
+            isAgreedToPrivacyPolicy = (Boolean) extras.get("is_agreed_to_privacy_policy");
+        }
+
         if (isAgreedToPrivacyPolicy == false) {
             showConsentDialog();
         }
     }
+
+    private void applySavedLanguage() {
+        SharedPreferences prefs = getSharedPreferences("app_settings", MODE_PRIVATE);
+        String savedLanguage = prefs.getString("language", "en");
+        LanguageHelper.setLocale(this, savedLanguage);
+    }
+
 
     @Override
     public void onResume() {
@@ -67,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         if(getFragmentRefreshListener()!= null){
             getFragmentRefreshListener().onRefresh();
         }
+        applySavedLanguage();
     }
 
     public FragmentRefreshListener getFragmentRefreshListener() {

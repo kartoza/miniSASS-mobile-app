@@ -102,7 +102,9 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        getActivity().setTitle("Site Detail");
+        if (getActivity() != null) {
+            getActivity().setTitle(getString(R.string.site_detail));
+        }
 
         if (ActivityCompat.checkSelfPermission(DashboardFragment.this.getActivity(), ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
             requestPermission();
@@ -171,8 +173,8 @@ public class DashboardFragment extends Fragment {
                 startActivity(i);
             } else {
                 MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(DashboardFragment.this.getActivity());
-                builder.setTitle("Getting Location");
-                builder.setMessage("Trying to get your location please wait.");
+                builder.setTitle(getString(R.string.getting_location));
+                builder.setMessage(getString(R.string.trying_to_get_location));
                 locationDialog = builder.show();
                 getLocationAndContinue = true;
             }

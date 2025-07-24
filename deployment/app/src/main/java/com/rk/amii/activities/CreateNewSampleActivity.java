@@ -50,6 +50,7 @@ import com.rk.amii.models.SitesModel;
 import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
+import com.rk.amii.utils.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -123,7 +124,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
 
         isOnline = Utils.isNetworkAvailable(this);
 
-        setTitle("Create Assessment");
+        setTitle(getString(R.string.create_assessment));
 
         Intent intent = getIntent();
 
@@ -185,7 +186,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         dissolvedOxygenUnitTypes.add("mg/l");
         dissolvedOxygenUnitTypes.add("%DO");
         dissolvedOxygenUnitTypes.add("PPM");
-        dissolvedOxygenUnitTypes.add("Unknown");
+        dissolvedOxygenUnitTypes.add(getString(R.string.unknown));
 
         ArrayAdapter<String> dissolvedOxygenUnitAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, dissolvedOxygenUnitTypes);
         dissolvedOxygenUnit.setAdapter(dissolvedOxygenUnitAdapter);
@@ -199,7 +200,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         electricalConductivityUnitTypes.add("S/m");
         electricalConductivityUnitTypes.add("µS/cm");
         electricalConductivityUnitTypes.add("mS/m");
-        electricalConductivityUnitTypes.add("Unknown");
+        electricalConductivityUnitTypes.add(getString(R.string.unknown));
 
 
         ArrayAdapter<String> electricalConductivityUnitAdapter = new ArrayAdapter<>(this, R.layout.dropdown_item, electricalConductivityUnitTypes);
@@ -219,13 +220,13 @@ public class CreateNewSampleActivity extends AppCompatActivity {
                 //TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
                 assessmentDetailsContainer.setVisibility(View.GONE);
                 showAssessmentDetailsIconButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
-                assessmentToggleMessage.setText("Add measurements");
+                assessmentToggleMessage.setText(getString(R.string.add_measurements));
 
             } else {
                 //TransitionManager.beginDelayedTransition(cardView, new AutoTransition());
                 assessmentDetailsContainer.setVisibility(View.VISIBLE);
                 showAssessmentDetailsIconButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
-                assessmentToggleMessage.setText("Hide");
+                assessmentToggleMessage.setText(getString(R.string.hide));
             }
         });
 
@@ -275,8 +276,11 @@ public class CreateNewSampleActivity extends AppCompatActivity {
         macroinvertebrates.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (!parent.getItemAtPosition(position).equals("Select your identification")) {
-                    invertType = parent.getItemAtPosition(position).toString();
+                if (!parent.getItemAtPosition(position).equals(getString(R.string.select_your_identification))) {
+                    // decrease position by 1 since element at position 0 in parent is
+                    // "Select your identification". Constants.MACROINVERTEBRATES does not have
+                    // "Select your identification", so the index is decreased by 1.
+                    invertType = Constants.MACROINVERTEBRATES[position - 1];
                     addSampleItem.setEnabled(true);
                 }
             }

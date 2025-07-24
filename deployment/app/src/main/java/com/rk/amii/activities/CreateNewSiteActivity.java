@@ -31,6 +31,7 @@ import com.rk.amii.R;
 import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
+import com.rk.amii.utils.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -120,7 +121,18 @@ public class CreateNewSiteActivity extends AppCompatActivity {
             String riverNameValue = riverName.getText().toString();
             String descriptionValue = description.getText().toString();
             String dateValue = date.getText().toString();
-            String riverTypeValue = riverType.getText().toString();
+            String selectedRiverType = riverType.getText().toString();
+            String riverTypeValue = "";
+
+            String[] riverTypes = getResources().getStringArray(R.array.riverTypes);
+            if (!selectedRiverType.isEmpty()) {
+                for (int i = 0; i < riverTypes.length; i++) {
+                    if (riverTypes[i].equals(selectedRiverType)) {
+                        riverTypeValue = Constants.RIVER_TYPES[i];
+                        break;
+                    }
+                }
+            }
 
             // Validate required fields
             if (TextUtils.isEmpty(siteNameValue) || TextUtils.isEmpty(siteLocationValue) ||

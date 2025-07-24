@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/raleway"
-                android:text="Updating site"
+                android:text="@string/updating_site"
                 android:textAlignment="center" />
         </LinearLayout>
     </LinearLayout>
@@ -58,13 +58,13 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="20sp"
-                android:text="Site Details"/>
+                android:text="@string/site_details"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Site name">
+                android:hint="@string/site_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idEditSiteName"
@@ -81,14 +81,14 @@
                 android:layout_marginBottom="12dp"
                 android:textColor="@color/red"
                 android:layout_marginTop="5dp"
-                android:text="* Required"
+                android:text="@string/required"
                 android:textSize="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Site location">
+                android:hint="@string/site_location">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idEditSiteLocation"
@@ -106,7 +106,7 @@
                 android:layout_marginBottom="12dp"
                 android:textColor="@color/red"
                 android:layout_marginTop="5dp"
-                android:text="* Required"
+                android:text="@string/required"
                 android:textSize="10dp"/>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -114,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp"
-                android:hint="River name">
+                android:hint="@string/river_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idEditRiverName"
@@ -128,7 +128,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="River Type">
+                android:hint="@string/river_type">
 
                 <AutoCompleteTextView
                     android:id="@+id/riverTypeSpinnerUpdate"
@@ -147,7 +147,7 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="12dp"
-                android:text="* Required"
+                android:text="@string/required"
                 android:textColor="@color/red"
                 android:textSize="10dp"/>
 
@@ -155,7 +155,7 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date">
+                android:hint="@string/date">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idEditDate"
@@ -172,7 +172,7 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginBottom="12dp"
                 android:layout_marginTop="5dp"
-                android:text="* Required"
+                android:text="@string/required"
                 android:textColor="@color/red"
                 android:textSize="10dp"
                 />
@@ -184,7 +184,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                android:hint="Description">
+                android:hint="@string/description">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/idEditDescription"
@@ -201,7 +201,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Update Site" />
+                android:text="@string/update_site" />
         </LinearLayout>
 
 

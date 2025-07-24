@@ -1,0 +1,607 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">miniSASS</string>
+    <string name="title_landing">Lar</string>
+    <string name="title_home">Mapa</string>
+    <string name="title_dashboard">Locais</string>
+    <string name="title_profile">Perfil</string>
+    <string name="title_notifications">Sobre</string>
+    <string name="privacy_policy">política de Privacidade</string>
+    <string name="logout">Logout</string>
+    <string name="what_is_minisass_heading">O que é minisass</string>
+    <string name="what_is_minisass">O Minisass é uma ferramenta simples que pode ser usada por qualquer pessoa para monitorar a saúde de um rio.
+Você coleta uma amostra de macroinvertebrados (pequenos animais) da água e, dependendo de quais grupos são encontrados, você tem uma medida da saúde geral da saúde e da água naquele rio.</string>
+    <string name="how_to_use_the_app">Como usar o aplicativo?</string>
+    <string name="how_to_use_minisass">O vídeo de Minisass App Walkthrough o levará a como usar o aplicativo.</string>
+    <string name="watch_video">Assistir ao vídeo</string>
+    <string name="select_your_identification">Selecione sua identificação</string>
+
+    <string-array name="macroinvertebrates">
+        <item>Selecione sua identificação</item>
+        <item>Bugs e besouros</item>
+        <item>Caddisflies</item>
+        <item>Damselflies</item>
+        <item>Libélulas</item>
+        <item>Vermes planos</item>
+        <item>Caranguejos e camarões</item>
+        <item>Sanguessugas</item>
+        <item>Mayflies Minnow</item>
+        <item>Outros Mayflies</item>
+        <item>Caracolos/amêijoas/mexilhões</item>
+        <item>Países de pedra</item>
+        <item>Trueflies</item>
+        <item>Vermes</item>
+    </string-array>
+
+<!--    <string-array name="macroinvertebrates">-->
+<!--        <item>Select your identification</item>-->
+<!--        <item>Bugs &amp; Beetles</item>-->
+<!--        <item>Caddisflies</item>-->
+<!--        <item>Damselflies</item>-->
+<!--        <item>Dragonflies</item>-->
+<!--        <item>Flat worms</item>-->
+<!--        <item>Crabs &amp; Shrimps</item>-->
+<!--        <item>Leeches</item>-->
+<!--        <item>Minnow Mayflies</item>-->
+<!--        <item>Other Mayflies</item>-->
+<!--        <item>Snails/Clams/Mussels</item>-->
+<!--        <item>Stoneflies</item>-->
+<!--        <item>Trueflies</item>-->
+<!--        <item>Worms</item>-->
+<!--    </string-array>-->
+
+    <!--  order: sandy, rocky  -->
+    <string-array name="riverTypes">
+        <item>Arenoso</item>
+        <item>Rochoso</item>
+    </string-array>
+
+    <string-array name="organisationTypes">
+        <item>Escola</item>
+        <item>NGO</item>
+        <item>Conservancy</item>
+        <item>Indivíduo privado</item>
+        <item>Departamento do Governo</item>
+        <item>Consultoria</item>
+        <item>Universidade</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="countries_display_names">
+        <item>Aruba</item>
+        <item>Afghanistan</item>
+        <item>Angola</item>
+        <item>Anguilla</item>
+        <item>Aland Islands</item>
+        <item>Albania</item>
+        <item>Andorra</item>
+        <item>United Arab Emirates</item>
+        <item>Argentina</item>
+        <item>Armenia</item>
+        <item>American Samoa</item>
+        <item>Antarctica</item>
+        <item>French Southern Territories</item>
+        <item>Antigua and Barbuda</item>
+        <item>Australia</item>
+        <item>Austria</item>
+        <item>Azerbaijan</item>
+        <item>Burundi</item>
+        <item>Belgium</item>
+        <item>Benin</item>
+        <item>Bonaire, Sint Eustatius and Saba</item>
+        <item>Burkina Faso</item>
+        <item>Bangladesh</item>
+        <item>Bulgaria</item>
+        <item>Bahrain</item>
+        <item>Bahamas</item>
+        <item>Bosnia and Herzegovina</item>
+        <item>Saint Barthelemy</item>
+        <item>Belarus</item>
+        <item>Belize</item>
+        <item>Bermuda</item>
+        <item>Bolivia, Plurinational State of</item>
+        <item>Brazil</item>
+        <item>Barbados</item>
+        <item>Brunei Darussalam</item>
+        <item>Bhutan</item>
+        <item>Bouvet Island</item>
+        <item>Botswana</item>
+        <item>Central African Republic</item>
+        <item>Canada</item>
+        <item>Cocos (Keeling) Islands</item>
+        <item>Switzerland</item>
+        <item>Chile</item>
+        <item>China</item>
+        <item>Cote d\'Ivoire</item>
+        <item>Cameroon</item>
+        <item>Congo, The Democratic Republic of the</item>
+        <item>Congo</item>
+        <item>Cook Islands</item>
+        <item>Colombia</item>
+        <item>Comoros</item>
+        <item>Cabo Verde</item>
+        <item>Costa Rica</item>
+        <item>Cuba</item>
+        <item>Curacao</item>
+        <item>Christmas Island</item>
+        <item>Cayman Islands</item>
+        <item>Cyprus</item>
+        <item>Czechia</item>
+        <item>Germany</item>
+        <item>Djibouti</item>
+        <item>Dominica</item>
+        <item>Denmark</item>
+        <item>Dominican Republic</item>
+        <item>Algeria</item>
+        <item>Ecuador</item>
+        <item>Egypt</item>
+        <item>Eritrea</item>
+        <item>Western Sahara</item>
+        <item>Spain</item>
+        <item>Estonia</item>
+        <item>Ethiopia</item>
+        <item>Finland</item>
+        <item>Fiji</item>
+        <item>Falkland Islands (Malvinas)</item>
+        <item>France</item>
+        <item>Faroe Islands</item>
+        <item>Micronesia, Federated States of</item>
+        <item>Gabon</item>
+        <item>United Kingdom</item>
+        <item>Georgia</item>
+        <item>Guernsey</item>
+        <item>Ghana</item>
+        <item>Gibraltar</item>
+        <item>Guinea</item>
+        <item>Guadeloupe</item>
+        <item>Gambia</item>
+        <item>Guinea-Bissau</item>
+        <item>Equatorial Guinea</item>
+        <item>Greece</item>
+        <item>Grenada</item>
+        <item>Greenland</item>
+        <item>Guatemala</item>
+        <item>French Guiana</item>
+        <item>Guam</item>
+        <item>Guyana</item>
+        <item>Hong Kong</item>
+        <item>Heard Island and McDonald Islands</item>
+        <item>Honduras</item>
+        <item>Croatia</item>
+        <item>Haiti</item>
+        <item>Hungary</item>
+        <item>Indonesia</item>
+        <item>Isle of Man</item>
+        <item>India</item>
+        <item>British Indian Ocean Territory</item>
+        <item>Ireland</item>
+        <item>Iran, Islamic Republic of</item>
+        <item>Iraq</item>
+        <item>Iceland</item>
+        <item>Israel</item>
+        <item>Italy</item>
+        <item>Jamaica</item>
+        <item>Jersey</item>
+        <item>Jordan</item>
+        <item>Japan</item>
+        <item>Kazakhstan</item>
+        <item>Kenya</item>
+        <item>Kyrgyzstan</item>
+        <item>Cambodia</item>
+        <item>Kiribati</item>
+        <item>Saint Kitts and Nevis</item>
+        <item>Korea, Republic of</item>
+        <item>Kuwait</item>
+        <item>Lao People\'s Democratic Republic</item>
+        <item>Lebanon</item>
+        <item>Liberia</item>
+        <item>Libya</item>
+        <item>Saint Lucia</item>
+        <item>Liechtenstein</item>
+        <item>Sri Lanka</item>
+        <item>Lesotho</item>
+        <item>Lithuania</item>
+        <item>Luxembourg</item>
+        <item>Latvia</item>
+        <item>Macao</item>
+        <item>Saint Martin (French part)</item>
+        <item>Morocco</item>
+        <item>Monaco</item>
+        <item>Moldova, Republic of</item>
+        <item>Madagascar</item>
+        <item>Maldives</item>
+        <item>Mexico</item>
+        <item>Marshall Islands</item>
+        <item>North Macedonia</item>
+        <item>Mali</item>
+        <item>Malta</item>
+        <item>Myanmar</item>
+        <item>Montenegro</item>
+        <item>Mongolia</item>
+        <item>Northern Mariana Islands</item>
+        <item>Mozambique</item>
+        <item>Mauritania</item>
+        <item>Montserrat</item>
+        <item>Martinique</item>
+        <item>Mauritius</item>
+        <item>Malawi</item>
+        <item>Malaysia</item>
+        <item>Mayotte</item>
+        <item>Namibia</item>
+        <item>New Caledonia</item>
+        <item>Niger</item>
+        <item>Norfolk Island</item>
+        <item>Nigeria</item>
+        <item>Nicaragua</item>
+        <item>Niue</item>
+        <item>Netherlands</item>
+        <item>Norway</item>
+        <item>Nepal</item>
+        <item>Nauru</item>
+        <item>New Zealand</item>
+        <item>Oman</item>
+        <item>Pakistan</item>
+        <item>Panama</item>
+        <item>Pitcairn</item>
+        <item>Peru</item>
+        <item>Philippines</item>
+        <item>Palau</item>
+        <item>Papua New Guinea</item>
+        <item>Poland</item>
+        <item>Puerto Rico</item>
+        <item>Korea, Democratic People\'s Republic of</item>
+        <item>Portugal</item>
+        <item>Paraguay</item>
+        <item>Palestine, State of</item>
+        <item>French Polynesia</item>
+        <item>Qatar</item>
+        <item>Reunion</item>
+        <item>Romania</item>
+        <item>Russian Federation</item>
+        <item>Rwanda</item>
+        <item>Saudi Arabia</item>
+        <item>Sudan</item>
+        <item>Senegal</item>
+        <item>Singapore</item>
+        <item>South Georgia and the South Sandwich Islands</item>
+        <item>Saint Helena, Ascension and Tristan da Cunha</item>
+        <item>Svalbard and Jan Mayen</item>
+        <item>Solomon Islands</item>
+        <item>Sierra Leone</item>
+        <item>El Salvador</item>
+        <item>San Marino</item>
+        <item>Somalia</item>
+        <item>Saint Pierre and Miquelon</item>
+        <item>Serbia</item>
+        <item>South Sudan</item>
+        <item>Sao Tome and Principe</item>
+        <item>Suriname</item>
+        <item>Slovakia</item>
+        <item>Slovenia</item>
+        <item>Sweden</item>
+        <item>Eswatini</item>
+        <item>Sint Maarten (Dutch part)</item>
+        <item>Seychelles</item>
+        <item>Syrian Arab Republic</item>
+        <item>Turks and Caicos Islands</item>
+        <item>Chad</item>
+        <item>Togo</item>
+        <item>Thailand</item>
+        <item>Tajikistan</item>
+        <item>Tokelau</item>
+        <item>Turkmenistan</item>
+        <item>Timor-Leste</item>
+        <item>Tonga</item>
+        <item>Trinidad and Tobago</item>
+        <item>Tunisia</item>
+        <item>Turkiye</item>
+        <item>Tuvalu</item>
+        <item>Taiwan, Province of China</item>
+        <item>Tanzania, United Republic of</item>
+        <item>Uganda</item>
+        <item>Ukraine</item>
+        <item>United States Minor Outlying Islands</item>
+        <item>Uruguay</item>
+        <item>United States</item>
+        <item>Uzbekistan</item>
+        <item>Holy See (Vatican City State)</item>
+        <item>Saint Vincent and the Grenadines</item>
+        <item>Venezuela, Bolivarian Republic of</item>
+        <item>Virgin Islands, British</item>
+        <item>Virgin Islands, U.S.</item>
+        <item>Viet Nam</item>
+        <item>Vanuatu</item>
+        <item>Wallis and Futuna</item>
+        <item>Samoa</item>
+        <item>Yemen</item>
+        <item>South Africa</item>
+        <item>Zambia</item>
+        <item>Zimbabwe</item>
+    </string-array>
+
+    <string name="fill_in_all_fields">Por favor, preencha todos os campos necessários</string>
+
+    <string name="could_not_save_online_site">Não foi possível salvar o site online</string>
+    <string name="online_site_save">O site será salvo no site do Minisass na próxima vez que você usar o aplicativo, se estiver conectado à Internet.</string>
+
+    <string name="could_not_update_online_site">Não foi possível atualizar o site online</string>
+    <string name="online_site_update">O site será atualizado no site do Minisass na próxima vez que você usar o aplicativo, se estiver conectado à Internet.</string>
+
+    <string name="upload_images">Carregar imagens</string>
+    <string name="do_you_want_to_upload_images_start">Deseja fazer upload das imagens de avaliação?Eles são</string>
+    <string name="do_you_want_to_upload_images_end">Mb de tamanho.</string>
+
+    <string name="yes">Sim</string>
+    <string name="no">No</string>
+    <string name="ok">Ok</string>
+
+    <string name="could_not_save_online_assessment">Não foi possível salvar a avaliação online</string>
+    <string name="online_assessment_save">A avaliação será salva on -line na próxima vez que você usar o aplicativo, se estiver conectado à Internet.</string>
+
+    <string name="registration_in_progress">Registro em andamento</string>
+    <string name="registration_message">Para concluir o registro, clique no link de ativação enviado ao email com o qual você se registrou.Quando você estiver registrado com sucesso, você pode retornar ao aplicativo para fazer login.</string>
+    <string name="registration_failed">O registro falhou</string>
+
+    <string name="delete_site">Excluir site</string>
+    <string name="site_detail">Detalhes do site</string>
+    <string name="site_details">Detalhes do site</string>
+    <string name="description">Descrição</string>
+    <string name="description_label">Descrição:</string>
+    <string name="location">Localização</string>
+    <string name="location_label">Localização:</string>
+    <string name="assessments">Avaliações</string>
+    <string name="add_assessment">Adicionar avaliação</string>
+    <string name="site_detail_instruction">Você adicionou com sucesso seu site e está pronto para começar a amostragem!Experimente o maior número possível de habitats (rochosos, arenosos e cascalho, areia e lama (GSM) seguindo as diretrizes) e, em seguida, classifique os macroinvertebrados aquáticos que você encontrou em bandejas para que você possa tirar uma foto de cada uma diferente.Quando estiver pronto, clique no botão "Adicionar avaliação" para começar a tirar fotos de cada uma e identificá -las diferentes.</string>
+    <string name="are_you_sure_delete_site">Tem certeza de que deseja excluir este site?</string>
+    <string name="could_not_delete_site">Não foi possível excluir o site</string>
+    <string name="connect_device_to_internet_try_again">Por favor, conecte seu dispositivo à Internet e tente novamente</string>
+
+    <string name="something_went_wrong_try_again">Algo deu errado.Por favor, tente novamente.</string>
+
+    <string name="reset_password_title">Redefinir senha</string>
+
+    <string name="user_score">Pontuação do usuário</string>
+    <string name="ml_score">ML pontuação</string>
+    <string name="user_condition">Condição do usuário</string>
+    <string name="ml_condition">Condição de ml</string>
+    <string name="collector_name">Nome do colecionador</string>
+    <string name="organisation">Organização</string>
+    <string name="observation_date">Data de observação</string>
+    <string name="water_temperature">Temperatura da água</string>
+    <string name="dissoved_oxygen">Oxigênio dissolvido</string>
+    <string name="electrical_conductivity">Condutividade elétrica</string>
+    <string name="water_clarity">Clareza da água</string>
+    <string name="show_note">Mostre nota</string>
+
+    <string name="natural">Natural</string>
+    <string name="good">Good</string>
+    <string name="fair">Fair</string>
+    <string name="poor">Pobre</string>
+    <string name="very_poor">Muito pobre "</string>
+
+    <string name="item_format">- %s: </string>
+    <string name="shell">Concha</string>
+    <string name="shell_description">Um caso externo de proteção rígido e rígido de um molusco</string>
+    <string name="shelter">Abrigo</string>
+    <string name="shelter_description">Uma estrutura externa/alojamento feita de galhos ou partículas de areia</string>
+    <string name="clearly_defined_legs">Pernas claramente definidas</string>
+    <string name="clearly_defined_legs_description">Um membro bem definido em que os invertebrados caminham</string>
+    <string name="segmented_body">Corpo segmentado</string>
+    <string name="segmented_body_description">Um corpo que é dividido em partes iguais e equidistantes</string>
+    <string name="long_thin_body">Corpo longo e fino</string>
+    <string name="long_thin_body_description">Um corpo alongado no qual as pernas estão presas</string>
+    <string name="appendages">Apêndices</string>
+    <string name="appendages_description">Uma parte projetiva do invertebrado com uma aparência distinta</string>
+    <string name="three_pairs_of_legs">3 pares de pernas</string>
+    <string name="three_pairs_of_legs_description">Três membros de cada lado do corpo</string>
+    <string name="four_or_more_pairs_of_legs">4 ou mais pares de pernas</string>
+    <string name="four_or_more_pairs_of_legs_description">Quatro pernas de cada lado do corpo</string>
+    <string name="elongated_tail">Cauda alongada</string>
+    <string name="elongated_tail_description">Um apêndice terminal alongado anexado à extremidade posterior do corpo/abdômen</string>
+    <string name="tufted_tail">Cauda tufada</string>
+    <string name="tufted_tail_description">Uma cauda com muitos pequenos apêndices anexados em um ponto local semelhante a um pequeno tufo</string>
+    <string name="short_tail">Cauda curta</string>
+    <string name="short_tail_description">Um apêndice de curto terminal anexado à extremidade posterior do corpo/abdômen</string>
+    <string name="plate_like_gills">Placa como brânquias</string>
+    <string name="plate_like_gills_description">Brânquias com uma aparência semelhante a uma placa</string>
+    <string name="feather_like_gills">Penas como brânquias</string>
+    <string name="feather_like_gills_description">Brânquias com uma aparência de penas</string>
+    <string name="leaf_like_gills">Folha como brânquias</string>
+    <string name="leaf_like_gills_description">Brânquias com uma aparência semelhante a uma folha</string>
+    <string name="bulging_eyes">Olhos desleixados</string>
+    <string name="bulging_eyes_description">Grandes olhos salientes que fazem parte do contorno da cabeça</string>
+    <string name="stocky_body">Corpo atarracado</string>
+    <string name="stocky_body_description">Um corpo curto em que as pernas estão presas</string>
+    <string name="antennae">Antenas</string>
+    <string name="antennae_description">Um par de apêndices sensoriais curtos/longos anexados à cabeça</string>
+    <string name="suckers_at_both_ends">Otários em ambas as extremidades</string>
+    <string name="suckers_at_both_ends_description">Tendo peças de sucção nas duas extremidades dos organismos pelos quais eles se prendem a uma superfície</string>
+    <string name="wing_buds">Broto da asa</string>
+    <string name="wing_buds_description">Pequenas estruturas achatadas na parte superior do corpo que crescerão em asas</string>
+    <string name="flattened_body">Corpo achatado</string>
+    <string name="flattened_body_description">Um corpo plano e fino</string>
+    <string name="short_stubby_legs">Pernas curtas e madeiradas</string>
+    <string name="short_stubby_legs_description">Estruturas curtas de pernas e pernas perto da cabeça nos dois lados do corpo</string>
+    <string name="rounded_body">Corpo arredondado</string>
+    <string name="rounded_body_description">Um corpo que é arredondado e tem um contorno suave</string>
+
+    <string-array name="upload_preference_values">
+        <item>wifi</item>
+        <item>mobile</item>
+        <item>both</item>
+    </string-array>
+
+    <string-array name="upload_preference_display_names">
+        <item>Somente Wi-Fi</item>
+        <item>Apenas dados móveis</item>
+        <item>Wi-Fi e dados móveis</item>
+    </string-array>
+
+    <string name="select_language">Selecione o idioma</string>
+    <string name="language_english">Inglês</string>
+    <string name="language_spanish">Español</string>
+    <string name="language_french">Francês</string>
+    <string name="language_portuguese">Português</string>
+    <string name="language_afrikaans">afrikaans</string>
+
+
+    <string name="settings">Configurações</string>
+    <string name="language_settings">Linguagem</string>
+
+
+    <string name="create_assessment">Criar avaliação</string>
+    <string name="add_measurements">Adicione medições</string>
+    <string name="capture">Capturar</string>
+    <string name="date">Data</string>
+    <string name="notes">Notas</string>
+    <string name="hide">Hide</string>
+    <string name="crop">Cortar</string>
+    <string name="use_key">Usar Chave</string>
+    <string name="add">Adicionar</string>
+    <string name="save_assessment">Salvar avaliação</string>
+    <string name="calculate_score_and_add_assessment">Calculando pontuações e adição de avaliação.</string>
+    <string name="create_assessment_instruction">Tire uma foto de um espécime de cada tipo diferente que você encontrou.Continue tirando fotos até ter uma de cada um dos grupos que encontrou.Clique em Capture para começar a adicionar fotos de espécimes.</string>
+
+
+    <string name="activity_key_start">Selecione os filtros para começar</string>
+    <string name="activity_key_more_filters">Selecione mais filtros</string>
+
+
+    <string name="what_are_aquatic">O que são macroinvertebrados aquáticos e como a minissasa os usou para o biomonitoramento?</string>
+    <string name="why_is_water_quality">Por que a qualidade da água e o monitoramento da saúde do riacho são importantes?</string>
+    <string name="history_of_minisass">HISTÓRIA DA MINISASASS</string>
+    <string name="river_safety">Segurança do rio</string>
+    <string name="citizen_science_minisass">Ciência cidadã e minisass</string>
+    <string name="dichotomous_key_filter">Descrições de filtros de chave dicotómica</string>
+    <string name="glossary">Glossário</string>
+    <string name="aquatic_macroinvertebrates_definition">
+        Os macroinvertebrados aquáticos são pequenos animais que vivem em sistemas de água e não 
+        têm esqueleto interno.Eles são visíveis a olho nu, daí o termo \'macro\' que 
+        significa \'grande\'. \n\nDiferentes tipos de macroinvertebrados aquáticos têm diferentes 
+        níveis de tolerância ou sensibilidades para perturbar em seu ambiente. Isso significa que 
+        se pode olhar para a comunidade de Macroinvertebrados presentes em um riacho ou rio e 
+        inferir algo sobre a qualidade da água e a saúde do sistema. \n\nBasicamente, em sistemas
+        perturbados, por exemplo, onde há poluição ou espécies invasivas alienígenas abundantes,
+        as espécies mais sensíveis e menos tolerantes podem desaparecer, enquanto as espécies
+        tolerantes e menos sensíveis permanecerão presentes ou aumentarão em números. \n\nO
+        Minisass coloca todos os tipos de macroinvertebrados aquáticos em 13 grupos relativamente
+        fáceis de identificar e fornece a esses grupos escores com base na tolerância geral conhecida e média e
+Níveis de sensibilidade dos tipos nesses grupos.Pontuações baixas são atribuídas a grupos geralmente compostos por espécies muito tolerantes (que podem sobreviver à poluição e perturbação), enquanto
+Pontuações altas são atribuídas a grupos geralmente compostos por espécies muito sensíveis (que não podem viver e sobreviver se houver poluição ou perturbação). \n\n
+No aplicativo Minisass, você captura imagens dos macroinvertebrados aquáticos que você amostrou.Você atribui uma identificação a essas imagens.Ao mesmo tempo, um aprendizado de máquina
+(ML) O algoritmo de identificação de inteligência artificial (AI) é executado na imagem, identificando -a também.O aplicativo gera uma pontuação do usuário e uma pontuação ML.Estes podem ser comparados
+como um guia para o usuário se eles estiverem identificando corretamente ou talvez precisar
+        revisitar suas identificações. \n\nUma pesquisa de minisassões mostra um riacho ou rio
+        para esses macroinvertebrados aquáticos e gera pontuação com base na sensibilidade e
+        tolerância média da comunidade presente. A pontuação então refere -se a uma categoria
+        ecológica, indicando o riacho ou a qualidade da saúde e da água. \n\n</string>
+    <string name="freshwater_is_essential">A água doce é essencial para a biodiversidade e os seres humanos.Sustenta rico
+ecossistemas juntamente com todos os bens e serviços que eles prestam e apoia
+Agricultura, indústria, saneamento e hidratação.Gerenciando nosso precioso e frequentemente
+Sistemas escassos de água doce exigem monitorar a saúde e a qualidade de nosso
+fluxos e rios.Basicamente, gerenciamento e intervenção apropriados para
+Os ecossistemas de água doce só podem ser projetados e implementados se houver bons
+Monitorando os dados para mostrar onde estão os problemas ou onde a solução está funcionando!</string>
+    <string name="minisass_is_based_on">A minissasa é baseada na técnica de biomonitoramento mais aprofundada, o sul
+Sistema de pontuação africana (SASS).O sistema SASS amostra rigorosamente fluxos e
+rios, identificando todos os macroinvertebrados aquáticos presentes no nível da família
+(mais de 90 agrupamentos diferentes).Dr. P. Mark Graham e Dr. Chris W.S.Dickens
+refinou os agrupamentos até o Minisass 13, que são muito mais facilmente
+identificável, mas ainda fornece uma boa imagem de qualidade da água e fluxo ou
+River Health, semelhante à pesquisa SASS mais detalhes.O minisassário original
+foi baseado na versão 4 sass, mas foi atualizado para se alinhar com mais
+Sass5 recente.</string>
+    <string name="always_remember_safety_first">Lembre -se sempre, segurança primeiro!Ao pensar em fazer uma pesquisa de minisass, verifique seu
+arredores e verifique se o riacho ou o rio e a área estão seguros.Não insira fluxos
+ou rios profundos ou que têm correntes poderosas e de fluxo rápido, ou qualquer perigoso
+animais neles ou nas proximidades.\n\n
+Proteja -se com protetor solar e roupas apropriadas (gumboots e chapéus) e lembre -se
+lavar as mãos com desinfetante ou sabão regularmente.Ter cuidado com poluído
+rios e riachos, tomando precauções extras para se manter seguro e saudável.
+O Minisass é mais divertido e seguro com os outros!\n\n</string>
+    <string name="aquatic_macroinvertebrates_small_but_visible">- Macroinvertebrados aquáticos: pequeno, mas visível a olho nu, animais que não têm
+Esqueleto interno e que vivem em sistemas de água.</string>
+    <string name="biomonitoring_broadly_refers_to_using_organisms">- Biomonitoramento: refere -se amplamente ao uso de organismos (por exemplo, algas, macroinvertebrados,
+peixes, pássaros ou mamíferos) vivendo em um ambiente para avaliar
+informações sobre esse ambiente.</string>
+    <string name="biodiversity_all_different_kinds">- Biodiversidade: todos os tipos diferentes de vida em uma área.Basicamente, um termo que se refere a
+Todas as plantas, animais, fungos ou qualquer vida em um ambiente.</string>
+    <string name="citizen_science_the_general_public">- Ciência do cidadão: o público em geral envolvendo a pesquisa científica, de qualquer forma
+Desde o design da pesquisa, até a coleta e análise de dados até as descobertas de relatórios.</string>
+    <string name="conservation_protecting_and_restoring_natural_systems">- Conservação: protegendo e restaurando sistemas naturais, prevenção de extinções,
+e manter a diversidade biológica e a saúde e a função do ecossistema.</string>
+    <string name="ecosystem_community_of_interacting_living_organisms">- Ecossistema: uma comunidade de organismos vivos em interação e o ambiente físico
+em que eles vivem.Uma descrição de um sistema inteiro, incluindo toda a sua biodiversidade
+e características do habitat físico.</string>
+    <string name="machine_learning_computer_systems">- Learning de máquina (ML): sistemas de computador capazes de aprender e adaptar
+sem seguir instruções explícitas.O computador aprende usando algoritmos
+e modelos estatísticos para analisar e extrair inferências de padrões nos dados.
+Para miniSass, um treina de rede neural profunda em imagens corretamente identificadas de
+Macroinvertebrados aquáticos e aprenda a identificá -los de acordo com os 13 grupos de minisass.</string>
+    <string name="we_can_all_play_a_part_in_monitoring_freshwater_resources">Todos nós podemos desempenhar um papel no monitoramento dos recursos de água doce, ajudando a reunir os dados necessários
+para gerenciá -los.Ao participar da ciência do cidadão, qualquer um pode se tornar um importante
+Colaborador da pesquisa e conservação!\n\nA realização de uma pesquisa de minisass nos ajuda Aprenda sobre sistemas de água doce e a importância da biodiversidade e da água doce saudável
+ecossistemas e nos envolve com a natureza e nossas comunidades.É uma ferramenta que permite Nós
+        tomamos medidas para ajudar a monitorar e conservar nossos sistemas de água doce.\n\n Os resultados de uma pesquisa de minissasa dão uma boa indicação da qualidade da água e da saúde
+de um riacho ou rio, servindo para sinalizar possível poluição, ou saudável e funcionamento
+sistemas.O monitoramento contínuo do mesmo riacho ou rio pode dar uma visão incrível sobre
+muda com o tempo.
+As autoridades locais relevantes para que eles acompanhem os suspeitos de problemas usando o seu
+dados como um indicador! \n\n</string>
+    <string name="training_and_educational_video">Vídeos de treinamento e educação</string>
+    <string name="introduction_to_minisass">Introdução ao minisass</string>
+    <string name="online_videos">Vídeos online</string>
+    <string name="minisass_in_summary">Minissass em resumo</string>
+    <string name="offline_videos">Vídeos offline</string>
+    <string name="video_title">Título do vídeo</string>
+    <string name="site_name">Nome do site</string>
+    <string name="river_name">Nome do rio</string>
+    <string name="registration">Registro</string>
+    <string name="i_have_read_and_agree_to">Eu li e concordo em</string>
+    <string name="register">Registrar</string>
+    <string name="updating_site">Site de atualização</string>
+    <string name="required">* Obrigatório</string>
+    <string name="take_site_photo">Tire a foto do site</string>
+    <string name="add_site">Adicionar site</string>
+    <string name="minisass_score">Pontuação de minisass</string>
+    <string name="minisass_ml_score">Minisass ML Score</string>
+    <string name="collector_s_name">Nome do colecionador</string>
+    <string name="water_temp">Temperatura da água</string>
+    <string name="dissolved_oxygen">Oxigênio dissolvido</string>
+    <string name="this_is_a_note">Esta é uma nota</string>
+    <string name="show_assessment_photos">Mostre fotos de avaliação</string>
+    <string name="invert_type">Tipo invertido</string>
+    <string name="english">Inglês</string>
+    <string name="update_site">Site de atualização</string>
+    <string name="no_sites_added_yet_click_on_the_button_t">Ainda não foram adicionados sites.Clique no botão + para adicionar um novo site.</string>
+    <string name="fetching_online_sites">Buscando sites online</string>
+    <string name="retry">Tente novamente</string>
+    <string name="reset_password">Redefinir senha</string>
+    <string name="a_password_reset_link_has_been_sent_to_t">Um link de redefinição de senha foi enviado para o endereço de e -mail fornecido</string>
+    <string name="reset">Reiniciar</string>
+    <string name="filter_name">Nome do filtro</string>
+    <string name="country">País</string>
+    <string name="loading_site">Site de carregamento</string>
+    <string name="save">Salvar</string>
+    <string name="focus_mode">Modo de foco</string>
+    <string name="user_choice_">Escolha do usuário:</string>
+    <string name="ml_prediction_">Previsão de ML:</string>
+    <string name="ml_prediction">Previsão de ML</string>
+    <string name="this_is_textline">Isso é linha de texto</string>
+    <string name="your_username_or_password_is_incorrect">Seu nome de usuário ou senha está incorreto</string>
+    <string name="create_account">Criar uma conta</string>
+    <string name="forgot_password">Esqueceu sua senha</string>
+    <string name="login">Conecte-se</string>
+    <string name="contact_name">Nome do contato</string>
+    <string name="unknown">Desconhecido</string>
+    <string name="safety_concerns_for_minisass">Preocupações de segurança para o minisass</string>
+    <string name="choosing_your_site_for_minisass">Escolhendo seu site para Minisass</string>
+    <string name="what_is_in_your_minisass_kit">O que está em seu kit de minisass</string>
+    <string name="what_do_you_need_to_put_together_a_minisass_kit_at_home">O que você precisa para montar um kit de minisass em casa</string>
+    <string name="how_to_take_a_sample">Como levar uma amostra</string>
+    <string name="cleaning_your_sample">Limpando sua amostra</string>
+    <string name="how_to_calculate_your_score">Como calcular sua pontuação</string>
+    <string name="uploading_your_minisass_score">Carregando sua pontuação de minisass</string>
+    <string name="using_minisass_for_monitoring">Usando a minissasa para monitoramento</string>
+    <string name="using_the_dichotomous_key">Usando a chave dicotômica</string>
+<string name="name">Nome</string><string name="surname">Sobrenome</string><string name="email_address">Endereço de email</string><string name="username">Nome de usuário</string><string name="password">Senha</string><string name="organisation_type">Tipo de organização</string><string name="organisation_name">Nome da organização</string><string name="select_certificate">Selecione Certificado</string><string name="site_location">Localização do site</string><string name="river_type">Tipo de rio</string><string name="unit">Unidade</string><string name="email">E-mail</string><string name="upload_preference">Carregar preferência</string></resources>

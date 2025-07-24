@@ -39,19 +39,20 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
     public LinearLayout likelyGroups;
     private Activity activity;
 
-    String[] bugsAndBeetles = {"clearly_defined_legs","appendages","3_pairs_of_legs","feather_like_gills","antennae","rounded_body"};
-    String[] caddisflies = {"shelter","clearly_defined_legs","long_thin_body","3_pairs_of_legs","tufted_tail","short_tail","feather_like_gills"};
-    String[] crabsAndShrimps = {"clearly_defined_legs","4_or_more_pairs_of_legs","antennae"};
-    String[] damselflies = {"clearly_defined_legs","long_thin_body","3_pairs_of_legs","leaf_like_gills","antennae","wing_buds"};
-    String[] dragonflies = {"clearly_defined_legs","3_pairs_of_legs","bulging_eyes","stocky_body","antennae","wing_buds"};
-    String[] flatWorms = {"flattened_body"};
-    String[] leeches = {"segmented_body","suckers_at_both_ends"};
-    String[] minnowMayflies = {"clearly_defined_legs","3_pairs_of_legs","elongated_tail","plate_like_gills","antennae","wing_buds"};
-    String[] otherMayflies = {"clearly_defined_legs","3_pairs_of_legs","elongated_tail","feather_like_gills","antennae"};
-    String[] snailsClamsMussels = {"shell"};
-    String[] stoneflies = {"clearly_defined_legs","3_pairs_of_legs","elongated_tail","feather_like_gills","antennae"};
-    String[] trueFlies = {"segmented_body","long_thin_body","appendages","short_stubby_legs"};
-    String[] worms = {"segmented_body","long_thin_body"};
+    // Declare the arrays as instance variables but don't initialize them yet
+    private String[] bugsAndBeetles;
+    private String[] caddisflies;
+    private String[] crabsAndShrimps;
+    private String[] damselflies;
+    private String[] dragonflies;
+    private String[] flatWorms;
+    private String[] leeches;
+    private String[] minnowMayflies;
+    private String[] otherMayflies;
+    private String[] snailsClamsMussels;
+    private String[] stoneflies;
+    private String[] trueFlies;
+    private String[] worms;
 
     public KeyAdapter(Activity activity, Context context, ArrayList<FilterGroupModel> filterGroup, TextView likelyGroupText, LinearLayout likelyGroups) {
         this.context = context;
@@ -61,6 +62,102 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
         this.likelyGroupText = likelyGroupText;
         this.likelyGroups = likelyGroups;
         this.activity = activity;
+        initializeStringArrays();
+    }
+
+    private void initializeStringArrays() {
+        bugsAndBeetles = new String[]{
+                context.getString(R.string.clearly_defined_legs),
+                context.getString(R.string.appendages),
+                context.getString(R.string.three_pairs_of_legs),
+                context.getString(R.string.feather_like_gills),
+                context.getString(R.string.antennae),
+                context.getString(R.string.rounded_body)
+        };
+
+        caddisflies = new String[]{
+                context.getString(R.string.shelter),
+                context.getString(R.string.clearly_defined_legs),
+                context.getString(R.string.long_thin_body),
+                context.getString(R.string.three_pairs_of_legs),
+                context.getString(R.string.tufted_tail),
+                context.getString(R.string.short_tail),
+                context.getString(R.string.feather_like_gills)
+        };
+
+        crabsAndShrimps = new String[]{
+                context.getString(R.string.clearly_defined_legs),
+                context.getString(R.string.four_or_more_pairs_of_legs),
+                context.getString(R.string.antennae)
+        };
+
+        damselflies = new String[]{
+                context.getString(R.string.clearly_defined_legs),
+                context.getString(R.string.long_thin_body),
+                context.getString(R.string.three_pairs_of_legs),
+                context.getString(R.string.leaf_like_gills),
+                context.getString(R.string.antennae),
+                context.getString(R.string.wing_buds)
+        };
+
+        dragonflies = new String[]{
+                context.getString(R.string.clearly_defined_legs),
+                context.getString(R.string.three_pairs_of_legs),
+                context.getString(R.string.bulging_eyes),
+                context.getString(R.string.stocky_body),
+                context.getString(R.string.antennae),
+                context.getString(R.string.wing_buds)
+        };
+
+        flatWorms = new String[]{
+                context.getString(R.string.flattened_body)
+        };
+
+        leeches = new String[]{
+                context.getString(R.string.segmented_body),
+                context.getString(R.string.suckers_at_both_ends)
+        };
+
+        minnowMayflies = new String[]{
+                context.getString(R.string.clearly_defined_legs),
+                context.getString(R.string.three_pairs_of_legs),
+                context.getString(R.string.elongated_tail),
+                context.getString(R.string.plate_like_gills),
+                context.getString(R.string.antennae),
+                context.getString(R.string.wing_buds)
+        };
+
+        otherMayflies = new String[]{
+                context.getString(R.string.clearly_defined_legs),
+                context.getString(R.string.three_pairs_of_legs),
+                context.getString(R.string.elongated_tail),
+                context.getString(R.string.feather_like_gills),
+                context.getString(R.string.antennae)
+        };
+
+        snailsClamsMussels = new String[]{
+                context.getString(R.string.shell)
+        };
+
+        stoneflies = new String[]{
+                context.getString(R.string.clearly_defined_legs),
+                context.getString(R.string.three_pairs_of_legs),
+                context.getString(R.string.elongated_tail),
+                context.getString(R.string.feather_like_gills),
+                context.getString(R.string.antennae)
+        };
+
+        trueFlies = new String[]{
+                context.getString(R.string.segmented_body),
+                context.getString(R.string.long_thin_body),
+                context.getString(R.string.appendages),
+                context.getString(R.string.short_stubby_legs)
+        };
+
+        worms = new String[]{
+                context.getString(R.string.segmented_body),
+                context.getString(R.string.long_thin_body)
+        };
     }
 
     @NonNull
@@ -107,7 +204,7 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
         });
 
         if ((holder.checkbox.getText().toString().equals(modal.getName())) && modal.getSelected()) {
-           holder.checkbox.setChecked(true);
+            holder.checkbox.setChecked(true);
         } else {
             holder.checkbox.setChecked(false);
         }
@@ -117,11 +214,11 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
             filter.setSelected(false);
 
             if (holder.checkbox.isChecked()){
-                selected.add(filter.getName().replace(" ", "_").toLowerCase());
+                selected.add(filter.getName());
                 filter.setSelected(true);
             }else{
-                if (selected.contains(filter.getName().replace(" ", "_").toLowerCase())) {
-                    selected.remove(filter.getName().replace(" ", "_").toLowerCase());
+                if (selected.contains(filter.getName())) {
+                    selected.remove(filter.getName());
                 }
             }
             filter(keyFilters);
@@ -142,17 +239,14 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
         ArrayList<String> possible = getPossible(keyFilters);
 
         for(String pos : possible)  {
-
-            pos = pos.replace(" ", "_");
-
             for (HashMap.Entry<String,String[]> filter : keyFilters.entrySet()) {
                 String key = filter.getKey();
                 String[] value = filter.getValue();
 
-                if (key == pos) {
+                if (key.equals(pos)) {
                     for(int i = 0; i < value.length; i++) {
                         for (int j = 0; j < filterGroupCopy.size(); j++) {
-                            if (filterGroupCopy.get(j).getName().replace(" ", "_").toLowerCase().equals(value[i])) {
+                            if (filterGroupCopy.get(j).getName().equals(value[i])) {
                                 FilterGroupModel current = filterGroupCopy.get(j);
                                 if (!filterGroup.contains(current)) {
                                     filterGroup.add(current);
@@ -162,8 +256,6 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
                     }
                 }
             }
-
-
         }
 
         Collections.sort(this.filterGroup, (t1, t2) -> t1.getName().compareTo(t2.getName()));
@@ -174,7 +266,7 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
         this.likelyGroupText.setVisibility(View.VISIBLE);
 
         if (possible.size() == 13) {
-            this.likelyGroupText.setText("Please select filters to start");
+            this.likelyGroupText.setText(context.getString(R.string.activity_key_start));
         } else {
             if (possible.size() <= 2) {
                 for (String x : possible) {
@@ -185,7 +277,6 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
                         prettyX = x.replace("_", " ");
                         prettyX = prettyX.replace("and", "&");
                     }
-
 
                     System.out.println("POSS " + x);
                     GradientDrawable shape =  new GradientDrawable();
@@ -210,10 +301,9 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
                     this.likelyGroupText.setVisibility(View.GONE);
                 }
             } else {
-                this.likelyGroupText.setText("Please select more filters");
+                this.likelyGroupText.setText(context.getString(R.string.activity_key_more_filters));
             }
         }
-
 
         notifyDataSetChanged();
     }
@@ -234,7 +324,6 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
                     likelyGroups.remove(key);
                 }
             }
-
         }
         return likelyGroups;
     }
