@@ -48,6 +48,24 @@ android {
     lintOptions {
         disable 'NotificationPermission'
     }
+
+    signingConfigs {
+        release {
+            storeFile file('/home/zamuzakki/PycharmProjects/Kartoza/miniSASS-mobile-app/deployment/zakki.keystore')
+            storePassword '4m4t3r4sU!'
+            keyAlias 'my-key-alias'
+            keyPassword '4m4t3r4sU!'
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.release
+            shrinkResources false
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
