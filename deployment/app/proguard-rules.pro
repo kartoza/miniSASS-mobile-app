@@ -20,3 +20,23 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 -keep class androidx.appcompat.widget.** { *; }
+
+# Ignore optional SSL/TLS providers OkHttp checks for
+-dontwarn org.conscrypt.**
+-dontwarn org.bouncycastle.**
+-dontwarn org.openjsse.**
+
+# Keep OkHttp and Okio classes
+-dontwarn okhttp3.**
+-dontwarn okio.**
+-keep class okhttp3.** { *; }
+-keep class okio.** { *; }
+
+# Retrofit
+-keep class retrofit2.** { *; }
+-dontwarn retrofit2.**
+
+# Gson
+-keep class com.google.gson.** { *; }
+-dontwarn com.google.gson.**
+

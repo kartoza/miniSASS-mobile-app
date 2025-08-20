@@ -70,9 +70,11 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
                 intent.putExtra("videoURL", modal.getVideoURL());
                 context.startActivity(intent);
             } else {
-                Intent intent = new Intent(this.context, WebActivity.class);
-                intent.putExtra("url", modal.getVideoURL());
-                this.context.startActivity(intent);
+                Uri uri = Uri.parse(modal.getVideoURL());
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                intent.setDataAndType(uri, "text/html");
+                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                context.startActivity(intent);
             }
 
         });
