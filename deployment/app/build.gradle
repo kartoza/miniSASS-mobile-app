@@ -6,13 +6,14 @@ plugins {
 android {
     namespace "com.rk.amii"
     compileSdk 34
+    ndkVersion "26.1.10909125"
 
     defaultConfig {
         applicationId "com.rk.amii"
         minSdk 26
         targetSdk 34
         versionCode 4
-        versionName "1.0"
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
