@@ -12,7 +12,9 @@ android {
         applicationId "com.rk.amii"
         minSdk 26
         targetSdk 35
-        versionCode 5
+        // Update both versionCode and versionName when running ./gradlew bundleRelease
+        // before releasing to Playstore
+        versionCode 6
         versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
