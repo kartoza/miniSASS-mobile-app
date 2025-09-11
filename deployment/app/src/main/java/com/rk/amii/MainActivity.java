@@ -126,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else if (id == R.id.privacyPolicy) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://minisass.sta.do.kartoza.com/#/privacy-policy#privacy-policy-title"));
+                    Uri.parse("https://minisass.org/#/privacy-policy#privacy-policy-title"));
             startActivity(browserIntent);
             return true;
         }
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View widget) {
                     Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("https://minisass.sta.do.kartoza.com/#/privacy-policy#privacy-policy-title"));
+                            Uri.parse("https://minisass.org/#/privacy-policy#privacy-policy-title"));
                     startActivity(browserIntent);
                 }
             }, start, start + "Privacy Policy".length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

@@ -30,30 +30,22 @@ public class HowToFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_how_to, container, false);
-
-        RecyclerView videoView = view.findViewById(R.id.rvOfflineVideos);
         RecyclerView onlineVideoView = view.findViewById(R.id.rvOnlineVideos);
-
-        // Create a list of offline videos
-        ArrayList<VideoModel> videos = new ArrayList<>();
-        videos.add(
-                new VideoModel(
-                        "android.resource://" + this.getActivity().getPackageName() + "/" + R.raw.intro,
-                        getString(R.string.introduction_to_minisass),
-                        "offline"));
-        videos.add(
-                new VideoModel(
-                        "android.resource://" + this.getActivity().getPackageName() + "/" + R.raw.summary,
-                        getString(R.string.minisass_in_summary),
-                        "offline"));
-
-        // Add the videos to the offline video view
-        VideoAdapter videoAdapter = new VideoAdapter(this.getContext(), videos);
-        videoView.setLayoutManager(new GridLayoutManager(this.getContext(), 2));
-        videoView.setAdapter(videoAdapter);
 
         // Create a list of online videos
         ArrayList<VideoModel> onlineVideos = new ArrayList<>();
+        onlineVideos.add(
+                new VideoModel(
+                        "https://youtu.be/hRgO80-427w",
+                        getString(R.string.introduction_to_minisass),
+                        "online",
+                        R.raw.imageintro));
+        onlineVideos.add(
+                new VideoModel(
+                        "https://youtu.be/illWM9BhL-0",
+                        getString(R.string.minisass_in_summary),
+                        "online",
+                        R.raw.imagesummary));
         onlineVideos.add(
                 new VideoModel(
                         "https://youtu.be/yGbi7P8RYoU",

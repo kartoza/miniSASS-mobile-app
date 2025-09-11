@@ -178,7 +178,7 @@ public class RegistrationActivity extends AppCompatActivity {
         privacyPolicyLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://minisass.sta.do.kartoza.com/#/privacy-policy#privacy-policy-title";
+                String url = "https://minisass.org/#/privacy-policy#privacy-policy-title";
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(url));
                 startActivity(intent);
