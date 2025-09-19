@@ -5,17 +5,17 @@ plugins {
 
 android {
     namespace "com.rk.amii"
-    compileSdk 35
+    compileSdk 34
     ndkVersion "26.1.10909125"
 
     defaultConfig {
         applicationId "com.rk.amii"
         minSdk 26
-        targetSdk 35
+        targetSdk 34
         // Update both versionCode and versionName when running ./gradlew bundleRelease
         // before releasing to Playstore
-        versionCode 6
-        versionName "1.1"
+        versionCode 7
+        versionName "1.2"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -73,11 +73,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'androidx.camera:camera-core:1.0.0'
-    implementation 'org.maplibre.gl:android-sdk:10.0.2'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
-    implementation 'org.tensorflow:tensorflow-lite:2.4.0'
-    implementation 'org.tensorflow:tensorflow-lite-support:0.1.0'
-    implementation 'org.tensorflow:tensorflow-lite-metadata:0.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.1'
@@ -94,5 +90,9 @@ dependencies {
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'com.github.MKergall:osmbonuspack:6.9.0'
     implementation "androidx.work:work-runtime:2.9.0"
+    implementation 'org.tensorflow:tensorflow-lite:2.16.1'          // or newer
+    implementation 'org.tensorflow:tensorflow-lite-support:0.4.4'   // or newer
+    implementation 'org.tensorflow:tensorflow-lite-metadata:0.4.4'  // or newer
+    implementation 'org.maplibre.gl:android-sdk:10.0.2'
 }
 

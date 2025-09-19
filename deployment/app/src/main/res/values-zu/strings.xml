@@ -365,7 +365,7 @@
     <string name="poor">Poor</string>
     <string name="very_poor">Very Poor "</string>
 
-    <string name="item_format">- %s: </string>
+    <string name="item_format">-&#160;%s:&#160;</string>
     <string name="shell">Igobolondo</string>
     <string name="shell_description"> A hard, rigid protective outer case of a mollusc  </string>
     <string name="shelter">Shelter</string>
@@ -461,7 +461,12 @@
     <string name="dichotomous_key_filter">Dichotomous key filter descriptions</string>
     <string name="glossary">Pakanya</string>
     <string name="aquatic_macroinvertebrates_definition">
-        I-Aquatic Macroinvertebrates yizilwanyane ezincane ezingenawo umgogodla ezihlala emfulenizamanzi.Ziyabonakala ngeso lenyama, yingakhomingama elithi elithi \'Macro\' lisho\'ubukjhulu\'. \n\n Izinhlobo ezahlukene zama-macroinverterrates anamazinga ahlukenen okubekezelela ukungcolo komfula. Lokhu kusho ukuthi umuntu angasebenzisa ama-macroinvertebrates akhona emfuleni akwazi ukuchaza ngesimo sokuhlanzeka kwamanzi kanye nempilo yamanzini. \n\n Ngokuyisisekelo emifuleni engcolile, ngokwesibonelo lapho kunokungcola noma kunizinhlobo ezining zezitshala zokufikaIzilwanyane ezisheshayo ukuzwela ukungcola kungalindeleka ukuba zinyamalale, Ngenkathi izinhlobo ezikwaziyo ukubekezelelea ukungcola zizohlala zikhona noma zikhule ngamanani. \n\n -MiniSASS ibeka zonke izinhlobo zama-macroinvertertebrate zasemanzini zibe ngamaqembu ayishumi nantathu. Kulula ukuhlukanisa ubona lamaqembu ngokuhlukana, futhi inika lezizilwanane ngokuhlukana kwamaqembu amaphuzu okubekezelela ukungcola..Amaphuzu. Amaphuzu aphansi abelwa amaqembu ngokuvamile akhiwe izinhlobo ezikwazi ukubekezlela ukungcola kakhulu (ezikwazi ukuphila emanzini angcolile aphazamisekile), kuyilapho amaphuzu aphezulu abelwa amaqembu ngokuvamile anikwa izinhlobo zezilwanyana ezizwela kakhulu (ezingakwazi ukuphila uma kunokungcola noma ukuphazamiseka). \n\n Kuhlelo lokusebenza lwe-Minisass, uthwebula izithombe zezilwanyane ezihlala emfuleni ezingenawo umgogodla okwazile ukuzithola emfuleni.Unikeza indlelayokukhoma noma ukuhlukanisa lezi zithombe.Ngalesosikhathi, a machine-learning (ML) artificial intelligence (AI) identification algorithm runs on the image, nayo isuka uhlukanisa noma ikhomba lezizithombe. The app then generates a user score, and a ML score .Lokhu kungaqhathaniswa njengesiqondisi kumsebenzisi uma ekhomba kahle noma mhlawumbe kudingeka ukuthi aphinde akhombisise noma ahlukanise kahle. \n\n Ucwaningo lweminiSASS lusampula umfudlana noma umfula uthethe lezizilwanyana ezingengenawo umgogodla, futhi ukhiqize amaphuzu ngokusebenzisa izilwanyana ezitholakalile ngokukwazi kwazo ukubekezelela ukungcoloa. Amaphuzu atholakele ahlobenehlobene nesigaba semvelo, esibonisa ukusakazwa ukuhlanzeka kanye nempilo yomfula. \n\n
+        I-Aquatic Macroinvertebrates yizilwanyane ezincane ezingenawo umgogodla ezihlala emfulenizamanzi.Ziyabonakala ngeso lenyama, yingakhomingama elithi elithi \'Macro\' lisho\'ubukjhulu\'.\n\nIzinhlobo
+        ezahlukene zama-macroinverterrates anamazinga ahlukenen okubekezelela ukungcolo komfula. Lokhu kusho ukuthi umuntu angasebenzisa ama-macroinvertebrates akhona emfuleni akwazi ukuchaza ngesimo sokuhlanzeka kwamanzi kanye nempilo yamanzini.\n\nNgokuyisisekelo
+        emifuleni engcolile, ngokwesibonelo lapho kunokungcola noma kunizinhlobo ezining zezitshala zokufikaIzilwanyane ezisheshayo ukuzwela ukungcola kungalindeleka ukuba zinyamalale, Ngenkathi izinhlobo ezikwaziyo ukubekezelelea ukungcola zizohlala zikhona noma zikhule ngamanani.\n\n-MiniSASS
+        ibeka zonke izinhlobo zama-macroinvertertebrate zasemanzini zibe ngamaqembu ayishumi nantathu. Kulula ukuhlukanisa ubona lamaqembu ngokuhlukana, futhi inika lezizilwanane ngokuhlukana kwamaqembu amaphuzu okubekezelela ukungcola..Amaphuzu. Amaphuzu aphansi abelwa amaqembu ngokuvamile akhiwe izinhlobo ezikwazi ukubekezlela ukungcola kakhulu (ezikwazi ukuphila emanzini angcolile aphazamisekile), kuyilapho amaphuzu aphezulu abelwa amaqembu ngokuvamile anikwa izinhlobo zezilwanyana ezizwela kakhulu (ezingakwazi ukuphila uma kunokungcola noma ukuphazamiseka).\n\nKuhlelo
+        lokusebenza lwe-Minisass, uthwebula izithombe zezilwanyane ezihlala emfuleni ezingenawo umgogodla okwazile ukuzithola emfuleni.Unikeza indlelayokukhoma noma ukuhlukanisa lezi zithombe.Ngalesosikhathi, a machine-learning (ML) artificial intelligence (AI) identification algorithm runs on the image, nayo isuka uhlukanisa noma ikhomba lezizithombe. The app then generates a user score, and a ML score .Lokhu kungaqhathaniswa njengesiqondisi kumsebenzisi uma ekhomba kahle noma mhlawumbe kudingeka ukuthi aphinde akhombisise noma ahlukanise kahle.\n\nUcwaningo
+        lweminiSASS lusampula umfudlana noma umfula uthethe lezizilwanyana ezingengenawo umgogodla, futhi ukhiqize amaphuzu ngokusebenzisa izilwanyana ezitholakalile ngokukwazi kwazo ukubekezelela ukungcoloa. Amaphuzu atholakele ahlobenehlobene nesigaba semvelo, esibonisa ukusakazwa ukuhlanzeka kanye nempilo yomfula. \n\n
     </string>
     <string name="freshwater_is_essential">
         Amanzi ahlanzekile abalulekile, abantu kanye nezilwane nezinye izinto eziphilayo zidinga amanzi ukuze ziphile, futhi amanzi ahlanzekile asekela ezolimo,izimboni, ukukhucululwa kwendle..  Ukuphatha izinhlelo zethu zamanzi ahlanzekile ayigugu futhi ngokuvamile ayindlala kudinga ukuqapha nokuhlola impilo yasemanzini yemifudlana yethu nemifula.
@@ -475,23 +480,38 @@ UDkt P. Mark Graham noDkt Chris W.S. Balungisa amaqembu ezilwanyana kwaze ngamaq
 .
     </string>
     <string name="always_remember_safety_first">
-        Khumbula njalo, ukuphepha kuqala!Lapho ucabanga ngokwenza inhlolovo ye-miniSASS, sicela uhlole indawo ozosebenzela kuyona futhi uqiniseke ukuthi umfudlana noma umfula usendaweni ephephile.Ungangeni Emfuleni noma emifudlaneni ejulile noma  enamandla noma egeleza ngokushesha, noma enezilwane eziyingozi.\n\n Zivikele nge-sunscreen kanye nezingubo ezifanele (amadadla nezigqoko), futhi ukhumbule ukugeza izandla zakho nge-sanitizer noma insipho njalo. Qaphela kakhulu imifula nemifudlana engcolile, uthathe izinyathelo zokuphepha ezengeziwe ukuze uzigcine uphephile futhi unempilo. I-miniSASS ijabulisa kakhulu futhi iphephe kakhudlwana nabanye.!\n\n
+        Khumbula njalo, ukuphepha kuqala!Lapho ucabanga ngokwenza inhlolovo ye-miniSASS, sicela uhlole indawo ozosebenzela kuyona futhi uqiniseke ukuthi umfudlana noma umfula usendaweni ephephile.Ungangeni Emfuleni noma emifudlaneni ejulile noma  enamandla noma egeleza ngokushesha, noma enezilwane eziyingozi.\n\nZivikele nge-sunscreen kanye nezingubo ezifanele (amadadla nezigqoko), futhi ukhumbule ukugeza izandla zakho nge-sanitizer noma insipho njalo. Qaphela kakhulu imifula nemifudlana engcolile, uthathe izinyathelo zokuphepha ezengeziwe ukuze uzigcine uphephile futhi unempilo. I-miniSASS ijabulisa kakhulu futhi iphephe kakhudlwana nabanye.!
     </string>
     <string name="aquatic_macroinvertebrates_small_but_visible">
-        - I-Aquatic MacroInverterBrertbrates: Ezincane, kodwa zibonakala ngeso lenyama, izilwane ezingenawo uhlaka lwangaphakathi lwamathambo futhi ezihlala emanzini.
-    </string>
+        -&#160;I-Aquatic&#160;MacroInverterbrates:&#160;Ezincane, kodwa zibonakala ngeso lenyama, izilwane ezingenawo uhlaka lwangaphakathi lwamathambo futhi ezihlala emanzini.
+</string>
+
     <string name="biomonitoring_broadly_refers_to_using_organisms">
-        - I-Biomonitoring: Lokhu kubhekisela ekusebenziseni izinto eziphilayo (isb., ulwelwe, ama-macroinvertebrates, izinhlanzi, izinyoni, noma izilwane ezincelisayo) ukubheka nokuhlola ulwazi lobuningi noma ukuhlanzeka mayelana naleyo ndawo.
-    </string>
-    <string name="biodiversity_all_different_kinds">- Izinto eziphilayo: zonke izinto ezipilayo i ezahlukene eziphila endaweni eyodwa.Ngokuyisisekelo, igama elibhekise kulo Zonke izitshalo, izilwane, isikhunta, noma noma iyiphi impilo emvelweni.</string>
-    <string name="citizen_science_the_general_public">- Isayensi yesakhamuzi: Umphakathi jikelele obandakanyeka ocwaningweni lwesayensi, nganoma iyiphi indlela Ukusuka ekwakhiweni kocwaningo, ngokuqoqwa kwe-data nokuhlaziywa, ukubika okutholakele.</string>
-    <string name="conservation_protecting_and_restoring_natural_systems">- Ukulondolozwa: Ukuvikela nokubuyisa izinhlelo zemvelo, ukuvimbela ukuphela kwezilwanyane nemfuyo, nokugcina ukwehluka kwemvelo kanye nempilo kanye nomsebenzi wezemvelo.</string>
-    <string name="ecosystem_community_of_interacting_living_organisms">- I-Ecosystem:
-Umphakathi wezinto eziphilayo ezisebenzisanayo kanye nendawo ebonakalayo ezihlala kuyo. Incazelo yalo lonke uhlelo, okuhlanganisa zonke izinhlobo zezinto eziphilayo kanye zendawo yokuhlala.</string>
-    <string name="machine_learning_computer_systems">- Umshini-Learning (ML): Izinhlelo ze-computer ezikwazi ukufunda nokuvumelanisa ngaphandle kokulandela imiyalo ecacile.I-computer ifunda ngokusebenzisa ama-algorithms kanye nama-statistical modelsukuze ahlaziye futhi adwebe izingcaphuno ezivela kumaphethini kwi-data. Kwi-miniSASWS i-Deep-Neural-Network iqeqesha ukuthi ukuthi ihlukanise kahle izithombe eziphila emanzini futhi zibonakale ngokwamaqembuangu-13 kwi-miniSASS.
- ezithombeni ezihlonziwe kahle ze I-Aquatic MacroInverterBrertbrates futhi ufunde ukubaveza ngokuya ngamaqembu ayi-13 ama-minisass.</string>
+        -&#160;I-Biomonitoring:&#160;Lokhu kubhekisela ekusebenziseni izinto eziphilayo (isb., ulwelwe, ama-macroinvertebrates, izinhlanzi, izinyoni, noma izilwane ezincelisayo) ukubheka nokuhlola ulwazi lobuningi noma ukuhlanzeka mayelana naleyo ndawo.
+</string>
+
+    <string name="biodiversity_all_different_kinds">
+        -&#160;Izinto&#160;eziphilayo:&#160;zonke izinto ezipilayo ezahlukene eziphila endaweni eyodwa.&#160;Ngokuyisisekelo, igama elibhekise kuzo zonke izitshalo, izilwane, isikhunta, noma noma iyiphi impilo emvelweni.
+</string>
+
+    <string name="citizen_science_the_general_public">
+        -&#160;Isayensi&#160;yesakhamuzi:&#160;Umphakathi jikelele obandakanyeka ocwaningweni lwesayensi, nganoma iyiphi indlela kusuka ekwakhiweni kocwaningo, ngokuqoqwa kwe-data nokuhlaziywa, ukubika okutholakele.
+</string>
+
+    <string name="conservation_protecting_and_restoring_natural_systems">
+        -&#160;Ukulondolozwa:&#160;Ukuvikela nokubuyisa izinhlelo zemvelo, ukuvimbela ukuphela kwezilwanyane nemfuyo, nokugcina ukwehluka kwemvelo kanye nempilo kanye nomsebenzi wezemvelo.
+</string>
+
+    <string name="ecosystem_community_of_interacting_living_organisms">
+        -&#160;I-Ecosystem:&#160;Umphakathi wezinto eziphilayo ezisebenzisanayo kanye nendawo ebonakalayo ezihlala kuyo.&#160;Incazelo yalo lonke uhlelo, okuhlanganisa zonke izinhlobo zezinto eziphilayo kanye nendawo yokuhlala.
+</string>
+
+    <string name="machine_learning_computer_systems">
+        -&#160;Umshini-Learning&#160;(ML):&#160;Izinhlelo ze-computer ezikwazi ukufunda nokuvumelanisa ngaphandle kokulandela imiyalo ecacile.&#160;I-computer ifunda ngokusebenzisa ama-algorithms kanye nama-statistical models ukuze ahlaziye futhi adwebe izingcaphuno ezivela kumaphethini kwi-data.&#160;Kwi-miniSASS i-Deep-Neural-Network iqeqesha ukuthi ihlukanise kahle izithombe ze I-Aquatic MacroInverterBrertbrates futhi ifunde ukubaveza ngokuya ngamaqembu angu-13 ama-miniSASS.
+</string>
+
     <string name="we_can_all_play_a_part_in_monitoring_freshwater_resources">
-        Sonke singadlala indima ekuhloleni imithombo yamanzi ahlanzekile, ngokusisiza ukuqoqa i-data edingekayo ukuze siphathe kahle imithombo yamanzi ahlanzekile. Ngokubamba iqhaza kwisayensi yezakhamizi, noma ngubani angaba negalelo elibalulekile ocwaningweni nokongiwa kwemvelo!\n\n Ukwenza inhlolovo ye-miniSASS kusisiza ukuthi sifunde ngezinhlelo zamanzi ahlanzekile kanye nokubaluleka kokuhlukahluka kwemvelo kanye nemvelo yamanzi ahlanzekile enempilo I-, futhi isenza sihlanganyele nemvelo kanye nemiphakathi yethu. Kuyithuluzi elisivumela ukuthi sithathe isinyathelo ukuze sisize ukuqapha nokulondoloza izinhlelo zethu zamanzi ahlanzekile Kuyithuluzi elisivumela ukuthi sithathe isinyathelo ukuze sisize ukuqapha nokulondoloza izinhlelo zethu zamanzi .\n\n Imiphumela yocwaningo lwe-miniSASS inikeza inkomba enhle yokuhlanzeka kwamanzi kanye nempilo yomfudlana noma umfula, futhi imiphumela iyakwazi ukusitshela uma kukhona ukungcola okungenzeka noma, , . Ukuqapha okuqhubekayo komfudlana ofanayo noma umfula kunganikeza ukuqonda okumangalisayo ngezinguquko ngokuhamba kwesikhathi . \n\n Uma usuthole amaphuzu akho e-miniSASS, ungakwazi nokulandela iziphathimandla zendawo ukuze ubenze balandelele izinkinga ezisolekayo usebenzisa i-data yakho njengenkomba.! \n\n
+        Sonke singadlala indima ekuhloleni imithombo yamanzi ahlanzekile, ngokusisiza ukuqoqa i-data edingekayo ukuze siphathe kahle imithombo yamanzi ahlanzekile. Ngokubamba iqhaza kwisayensi yezakhamizi, noma ngubani angaba negalelo elibalulekile ocwaningweni nokongiwa kwemvelo!\n\nUkwenza inhlolovo ye-miniSASS kusisiza ukuthi sifunde ngezinhlelo zamanzi ahlanzekile kanye nokubaluleka kokuhlukahluka kwemvelo kanye nemvelo yamanzi ahlanzekile enempilo I-, futhi isenza sihlanganyele nemvelo kanye nemiphakathi yethu. Kuyithuluzi elisivumela ukuthi sithathe isinyathelo ukuze sisize ukuqapha nokulondoloza izinhlelo zethu zamanzi ahlanzekile Kuyithuluzi elisivumela ukuthi sithathe isinyathelo ukuze sisize ukuqapha nokulondoloza izinhlelo zethu zamanzi .\n\nImiphumela yocwaningo lwe-miniSASS inikeza inkomba enhle yokuhlanzeka kwamanzi kanye nempilo yomfudlana noma umfula, futhi imiphumela iyakwazi ukusitshela uma kukhona ukungcola okungenzeka noma, , . Ukuqapha okuqhubekayo komfudlana ofanayo noma umfula kunganikeza ukuqonda okumangalisayo ngezinguquko ngokuhamba kwesikhathi . \n\nUma usuthole amaphuzu akho e-miniSASS, ungakwazi nokulandela iziphathimandla zendawo ukuze ubenze balandelele izinkinga ezisolekayo usebenzisa i-data yakho njengenkomba.! \n\n
     </string>
     <string name="training_and_educational_video">Ama-video wokuqeqesha kanye nemfundo</string>
     <string name="online_videos">Ama-video aku-internet</string>

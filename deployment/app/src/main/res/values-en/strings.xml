@@ -364,7 +364,7 @@
     <string name="poor">Poor</string>
     <string name="very_poor">Very Poor"</string>
 
-    <string name="item_format">- %s: </string>
+    <string name="item_format">-&#160;%s:&#160;</string>
     <string name="shell">Shell</string>
     <string name="shell_description">A hard, rigid protective outer case of a mollusc</string>
     <string name="shelter">Shelter</string>
@@ -461,19 +461,12 @@
     <string name="dichotomous_key_filter">Dichotomous key filter descriptions</string>
     <string name="glossary">Glossary</string>
     <string name="aquatic_macroinvertebrates_definition">
-        Aquatic macroinvertebrates are small animals that live in water systems and have no internal skeleton. They are visible to the naked eye, hence the term ‘macro’ meaning ‘large’.\n\n
-        Different kinds of aquatic macroinvertebrates have different tolerance levels or sensitivities to disturbance in their environment. This means that one can look at the community of
-        macroinvertebrates present in a stream or river and infer something about the water quality and health of the system.\n\n
-        Basically in disturbed systems, for example where there is pollution or abundant alien invasive species, the most sensitive and least tolerant species can be expected to disappear,
-        while the tolerant and least sensitive species will remain present or increase in numbers.\n\n
-        MiniSASS puts all the aquatic macroinvertebrate types into 13 relatively easy to identify groups, and gives those groups scores based on the known general, average tolerance and
+    Aquatic macroinvertebrates are small animals that live in water systems and have no internal skeleton. They are visible to the naked eye, hence the term ‘macro’ meaning ‘large’.\n\nDifferent kinds of aquatic macroinvertebrates have different tolerance levels or sensitivities to disturbance in their environment. This means that one can look at the community of
+        macroinvertebrates present in a stream or river and infer something about the water quality and health of the system.\n\nBasically in disturbed systems, for example where there is pollution or abundant alien invasive species, the most sensitive and least tolerant species can be expected to disappear, while the tolerant and least sensitive species will remain present or increase in numbers.\n\nMiniSASS puts all the aquatic macroinvertebrate types into 13 relatively easy to identify groups, and gives those groups scores based on the known general, average tolerance and
         sensitivity levels of the types in those groups. Low scores are assigned to groups generally made up of very tolerant species (which can survive pollution and disturbance), while
-        high scores are assigned to groups generally made up of very sensitive species (which can’t live and survive if there is pollution or disturbance).\n\n
-        In the miniSASS app, you capture images of the aquatic macroinvertebrates you have sampled. You assign an identification to these images. At the same time, a machine-learning
+        high scores are assigned to groups generally made up of very sensitive species (which can’t live and survive if there is pollution or disturbance).\n\nIn the miniSASS app, you capture images of the aquatic macroinvertebrates you have sampled. You assign an identification to these images. At the same time, a machine-learning
         (ML) artificial intelligence (AI) identification algorithm runs on the image, identifying it as well. The app then generates a user score, and a ML score. These can be compared
-        as a guide to the user if they are identifying correctly or perhaps need to revisit their identifications.\n\nA miniSASS survey
-        samples a stream or river for these aquatic macroinvertebrates, and generates score based on the average sensitivity and tolerance of the community present.
-        The score then relates to an ecological category, indicating the stream or river health and water quality.\n\n
+        as a guide to the user if they are identifying correctly or perhaps need to revisit their identifications.\n\nA miniSASS survey samples a stream or river for these aquatic macroinvertebrates, and generates score based on the average sensitivity and tolerance of the community present. The score then relates to an ecological category, indicating the stream or river health and water quality.\n\n
     </string>
     <string name="freshwater_is_essential">
         Fresh water is essential for biodiversity and humans. It sustains rich
@@ -505,33 +498,33 @@
         to keep yourself safe and healthy. MiniSASS is more fun and safer with others! \n\n
     </string>
     <string name="aquatic_macroinvertebrates_small_but_visible">
-        - Aquatic macroinvertebrates: Small, but visible to the naked eye, animals that have no
+        -&#160;Aquatic macroinvertebrates: Small, but visible to the naked eye, animals that have no
         internal skeleton and which live in water systems.
     </string>
     <string name="biomonitoring_broadly_refers_to_using_organisms">
-        - Biomonitoring: This broadly refers to using organisms (e.g., algae, macroinvertebrates,
+        -&#160;Biomonitoring: This broadly refers to using organisms (e.g., algae, macroinvertebrates,
         fish, birds, or mammals) living in an environment to assess quantitative or qualitative
         information about that environment.
     </string>
     <string name="biodiversity_all_different_kinds">
-        - Biodiversity: All different kinds of life in an area. Basically, a term that refers to
+        -&#160;Biodiversity: All different kinds of life in an area. Basically, a term that refers to
         all the plants, animals, fungi, or any life in an environment.
     </string>
     <string name="citizen_science_the_general_public">
-        - Citizen science: The general public being involved in scientific research, in any way
+        -&#160;Citizen science: The general public being involved in scientific research, in any way
         from research design, through data collection and analysis, to reporting findings.
     </string>
     <string name="conservation_protecting_and_restoring_natural_systems">
-        - Conservation: Protecting and restoring natural systems, preventing extinctions,
+        -&#160;Conservation: Protecting and restoring natural systems, preventing extinctions,
         and maintaining biological diversity and ecosystem health and function.
     </string>
     <string name="ecosystem_community_of_interacting_living_organisms">
-        - Ecosystem: A community of interacting living organisms and the physical environment
+        -&#160;Ecosystem: A community of interacting living organisms and the physical environment
         in which they live. A description of a whole system, including all its biodiversity
         and physical habitat features.
     </string>
     <string name="machine_learning_computer_systems">
-        - Machine-learning (ML): Computer systems that are able to learn and adapt
+        -&#160;Machine-learning&#160;(ML):&#160;Computer&#160;systems that are able to learn and adapt
         without following explicit instructions. The computer learns by using algorithms
         and statistical models to analyse and draw inferences from patterns in data.
         For miniSASS a deep-neural-network trains on correctly identified images of
