@@ -596,7 +596,7 @@ public class CreateNewSampleActivity extends AppCompatActivity {
             // Show cropper in a dialog
             showCropDialog(bitmap);
 
-        } else if (requestCode == 150 && resultCode == RESULT_OK) {
+        } else if (requestCode == 150 && resultCode == 150) {
             String selected = data.getStringExtra("selected");
             System.out.println("SELECTED: " + selected);
 

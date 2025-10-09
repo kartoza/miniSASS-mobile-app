@@ -342,10 +342,10 @@ public class KeyActivity extends AppCompatActivity {
         groupFilters.add(new FilterGroupModel(getString(R.string.leaf_like_gills), lgills, blgills, R.string.leaf_like_gills_description));
         groupFilters.add(new FilterGroupModel(getString(R.string.bulging_eyes), beyes, bbeyes, R.string.bulging_eyes_description));
         groupFilters.add(new FilterGroupModel(getString(R.string.stocky_body), stbody, bstbody, R.string.stocky_body_description));
-        groupFilters.add(new FilterGroupModel(getString(R.string.stocky_body), antennae, bantennae, R.string.antennae_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.antennae), antennae, bantennae, R.string.antennae_description));
         groupFilters.add(new FilterGroupModel(getString(R.string.suckers_at_both_ends), suckers, bsuckers, R.string.suckers_at_both_ends_description));
         groupFilters.add(new FilterGroupModel(getString(R.string.wing_buds), wing_buds, bwing_buds, R.string.wing_buds_description));
-        groupFilters.add(new FilterGroupModel(getString(R.string.wing_buds), fbody, bfbody, R.string.flattened_body_description));
+        groupFilters.add(new FilterGroupModel(getString(R.string.flattened_body), fbody, bfbody, R.string.flattened_body_description));
         groupFilters.add(new FilterGroupModel(getString(R.string.short_stubby_legs), slegs, bslegs, R.string.short_stubby_legs_description));
         groupFilters.add(new FilterGroupModel(getString(R.string.rounded_body), rbody, brbody, R.string.rounded_body_description));
     }
