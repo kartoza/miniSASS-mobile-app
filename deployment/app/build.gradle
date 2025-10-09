@@ -5,13 +5,13 @@ plugins {
 
 android {
     namespace "com.rk.amii"
-    compileSdk 34
+    compileSdk 35
     ndkVersion "26.1.10909125"
 
     defaultConfig {
         applicationId "com.rk.amii"
         minSdk 26
-        targetSdk 34
+        targetSdk 35
         // Update both versionCode and versionName when running ./gradlew bundleRelease
         // before releasing to Playstore
         versionCode 7
@@ -21,10 +21,16 @@ android {
 
         ndk {
             // Specify the ABI configurations you want
-            abiFilters 'armeabi-v7a', 'arm64-v8a'
+            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86_64'
         }
 
         resConfigs "en", "pt", "zu"
+
+//        externalNativeBuild {
+//            cmake {
+//                cppFlags ""
+//            }
+//        }
     }
     aaptOptions {
         noCompress "tflite"
@@ -64,6 +70,12 @@ android {
             ), 'proguard-rules.pro'
         }
     }
+
+//    externalNativeBuild {
+//        cmake {
+//            path "src/main/cpp/CMakeLists.txt"
+//        }
+//    }
 }
 
 dependencies {
@@ -90,9 +102,13 @@ dependencies {
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'com.github.MKergall:osmbonuspack:6.9.0'
     implementation "androidx.work:work-runtime:2.9.0"
-    implementation 'org.tensorflow:tensorflow-lite:2.16.1'          // or newer
-    implementation 'org.tensorflow:tensorflow-lite-support:0.4.4'   // or newer
-    implementation 'org.tensorflow:tensorflow-lite-metadata:0.4.4'  // or newer
-    implementation 'org.maplibre.gl:android-sdk:10.0.2'
+//    implementation 'org.tensorflow:tensorflow-lite:2.16.1'
+//    implementation 'org.tensorflow:tensorflow-lite-support:0.4.4'
+//    implementation 'org.tensorflow:tensorflow-lite-metadata:0.4.4'
+    implementation 'com.google.ai.edge.litert:litert:1.4.0'
+    implementation 'com.google.ai.edge.litert:litert-api:1.4.0'
+    implementation 'com.google.ai.edge.litert:litert-support:1.4.0'
+    implementation 'com.google.ai.edge.litert:litert-metadata:1.4.0'
+    implementation 'org.maplibre.gl:android-sdk:11.8.8'
 }
 
