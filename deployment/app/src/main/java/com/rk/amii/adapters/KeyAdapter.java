@@ -292,7 +292,7 @@ public class KeyAdapter extends RecyclerView.Adapter<KeyAdapter.ViewHolder> {
                     group.setLayoutParams(params);
 
                     group.setOnClickListener(view -> {
-                        this.activity.setResult(150,
+                        this.activity.setResult(Activity.RESULT_OK,
                                 new Intent().putExtra("selected", x.split("_")[0]));
                         this.activity.finish();
                     });
