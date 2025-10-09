@@ -1,6 +1,7 @@
 package com.rk.amii.activities;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -488,6 +489,9 @@ public class CreateNewSampleActivity extends AppCompatActivity {
 
                 if (onlineAssessmentId != 0) {
                     dbHandler.updateAssessmentUploaded(String.valueOf(assessmentId), onlineAssessmentId);
+                    Intent resultIntent = new Intent();
+                    resultIntent.putExtra("onlineAssessmentId", onlineAssessmentId);
+                    setResult(Activity.RESULT_OK,resultIntent);
                     finish();
                 } else {
                     this.showCouldNotSaveSiteOnlineDialog();

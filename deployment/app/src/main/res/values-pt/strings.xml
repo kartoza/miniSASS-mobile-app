@@ -379,7 +379,7 @@ Você coleta uma amostra de macroinvertebrados (pequenos animais) da água e, de
     <string name="poor">Pobre</string>
     <string name="very_poor">Muito pobre "</string>
 
-    <string name="item_format">- %s: </string>
+    <string name="item_format">-&#160;%s:&#160;</string>
     <string name="shell">Concha</string>
     <string name="shell_description">Um caso externo de proteção rígido e rígido de um molusco</string>
     <string name="shelter">Abrigo</string>
@@ -487,8 +487,7 @@ Você coleta uma amostra de macroinvertebrados (pequenos animais) da água e, de
         Minisass coloca todos os tipos de macroinvertebrados aquáticos em 13 grupos relativamente
         fáceis de identificar e fornece a esses grupos escores com base na tolerância geral conhecida e média e
 Níveis de sensibilidade dos tipos nesses grupos.Pontuações baixas são atribuídas a grupos geralmente compostos por espécies muito tolerantes (que podem sobreviver à poluição e perturbação), enquanto
-Pontuações altas são atribuídas a grupos geralmente compostos por espécies muito sensíveis (que não podem viver e sobreviver se houver poluição ou perturbação). \n\n
-No aplicativo Minisass, você captura imagens dos macroinvertebrados aquáticos que você amostrou.Você atribui uma identificação a essas imagens.Ao mesmo tempo, um aprendizado de máquina
+Pontuações altas são atribuídas a grupos geralmente compostos por espécies muito sensíveis (que não podem viver e sobreviver se houver poluição ou perturbação). \n\nNo aplicativo Minisass, você captura imagens dos macroinvertebrados aquáticos que você amostrou.Você atribui uma identificação a essas imagens.Ao mesmo tempo, um aprendizado de máquina
 (ML) O algoritmo de identificação de inteligência artificial (AI) é executado na imagem, identificando -a também.O aplicativo gera uma pontuação do usuário e uma pontuação ML.Estes podem ser comparados
 como um guia para o usuário se eles estiverem identificando corretamente ou talvez precisar
         revisitar suas identificações. \n\nUma pesquisa de minisassões mostra um riacho ou rio
@@ -514,35 +513,29 @@ Sass5 recente.</string>
     <string name="always_remember_safety_first">Lembre -se sempre, segurança primeiro!Ao pensar em fazer uma pesquisa de minisass, verifique seu
 arredores e verifique se o riacho ou o rio e a área estão seguros.Não insira fluxos
 ou rios profundos ou que têm correntes poderosas e de fluxo rápido, ou qualquer perigoso
-animais neles ou nas proximidades.\n\n
-Proteja -se com protetor solar e roupas apropriadas (gumboots e chapéus) e lembre -se
+animais neles ou nas proximidades.\n\nProteja -se com protetor solar e roupas apropriadas (gumboots e chapéus) e lembre -se
 lavar as mãos com desinfetante ou sabão regularmente.Ter cuidado com poluído
 rios e riachos, tomando precauções extras para se manter seguro e saudável.
 O Minisass é mais divertido e seguro com os outros!\n\n</string>
-    <string name="aquatic_macroinvertebrates_small_but_visible">- Macroinvertebrados aquáticos: pequeno, mas visível a olho nu, animais que não têm
-Esqueleto interno e que vivem em sistemas de água.</string>
-    <string name="biomonitoring_broadly_refers_to_using_organisms">- Biomonitoramento: refere -se amplamente ao uso de organismos (por exemplo, algas, macroinvertebrados,
-peixes, pássaros ou mamíferos) vivendo em um ambiente para avaliar
-informações sobre esse ambiente.</string>
-    <string name="biodiversity_all_different_kinds">- Biodiversidade: todos os tipos diferentes de vida em uma área.Basicamente, um termo que se refere a
-Todas as plantas, animais, fungos ou qualquer vida em um ambiente.</string>
-    <string name="citizen_science_the_general_public">- Ciência do cidadão: o público em geral envolvendo a pesquisa científica, de qualquer forma
-Desde o design da pesquisa, até a coleta e análise de dados até as descobertas de relatórios.</string>
-    <string name="conservation_protecting_and_restoring_natural_systems">- Conservação: protegendo e restaurando sistemas naturais, prevenção de extinções,
-e manter a diversidade biológica e a saúde e a função do ecossistema.</string>
-    <string name="ecosystem_community_of_interacting_living_organisms">- Ecossistema: uma comunidade de organismos vivos em interação e o ambiente físico
-em que eles vivem.Uma descrição de um sistema inteiro, incluindo toda a sua biodiversidade
-e características do habitat físico.</string>
-    <string name="machine_learning_computer_systems">- Learning de máquina (ML): sistemas de computador capazes de aprender e adaptar
-sem seguir instruções explícitas.O computador aprende usando algoritmos
-e modelos estatísticos para analisar e extrair inferências de padrões nos dados.
-Para miniSass, um treina de rede neural profunda em imagens corretamente identificadas de
-Macroinvertebrados aquáticos e aprenda a identificá -los de acordo com os 13 grupos de minisass.</string>
+    <string name="aquatic_macroinvertebrates_small_but_visible">-&#160;Aquatic&#160;macroinvertebrates: pequeno, mas visível a olho nu, animais que não têm esqueleto interno e que vivem em sistemas de água.</string>
+
+    <string name="biomonitoring_broadly_refers_to_using_organisms">-&#160;Biomonitoramento:&#160;refere-se amplamente ao uso de organismos (por exemplo, algas, macroinvertebrados, peixes, pássaros ou mamíferos) vivendo em um ambiente para avaliar informações sobre esse ambiente.</string>
+
+    <string name="biodiversity_all_different_kinds">-&#160;Biodiversidade:&#160;todos os tipos diferentes de vida em uma área.&#160;Basicamente, um termo que se refere a todas as plantas, animais, fungos ou qualquer vida em um ambiente.</string>
+
+    <string name="citizen_science_the_general_public">-&#160;Ciência do cidadão:&#160;o público em geral envolvendo a pesquisa científica, de qualquer forma desde o design da pesquisa, até a coleta e análise de dados até as descobertas de relatórios.</string>
+
+    <string name="conservation_protecting_and_restoring_natural_systems">-&#160;Conservação:&#160;protegendo e restaurando sistemas naturais, prevenção de extinções, e manter a diversidade biológica e a saúde e a função do ecossistema.</string>
+
+    <string name="ecosystem_community_of_interacting_living_organisms">-&#160;Ecossistema:&#160;uma comunidade de organismos vivos em interação e o ambiente físico em que eles vivem.&#160;Uma descrição de um sistema inteiro, incluindo toda a sua biodiversidade e características do habitat físico.</string>
+
+    <string name="machine_learning_computer_systems">-&#160;Machine-learning&#160;(ML):&#160;sistemas de computador capazes de aprender e adaptar sem seguir instruções explícitas.&#160;O computador aprende usando algoritmos e modelos estatísticos para analisar e extrair inferências de padrões nos dados.&#160;Para miniSASS, uma rede neural profunda treina em imagens corretamente identificadas de macroinvertebrados aquáticos e aprende a identificá-los de acordo com os 13 grupos de miniSASS.</string>
+
     <string name="we_can_all_play_a_part_in_monitoring_freshwater_resources">Todos nós podemos desempenhar um papel no monitoramento dos recursos de água doce, ajudando a reunir os dados necessários
 para gerenciá -los.Ao participar da ciência do cidadão, qualquer um pode se tornar um importante
 Colaborador da pesquisa e conservação!\n\nA realização de uma pesquisa de minisass nos ajuda Aprenda sobre sistemas de água doce e a importância da biodiversidade e da água doce saudável
 ecossistemas e nos envolve com a natureza e nossas comunidades.É uma ferramenta que permite Nós
-        tomamos medidas para ajudar a monitorar e conservar nossos sistemas de água doce.\n\n Os resultados de uma pesquisa de minissasa dão uma boa indicação da qualidade da água e da saúde
+        tomamos medidas para ajudar a monitorar e conservar nossos sistemas de água doce.\n\nOs resultados de uma pesquisa de minissasa dão uma boa indicação da qualidade da água e da saúde
 de um riacho ou rio, servindo para sinalizar possível poluição, ou saudável e funcionamento
 sistemas.O monitoramento contínuo do mesmo riacho ou rio pode dar uma visão incrível sobre
 muda com o tempo.

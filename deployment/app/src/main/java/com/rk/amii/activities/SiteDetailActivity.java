@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
@@ -103,6 +104,18 @@ public class SiteDetailActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("REQUEST CODE: " + requestCode);
+
+        if (requestCode == 151 && resultCode == RESULT_OK && data != null) {
+            isDataInitialized = false;
+        }
+
+
+    }
+
     /**
      * Add Assessment button
      */
@@ -112,7 +125,7 @@ public class SiteDetailActivity extends AppCompatActivity {
         addSampleButton.setOnClickListener(view -> {
             Intent intent = new Intent(SiteDetailActivity.this, CreateNewSampleActivity.class);
             intent.putExtra("siteId", siteId);
-            startActivity(intent);
+            startActivityForResult(intent, 151);
         });
 
         loadSiteImagesInView();
