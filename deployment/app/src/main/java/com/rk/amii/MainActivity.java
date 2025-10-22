@@ -22,7 +22,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.mapbox.mapboxsdk.Mapbox;
+import org.maplibre.android.MapLibre;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.rk.amii.activities.AuthenticationActivity;
 import com.rk.amii.shared.LanguageHelper;
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         // Apply saved language before calling super.onCreate()
         applySavedLanguage();
         super.onCreate(savedInstanceState);
-        Mapbox.getInstance(this);
+        MapLibre.getInstance(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         isOnline = Utils.isNetworkAvailable(this);
