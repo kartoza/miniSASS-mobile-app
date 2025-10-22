@@ -11,6 +11,8 @@ import android.text.style.ClickableSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +20,9 @@ import android.util.TypedValue;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -52,16 +57,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         EdgeToEdge.enable(this);
 
-        int actionBarSizePx = 0;
-        TypedValue tv = new TypedValue();
-        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-            actionBarSizePx = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-        }
-        final int finalActionBarSizePx = actionBarSizePx;
-
         ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
             Insets status = insets.getInsets(WindowInsetsCompat.Type.statusBars());
-            int top = status.top + finalActionBarSizePx;
+            int top = status.top;
             v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), v.getPaddingBottom());
             return insets;
         });
