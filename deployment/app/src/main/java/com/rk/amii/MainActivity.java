@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.TypedValue;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,18 +22,18 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.activity.EdgeToEdge;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import org.maplibre.android.MapLibre;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.rk.amii.activities.AuthenticationActivity;
 import com.rk.amii.shared.LanguageHelper;
-import com.rk.amii.database.DBHandler;
 import com.rk.amii.databinding.ActivityMainBinding;
-import com.rk.amii.models.SitesModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
-
-import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -49,6 +50,22 @@ public class MainActivity extends AppCompatActivity {
         MapLibre.getInstance(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        EdgeToEdge.enable(this);
+
+        int actionBarSizePx = 0;
+        TypedValue tv = new TypedValue();
+        if (getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+            actionBarSizePx = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+        }
+        final int finalActionBarSizePx = actionBarSizePx;
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets status = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            int top = status.top + finalActionBarSizePx;
+            v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), v.getPaddingBottom());
+            return insets;
+        });
+
         isOnline = Utils.isNetworkAvailable(this);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
