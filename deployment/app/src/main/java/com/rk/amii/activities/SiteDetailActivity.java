@@ -9,11 +9,15 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +25,7 @@ import com.rk.amii.R;
 import com.rk.amii.adapters.AssessmentsAdapter;
 import com.rk.amii.adapters.SiteImageAdapter;
 import com.rk.amii.database.DBHandler;
+import com.rk.amii.databinding.ActivitySiteDetailBinding;
 import com.rk.amii.models.AssessmentModel;
 import com.rk.amii.models.SitesModel;
 import com.rk.amii.models.UserModel;
@@ -40,6 +45,7 @@ import java.util.Locale;
 
 public class SiteDetailActivity extends AppCompatActivity {
 
+    private ActivitySiteDetailBinding binding;
     private RecyclerView assessmentsView;
     private TextView noData;
     private RecyclerView siteImagesView;
@@ -62,7 +68,19 @@ public class SiteDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         dbHandler = new DBHandler(getApplicationContext());
-        setContentView(R.layout.activity_site_detail);
+        binding = ActivitySiteDetailBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        EdgeToEdge.enable(this);
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets status = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            Insets navigation = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
+            int top = status.top;
+            int bottom = navigation.bottom;
+            v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), bottom);
+            return insets;
+        });
         setTitle(R.string.site_detail);
 
         isOnline = Utils.isNetworkAvailable(this);

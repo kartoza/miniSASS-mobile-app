@@ -11,11 +11,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.rk.amii.R;
 import com.rk.amii.database.DBHandler;
+import com.rk.amii.databinding.ActivityEditSiteBinding;
 import com.rk.amii.models.SitesModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
@@ -24,11 +29,11 @@ import com.rk.amii.utils.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 
 public class EditSiteActivity extends AppCompatActivity {
 
+    private ActivityEditSiteBinding binding;
     private EditText siteName;
     private EditText siteLocation;
     private EditText riverName;
@@ -45,7 +50,17 @@ public class EditSiteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_site);
+        binding = ActivityEditSiteBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        EdgeToEdge.enable(this);
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets status = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            int top = status.top;
+            v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), v.getPaddingBottom());
+            return insets;
+        });
 
         isOnline = Utils.isNetworkAvailable(this);
 

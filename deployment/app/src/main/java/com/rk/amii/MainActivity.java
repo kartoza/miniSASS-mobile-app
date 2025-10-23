@@ -11,18 +11,12 @@ import android.text.style.ClickableSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.util.TypedValue;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.WindowCompat;
-import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -39,6 +33,12 @@ import com.rk.amii.shared.LanguageHelper;
 import com.rk.amii.databinding.ActivityMainBinding;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
+
+import android.view.Window;
+import android.graphics.Color;
+import androidx.core.view.WindowInsetsControllerCompat;
+import androidx.core.view.WindowCompat;
+
 
 
 public class MainActivity extends AppCompatActivity {

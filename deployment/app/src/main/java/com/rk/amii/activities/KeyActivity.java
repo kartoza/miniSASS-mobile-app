@@ -1,6 +1,10 @@
 package com.rk.amii.activities;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +14,7 @@ import android.widget.TextView;
 
 import com.rk.amii.R;
 import com.rk.amii.adapters.KeyAdapter;
+import com.rk.amii.databinding.ActivityKeyBinding;
 import com.rk.amii.models.FilterGroupModel;
 
 import java.util.ArrayList;
@@ -17,12 +22,23 @@ import java.util.HashMap;
 
 public class KeyActivity extends AppCompatActivity {
 
+    private ActivityKeyBinding binding;
     private ArrayList<FilterGroupModel> groupFilters;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_key);
+        binding = ActivityKeyBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        EdgeToEdge.enable(this);
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets status = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            int top = status.top;
+            v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), v.getPaddingBottom());
+            return insets;
+        });
         // Set the key filters
         this.setKeyFilters();
         // Set the filters for each macroinvertebrate group

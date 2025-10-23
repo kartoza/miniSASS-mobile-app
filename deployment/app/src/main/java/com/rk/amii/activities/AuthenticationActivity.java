@@ -7,11 +7,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
 
 import com.rk.amii.MainActivity;
+import com.rk.amii.databinding.ActivityAuthenticationBinding;
 import com.rk.amii.R;
+import com.rk.amii.databinding.ActivityCreateNewSampleBinding;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.ResetPasswordDialog;
 import com.rk.amii.database.DBHandler;
@@ -24,10 +30,22 @@ import java.util.Objects;
 
 public class AuthenticationActivity extends AppCompatActivity {
 
+    private ActivityAuthenticationBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_authentication);
+        binding = ActivityAuthenticationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        EdgeToEdge.enable(this);
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets status = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            int top = status.top;
+            v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), v.getPaddingBottom());
+            return insets;
+        });
 
         // Create a new API instance
         ApiService service = new ApiService(this);

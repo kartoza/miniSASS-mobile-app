@@ -4,19 +4,46 @@ import android.content.Intent;
 import android.app.AlertDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
 import com.rk.amii.R;
+import com.rk.amii.databinding.ActivityLanguageSelectionBinding;
 import com.rk.amii.shared.LanguageHelper;
 import com.rk.amii.MainActivity;
 
 public class LanguageSelectionActivity extends AppCompatActivity {
 
+    private ActivityLanguageSelectionBinding binding;
     private String[] languageCodes = {"en", "pt", "zu"};
     private String[] languageNames = {"English", "Português", "IsiZulu"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        binding = ActivityLanguageSelectionBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        EdgeToEdge.enable(this);
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets status = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            int top = status.top;
+            v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), v.getPaddingBottom());
+            return insets;
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets status = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            int top = status.top;
+            v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), v.getPaddingBottom());
+            return insets;
+        });
 
         // Set title using existing ActionBar
         if (getSupportActionBar() != null) {

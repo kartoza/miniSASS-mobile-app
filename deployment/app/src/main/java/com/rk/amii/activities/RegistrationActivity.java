@@ -1,7 +1,11 @@
 package com.rk.amii.activities;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -16,7 +20,9 @@ import android.widget.Toast;
 import android.widget.CheckBox;
 
 import com.rk.amii.R;
+import com.rk.amii.databinding.ActivityCreateNewSampleBinding;
 import com.rk.amii.services.ApiService;
+import com.rk.amii.databinding.ActivityRegistrationBinding;
 import com.rk.amii.shared.Utils;
 import com.rk.amii.utils.Constants;
 
@@ -27,6 +33,7 @@ import java.util.regex.Pattern;
 
 public class RegistrationActivity extends AppCompatActivity {
 
+    private ActivityRegistrationBinding binding;
     public static final int FILE_PICKER_RESULT_CODE = 10;
 
     public TextView certificate;
@@ -46,7 +53,19 @@ public class RegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+        binding = ActivityRegistrationBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        EdgeToEdge.enable(this);
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets status = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            Insets navigation = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
+            int top = status.top;
+            int bottom = navigation.bottom;
+            v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), bottom);
+            return insets;
+        });
         isOnline = Utils.isNetworkAvailable(this);
 
         // Initialise the view elements
