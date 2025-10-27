@@ -1,22 +1,23 @@
 package com.rk.amii.activities;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -27,16 +28,16 @@ import android.widget.Toast;
 import com.rk.amii.adapters.SiteImageAdapter;
 import com.rk.amii.camera.Camera;
 import com.rk.amii.database.DBHandler;
+import com.rk.amii.databinding.ActivityCreateNewSiteBinding;
 import com.rk.amii.R;
+import com.rk.amii.databinding.ActivityEditSiteBinding;
 import com.rk.amii.models.UserModel;
 import com.rk.amii.services.ApiService;
 import com.rk.amii.shared.Utils;
 import com.rk.amii.utils.Constants;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -45,6 +46,7 @@ import java.util.Map;
 
 public class CreateNewSiteActivity extends AppCompatActivity {
 
+    private ActivityCreateNewSiteBinding binding;
     private EditText siteName;
     private EditText siteLocation;
     private EditText riverName;
@@ -63,7 +65,17 @@ public class CreateNewSiteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_new_site);
+        binding = ActivityCreateNewSiteBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        EdgeToEdge.enable(this);
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets status = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            int top = status.top;
+            v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), v.getPaddingBottom());
+            return insets;
+        });
         // Check that the device is connected to the internet
         isOnline = Utils.isNetworkAvailable(this);
         // Get location data from previous activity

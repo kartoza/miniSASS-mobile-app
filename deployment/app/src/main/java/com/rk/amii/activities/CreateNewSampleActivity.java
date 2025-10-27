@@ -28,10 +28,14 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -42,6 +46,8 @@ import com.rk.amii.R;
 import com.rk.amii.adapters.SampleItemAdapter;
 import com.rk.amii.camera.Camera;
 import com.rk.amii.database.DBHandler;
+import com.rk.amii.databinding.ActivityCreateNewSampleBinding;
+import com.rk.amii.databinding.ActivityEditSiteBinding;
 import com.rk.amii.ml.Minisass;
 import com.rk.amii.models.AssessmentModel;
 import com.rk.amii.models.PhotoModel;
@@ -61,7 +67,6 @@ import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -71,12 +76,12 @@ import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 
 public class CreateNewSampleActivity extends AppCompatActivity {
 
+    private ActivityCreateNewSampleBinding binding;
     private ImageView imageView;
     private LinearLayout chooseInvertView;
     private Button takePhotoButton;
@@ -115,7 +120,20 @@ public class CreateNewSampleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_new_sample);
+        binding = ActivityCreateNewSampleBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        EdgeToEdge.enable(this);
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets status = insets.getInsets(WindowInsetsCompat.Type.statusBars());
+            Insets navigation = insets.getInsets(WindowInsetsCompat.Type.navigationBars());
+            int top = status.top;
+            int bottom = navigation.bottom;
+            v.setPadding(v.getPaddingLeft(), top, v.getPaddingRight(), bottom);
+            return insets;
+        });
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
